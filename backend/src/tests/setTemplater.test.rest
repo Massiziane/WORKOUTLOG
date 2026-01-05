@@ -1,0 +1,32 @@
+### create a new set template
+POST http://localhost:3000/setTemplates
+Content-Type: application/json
+
+{
+  "exerciseId": 4,
+  "reps": 8,
+  "weight": 0,
+  "tempo": null,
+  "type": "REPS_ONLY"
+}
+
+### GET all set templates
+GET http://localhost:3000/setTemplates
+
+### GET a set template by ID
+GET http://localhost:3000/setTemplates/remplace_avec_id_set_template
+
+### PUT update a set template by ID
+PUT http://localhost:3000/setTemplates/remplace_avec_id_set_template
+Content-Type: application/json
+
+{
+  "exerciseId": 4,
+  "reps": 10,
+  "weight": 20,
+  "tempo": "2-1-2",
+  "type": "REPS_AND_WEIGHT"
+}
+
+### DELETE a set template by ID
+DELETE http://localhost:3000/setTemplates/remplace_avec_id_set_template

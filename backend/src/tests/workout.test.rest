@@ -1,0 +1,29 @@
+### create workout
+POST http://localhost:3000/workouts
+Content-Type: application/json
+
+{
+  "name": "Monday Lower Body",
+  "userId": 4,
+  "programId": 4
+}
+
+### get workout by id
+GET http://localhost:3000/workouts/remplace_par_workout_id
+
+### update workout by id
+PUT http://localhost:3000/workouts/remplace_par_workout_id
+Content-Type: application/json
+
+{
+  "name": "Monday Upper Body - Updated"
+}
+
+### delete workout by id
+DELETE http://localhost:3000/workouts/remplace_par_workout_id
+
+### Clean up - delete user
+DELETE http://localhost:3000/users/remplace_par_user_id
+
+### Clean up - delete program
+DELETE http://localhost:3000/programs/remplace_par_program_id

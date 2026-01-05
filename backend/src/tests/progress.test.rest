@@ -1,0 +1,34 @@
+### create a progress table
+POST http://localhost:3000/progress
+Content-Type: application/json
+
+{
+  "userId": 8,
+  "workoutId": 8,
+  "totalVolume": 1000,
+  "bestSet": "Bench Press 10x50kg",
+  "consistencyScore": 85,
+  "createdAt": "2026-01-04T22:00:00.000Z"
+}
+
+### get all progress entries
+GET http://localhost:3000/progress
+
+### get progress by userId
+GET http://localhost:3000/progress/remplace_avec_id_utilisateur
+
+### update progress by id
+PUT http://localhost:3000/progress/remplace_avec_id_progress
+Content-Type: application/json
+
+{
+  "userId": "remplace_avec_id_utilisateur",
+  "workoutId": "remplace_avec_id_entraînement",
+  "totalVolume": 1200,
+  "bestSet": "Bench Press 12x55kg",
+  "consistencyScore": 90,
+  "createdAt": "2026-01-05T22:00:00.000Z"
+}
+
+### delete progress by id
+DELETE http://localhost:3000/progress/remplace_avec_id_progress

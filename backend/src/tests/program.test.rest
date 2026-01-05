@@ -1,0 +1,30 @@
+### Create a program
+POST http://localhost:3000/programs
+Content-Type: application/json
+
+{
+  "name": "My First Program",
+  "userId": 2,
+  "createdAt": "2026-01-04T12:00:00.000Z"
+}
+
+### Get all programs
+GET http://localhost:3000/programs
+
+### Get program by ID (replace with real id returned above)
+GET http://localhost:3000/programs/3
+
+### Update program by ID
+PUT http://localhost:3000/programs/3
+Content-Type: application/json
+
+{
+  "name": "My Updated Program",
+  "userId": "4",
+  "createdAt": "2026-01-05T12:00:00.000Z"
+}
+ 
+### Delete program by ID
+DELETE http://localhost:3000/programs/3
+
+

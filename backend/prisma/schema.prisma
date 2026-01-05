@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id        Int     @id @default(autoincrement())
+  firstName String
+  lastName  String
+  username  String?
+  email     String  @unique
+  password  String
+  role      Role    @default(USER)
+
+  programs   Program[]
+  workouts   Workout[]
+  progresses Progress[]
+
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+}
+
+enum Role {
+  USER
+  Admin
+}
+
+model Category {
+  id       Int    @id @default(autoincrement())
+  name     String
+  Desc     String?
+
+  muscles   String[]
+  exercises Exercise[]
+}
+
+model Program {
+  id   Int    @id @default(autoincrement())
+  name String
+  Desc String?
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  exercises Exercise[]
+  workouts  Workout[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Exercise {
+  id    Int     @id @default(autoincrement())
+  name  String
+  notes String?
+
+  program   Program  @relation(fields: [programId], references: [id])
+  programId Int
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  setTemplates     SetTemplate[]
+  workoutExercises WorkoutExercise[]
+}
+
+model SetTemplate {
+  id   Int  @id @default(autoincrement())
+
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+
+  reps   Int?
+  weight Float?
+  tempo  String?
+  type   String
+}
+
+model Workout {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  program   Program? @relation(fields: [programId], references: [id])
+  programId Int?
+
+  createdAt DateTime @default(now())
+
+  workoutExercises WorkoutExercise[]
+  progresses      Progress[]
+}
+
+model WorkoutExercise {
+  id Int @id @default(autoincrement())
+
+  workout   Workout  @relation(fields: [workoutId], references: [id])
+  workoutId Int
+
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+
+  workoutSets WorkoutSet[]
+}
+
+model WorkoutSet {
+  id Int @id @default(autoincrement())
+
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
+  workoutExerciseId Int
+
+  reps        Int?
+  weight      Float?
+  tempo       String?
+  performedAt DateTime
+}
+
+model Progress {
+  id Int @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  workout   Workout @relation(fields: [workoutId], references: [id])
+  workoutId Int
+
+  totalVolume      Float
+  bestSet          String
+  consistencyScore Float
+  createdAt        DateTime @default(now())
+}
+
+

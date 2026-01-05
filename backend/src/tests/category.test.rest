@@ -1,0 +1,26 @@
+### create a new category
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "name": "Back",
+  "muscles": ["latissimus dorsi", "trapezius", "rhomboids"]
+}
+
+### lire toutes les categories
+GET http://localhost:3000/categories
+
+### lire une categorie par ID 
+GET http://localhost:3000/categories/remplace_par_categorie_id
+
+### mettre a jour une categorie par ID
+PUT http://localhost:3000/categories/remplace_par_categorie_id
+Content-Type: application/json
+
+{
+  "name": "Upper Back",
+  "muscles": ["trapezius", "rhomboids"]
+}
+
+### supprimer une categorie par ID
+DELETE http://localhost:3000/categories/remplace_par_categorie_id

@@ -1,0 +1,30 @@
+### create a workout set
+POST http://localhost:3000/workoutSet
+Content-Type: application/json
+
+{
+  "workoutExerciseId": 5,
+  "reps": 10,
+  "weight": 25.5,
+  "tempo": null,
+  "performedAt": "2026-01-04T18:00:00.000Z"
+}
+
+### get all workout sets
+GET http://localhost:3000/workoutSet
+
+### get a workout set by id
+GET http://localhost:3000/workoutSet/remplace_par_workoutSet_id
+
+### update a workout set by id
+PUT http://localhost:3000/workoutSet/remplace_par_workoutSet_id
+Content-Type: application/json
+
+{
+  "reps": 12,
+  "weight": 30.0,
+  "tempo": "2026-01-05T18:00:00.000Z"
+}
+
+### delete a workout set by id
+DELETE http://localhost:3000/workoutSet/remplace_par_workoutSet_id

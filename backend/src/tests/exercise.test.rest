@@ -1,0 +1,30 @@
+### POST create a new exercise
+POST http://localhost:3000/exercises
+Content-Type: application/json
+
+{
+  "name": "Pull-ups",
+  "notes": "Keep form strict",
+  "programId": 4,
+  "categoryId": 4
+}
+
+### Get all exercises
+GET http://localhost:3000/exercises
+
+### Get exercise by ID (replace with real id returned above)
+GET http://localhost:3000/exercises/4
+
+### Update exercise by ID
+PUT http://localhost:3000/exercises/4
+Content-Type: application/json
+
+{
+  "name": "Chin-ups",
+  "notes": "Palms facing you",
+  "programId": 4,
+  "categoryId": 4
+}
+
+### Delete exercise by ID
+DELETE http://localhost:3000/exercises/remplace_avec_id_exercice
