@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UserButton } from "@clerk/clerk-react";
 import "../style/dashboard.css"
 
-function Dashboard() {
+export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Acceuil"); // default tab
 
   return (
@@ -57,4 +57,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+

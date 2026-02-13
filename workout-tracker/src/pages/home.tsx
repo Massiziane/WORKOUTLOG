@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/home.css"
 
-function Home() {
+export default function Home() {
   const navigate = useNavigate();
   const { isSignedIn } = useUser();
   const [darkMode, setDarkMode] = useState(false);
@@ -78,5 +78,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;
