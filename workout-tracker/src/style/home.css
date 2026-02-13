@@ -1,0 +1,66 @@
+.home-container {
+  min-height: 100vh;
+  padding: 0 2rem;
+  font-family: sans-serif;
+}
+
+/* Header */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+}
+
+.header-actions button {
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
+
+.cta-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+/* Preview Section */
+.preview {
+  padding: 4rem 0;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.preview-image {
+  width: 400px;
+  border-radius: 12px;
+}
+
+.preview-text {
+  max-width: 400px;
+}

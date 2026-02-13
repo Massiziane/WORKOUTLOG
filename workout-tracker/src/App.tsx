@@ -1,20 +1,16 @@
-import './App.css'
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/clerk-react';
+// App.tsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/home";
+
 
 function App() {
   return (
-    <header>
-      {/* Show the sign-in and sign-up buttons when the user is signed out */}
-      <SignedOut>
-        <SignInButton />
-        <SignUpButton />
-      </SignedOut>
-      {/* Show the user button when the user is signed in */}
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-    </header>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App
+export default App;
