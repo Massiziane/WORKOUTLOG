@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import userRoutes from './routes/user.routes';
 import programRoutes from './routes/program.routes';
 import categoryRoutes from './routes/category.routes';
@@ -9,8 +10,8 @@ import workoutSetRoutes from './routes/workoutSet.routes';
 import progressRoutes from './routes/progress.routes';
 import exerciseRoutes from './routes/exercise.route';
 
-
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 

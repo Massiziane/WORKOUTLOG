@@ -1,7 +1,7 @@
 {
 
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "esnext",
     "target": "ES2022",
     "moduleResolution": "bundler",
     "types": ["node"],
