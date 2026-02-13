@@ -1,9 +1,31 @@
-import { useState } from "react";
-import { UserButton } from "@clerk/clerk-react";
+import { use, useState } from "react";
+import { UserButton, useUser } from "@clerk/clerk-react";
 import "../style/dashboard.css"
+import CreateProgramModal from "../components/CreateProgramModal";
+import { createProgram } from "../services/api";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Acceuil"); // default tab
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useUser();
+
+    const handleCreateProgram = async (data: { name: string; description?: string }) => {
+    if (!user) return;
+
+    try {
+        const newProgram = await createProgram({
+        name: data.name,
+        userId: Number(user.id), // Clerk ID -> your DB ID
+        createdAt: new Date(),
+        Desc: data.description || "", 
+        });
+
+        console.log("Program created:", newProgram);
+
+    } catch (err) {
+        console.error("Failed to create program:", err);
+    }
+    };
 
   return (
     <div className="dashboard-container">
@@ -11,12 +33,12 @@ export default function Dashboard() {
       <header className="dashboard-header">
         <div className="logo">WorkoutApp</div>
         <div className="header-actions">
-          <button>🌙</button> {/* dark mode toggle placeholder */}
+          <button>🌙</button>
           <UserButton />
         </div>
       </header>
 
-      {/* Secondary Navbar */}
+      {/* Navbar */}
       <nav className="dashboard-nav">
         {["Acceuil", "My Programs", "My Progress"].map((tab) => (
           <button
@@ -29,32 +51,29 @@ export default function Dashboard() {
         ))}
       </nav>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="dashboard-main">
         {activeTab === "Acceuil" && (
           <div className="acceuil-tab">
-            <button className="cta-btn">Create a New Program</button>
-            {/* Placeholder for future workout form */}
-            <div className="workout-form-placeholder">
-              {/* Workout form will go here later */}
-            </div>
-          </div>
-        )}
-
-        {activeTab === "My Programs" && (
-          <div>
-            <p>My Programs content coming soon...</p>
-          </div>
-        )}
-
-        {activeTab === "My Progress" && (
-          <div>
-            <p>My Progress content coming soon...</p>
+            <button className="cta-btn" onClick={() => setIsModalOpen(true)}>
+              Create a New Program
+            </button>
           </div>
         )}
       </main>
+
+      {/* Modal */}
+      <CreateProgramModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreate={handleCreateProgram}
+      />
     </div>
   );
 }
+
+
+
+
 
 
