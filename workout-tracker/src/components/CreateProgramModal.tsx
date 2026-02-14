@@ -10,7 +10,7 @@ export default function CreateProgramModal({ isOpen, onClose, onCreate }: Create
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return alert("Program name is required!");
-    onCreate({ name, description });
+    onCreate({ name, description: description.trim() || undefined });
     setName("");
     setDescription("");
     onClose();

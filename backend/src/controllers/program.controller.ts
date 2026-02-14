@@ -31,9 +31,9 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
 // POST (create a new PROGRAM)
 export const createProgram = async (req: Request, res: Response) => {
     try{
-        const { name, userId, createdAt } = req.body;
+        const { name, userId, createdAt, description } = req.body;
         const newProgram = await prisma.program.create({
-            data: { name, userId: Number(userId), createdAt }
+            data: { name, userId: Number(userId), createdAt, Desc: description || "", }
         });
         res.status(201).json(newProgram);
     } catch (err) {

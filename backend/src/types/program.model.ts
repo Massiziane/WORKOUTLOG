@@ -3,4 +3,5 @@ export interface Program {
   name: string;
   userId: string;
   createdAt: Date;
+  description: string;
 }

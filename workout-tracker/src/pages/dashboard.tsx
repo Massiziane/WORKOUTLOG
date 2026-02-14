@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/clerk-react";
 import "../style/dashboard.css"
 import CreateProgramModal from "../components/CreateProgramModal";
-import { API_URL, createRecord } from "../services/api";
+import { API_URL, createRecord, syncUser } from "../services/api";
 
 
 export default function Dashboard() {
@@ -15,32 +15,14 @@ export default function Dashboard() {
   useEffect(() => {
     if (!user) return;
 
-    const syncUser = async () => {
-      try {
-        const res = await fetch(`${API_URL}/users/sync`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            clerkId: user.id,
-            firstName: user.firstName || "",
-            lastName: user.lastName || "",
-            email: user.emailAddresses[0]?.emailAddress,
-            username: user.username || "",
-          }),
-        });
-
-        const data = await res.json();
-        console.log("User synced:", data);
-
-        // store the numeric DB id for future requests
-        if (data.id) setDbUserId(data.id);
-      } catch (err) {
-        console.error("Failed to sync user:", err);
-      }
+    const sync = async () => {
+      const data = await syncUser(user);
+      if (data.id) setDbUserId(data.id);
     };
 
-    syncUser();
+    sync();
   }, [user]);
+
 
   // Create a new program
 const handleCreateProgram = async (data: { name: string; description?: string }) => {
