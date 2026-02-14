@@ -23,3 +23,19 @@ export async function createRecord(endpoint: string, record: any) {
   });
   return res.json();
 }
+
+// services/api.ts
+export async function fetchRecords<T>(endpoint: string): Promise<T[]> {
+  try {
+    const res = await fetch(`${API_URL}/${endpoint}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    return res.json();
+  } catch (err) {
+    console.error(`Failed to fetch ${endpoint}:`, err);
+    return [];
+  }
+}
+

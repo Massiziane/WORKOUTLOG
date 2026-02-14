@@ -14,9 +14,14 @@ export default function Dashboard() {
   const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
   const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
 
+
   const [dbUserId, setDbUserId] = useState<number | null>(null);
   const [activeProgramId, setActiveProgramId] = useState<number | null>(null);
   const [activeWorkoutId, setActiveWorkoutId] = useState<number | null>(null);
+
+  const [isSetTemplateModalOpen, setIsSetTemplateModalOpen] = useState(false);
+  const [activeExerciseId, setActiveExerciseId] = useState<number | null>(null);
+
 
   const { user } = useUser();
 
@@ -32,7 +37,7 @@ export default function Dashboard() {
 
   // ------------------- Handlers -------------------
 
-  // 1️⃣ Create Program
+  // Create Program
   const handleCreateProgram = async (data: { name: string; description?: string }) => {
     if (!dbUserId) return console.error("DB user not synced yet");
     const { name, description } = data;
@@ -54,7 +59,7 @@ export default function Dashboard() {
     }
   };
 
-  // 2️⃣ Create Workout
+  // 2️Create Workout
   const handleCreateWorkout = async (data: { name: string; programId: number }) => {
     if (!dbUserId) return console.error("DB user not synced yet");
     try {
@@ -74,7 +79,7 @@ export default function Dashboard() {
     }
   };
 
-  // 3️⃣ Create Exercise
+  // Create Exercise
   const handleCreateExercise = async (data: {
     name: string;
     categoryId: number;
@@ -98,6 +103,25 @@ export default function Dashboard() {
       // setIsExerciseModalOpen(false); // close after single
     } catch (err) {
       console.error("Failed to create exercise:", err);
+    }
+  };
+
+  // Create a Set Template 
+  const handleCreateSetTemplate = async (data: {
+    exerciseId: number;
+    reps?: number;
+    weight?: number;
+    tempo?: string;
+    type: string;
+  }) => {
+    try {
+      const newSetTemplate = await createRecord("setTemplates", data);
+      console.log("Set Template created:", newSetTemplate);
+
+      // Optional: keep modal open to add multiple sets
+      // setIsSetTemplateModalOpen(false);
+    } catch (err) {
+      console.error("Failed to create Set Template:", err);
     }
   };
 
@@ -155,12 +179,12 @@ export default function Dashboard() {
         />
       )}
 
-      {activeWorkoutId && activeProgramId && (
+      {activeWorkoutId && (
         <CreateExerciseModal
           isOpen={isExerciseModalOpen}
           onClose={() => setIsExerciseModalOpen(false)}
           workoutId={activeWorkoutId}
-          onCreate={handleCreateExercise}
+          onCreate={handleCreateExercise} 
         />
       )}
     </div>

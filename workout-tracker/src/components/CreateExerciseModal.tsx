@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { CreateExerciseModalProps } from "../types/CreateExerciseModalProps";
-import { API_URL, createRecord } from "../services/api";
+import { fetchRecords } from "../services/api";
 import "../style/components/CreateExerciseModal.css";
 
 export default function CreateExerciseModal({
@@ -17,18 +17,13 @@ export default function CreateExerciseModal({
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<number | null>(null);
 
   // Fetch categories on mount
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch(`${API_URL}/categories`);
-        const data = await res.json();
+    useEffect(() => {
+    const loadCategories = async () => {
+        const data = await fetchRecords<{ id: number; name: string }>("categories");
         setCategories(data);
-      } catch (err) {
-        console.error("Failed to fetch categories:", err);
-      }
     };
-    fetchCategories();
-  }, []);
+    loadCategories();
+    }, []);
 
   // Fetch muscle groups whenever category changes
   useEffect(() => {
@@ -36,17 +31,14 @@ export default function CreateExerciseModal({
       setMuscleGroups([]);
       return;
     }
-    const fetchMuscles = async () => {
-      try {
-        const res = await fetch(`${API_URL}/muscle-groups?categoryId=${selectedCategory}`);
-        const data = await res.json();
+    const loadMuscles = async () => {
+        const data = await fetchRecords<{ id: number; name: string }>(
+        `muscle-groups?categoryId=${selectedCategory}`
+        );
         setMuscleGroups(data);
-      } catch (err) {
-        console.error("Failed to fetch muscle groups:", err);
-      }
     };
-    fetchMuscles();
-  }, [selectedCategory]);
+    loadMuscles();
+    }, [selectedCategory]);
 
   if (!isOpen) return null;
 
