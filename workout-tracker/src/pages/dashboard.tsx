@@ -3,6 +3,8 @@ import { UserButton, useUser } from "@clerk/clerk-react";
 import "../style/dashboard.css"
 import CreateProgramModal from "../components/CreateProgramModal";
 import { API_URL, createRecord, syncUser } from "../services/api";
+import CreateWorkoutModal from "../components/CreateWorkoutModal";
+import { Link } from "react-router-dom";
 
 
 export default function Dashboard() {
@@ -10,6 +12,9 @@ export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dbUserId, setDbUserId] = useState<number | null>(null); // store DB user id
   const { user } = useUser();
+  const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
+  const [activeProgramId, setActiveProgramId] = useState<number | null>(null); // program created
+
 
   // Sync Clerk user to your DB
   useEffect(() => {
@@ -36,6 +41,10 @@ const handleCreateProgram = async (data: { name: string; description?: string })
       name,
       description: description || "",
     });
+
+    // Open the workout modal and pass the program id
+    setActiveProgramId(newProgram.id);
+    setIsWorkoutModalOpen(true);
 
     console.log("Program created:", newProgram);
   } catch (err) {
@@ -78,12 +87,35 @@ const handleCreateProgram = async (data: { name: string; description?: string })
         )}
       </main>
 
-      {/* Modal */}
+      {/* Modals */}
+      {/* Program */}
       <CreateProgramModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreate={handleCreateProgram}
       />
+
+      {/* Workout */}
+      {activeProgramId && (
+        <CreateWorkoutModal
+          isOpen={isWorkoutModalOpen}
+          onClose={() => setIsWorkoutModalOpen(false)}
+          programId={activeProgramId}  // pass programId to modal
+          onCreate={async (data) => {
+            try {
+              const newWorkout = await createRecord("workouts", {
+                programId: data.programId,
+                userId: dbUserId!,
+                name: data.name,
+              });
+              console.log("Workout created:", newWorkout);
+              setIsWorkoutModalOpen(false); // close modal after creating
+            } catch (err) {
+              console.error("Failed to create workout:", err);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
