@@ -4,7 +4,8 @@ import "../style/dashboard.css";
 import CreateProgramModal from "../components/CreateProgramModal";
 import CreateWorkoutModal from "../components/CreateWorkoutModal";
 import CreateExerciseModal from "../components/CreateExerciseModal";
-import { API_URL, createRecord, syncUser } from "../services/api";
+import { createRecord, syncUser } from "../services/api";
+import CreateSetTemplateModal from "../components/CreateSetTemplateModal";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Acceuil");
@@ -99,8 +100,10 @@ export default function Dashboard() {
 
       console.log("Exercise created:", newExercise);
 
-      // Optional: keep modal open to add multiple exercises
-      // setIsExerciseModalOpen(false); // close after single
+      setActiveExerciseId(newExercise.id);
+      setIsSetTemplateModalOpen(true);
+
+      setIsExerciseModalOpen(false);
     } catch (err) {
       console.error("Failed to create exercise:", err);
     }
@@ -124,6 +127,7 @@ export default function Dashboard() {
       console.error("Failed to create Set Template:", err);
     }
   };
+
 
   // ------------------- JSX -------------------
 
@@ -187,6 +191,16 @@ export default function Dashboard() {
           onCreate={handleCreateExercise} 
         />
       )}
+
+      {activeExerciseId && (
+        <CreateSetTemplateModal
+          isOpen={isSetTemplateModalOpen}
+          onClose={() => setIsSetTemplateModalOpen(false)}
+          exerciseId={activeExerciseId}
+          onCreate={handleCreateSetTemplate}
+        />
+      )}
+
     </div>
   );
 }
