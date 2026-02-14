@@ -14,13 +14,12 @@ export default function Dashboard() {
   const [isProgramModalOpen, setIsProgramModalOpen] = useState(false);
   const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
   const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
-
-
+  const [isSetTemplateModalOpen, setIsSetTemplateModalOpen] = useState(false);
+  // User states
   const [dbUserId, setDbUserId] = useState<number | null>(null);
+  // Program states
   const [activeProgramId, setActiveProgramId] = useState<number | null>(null);
   const [activeWorkoutId, setActiveWorkoutId] = useState<number | null>(null);
-
-  const [isSetTemplateModalOpen, setIsSetTemplateModalOpen] = useState(false);
   const [activeExerciseId, setActiveExerciseId] = useState<number | null>(null);
 
 
