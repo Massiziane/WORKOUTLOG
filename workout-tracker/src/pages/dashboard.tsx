@@ -13,11 +13,29 @@ export default function Dashboard() {
     if (!user) return;
 
     try {
+        // sync the Clerk user with DB
+        const res = await fetch("http://localhost:3000/users/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            clerkId: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.emailAddresses[0]?.emailAddress,
+            username: user.username,
+        }),
+        });
+
+        if (!res.ok) throw new Error(`Failed to sync user: ${res.statusText}`);
+
+        const dbUser = await res.json(); 
+
+        // create the program using the DB user id
         const newProgram = await createProgram({
         name: data.name,
-        userId: Number(user.id), // Clerk ID -> your DB ID
+        userId: dbUser.id, 
         createdAt: new Date(),
-        Desc: data.description || "", 
+        Desc: data.description || "",
         });
 
         console.log("Program created:", newProgram);

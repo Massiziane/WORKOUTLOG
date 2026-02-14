@@ -2,6 +2,44 @@ import { type Request, type Response} from 'express';
 import prisma from '../utils/prisma';
 import type { UserParams } from '../types/userparams';
 
+// POST /users/sync
+export const syncUserFromClerk = async (req: Request, res: Response) => {
+  try {
+    const { clerkId, firstName, lastName, email, username } = req.body;
+
+    if (!clerkId || !email) {
+      return res.status(400).json({ message: "Missing clerkId or email" });
+    }
+
+    // Check if user already exists
+    let user = await prisma.user.findUnique({
+      where: { clerkId },
+    });
+
+    if (!user) {
+      // Create a new DB record
+      user = await prisma.user.create({
+        data: {
+          clerkId,
+          firstName,
+          lastName,
+          email,
+          username: username || "",
+          password: "", // no password, Clerk handles auth
+        },
+      });
+      console.log(`Synced new Clerk user: ${clerkId}`);
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to sync user" });
+  }
+};
+
+
+
 // GET All USERS
 export const getAllUsers = async (req : Request, res: Response) => {
     try {
