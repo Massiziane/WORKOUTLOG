@@ -1,56 +1,107 @@
 import { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/clerk-react";
-import "../style/dashboard.css"
+import "../style/dashboard.css";
 import CreateProgramModal from "../components/CreateProgramModal";
-import { API_URL, createRecord, syncUser } from "../services/api";
 import CreateWorkoutModal from "../components/CreateWorkoutModal";
-import { Link } from "react-router-dom";
-
+import CreateExerciseModal from "../components/CreateExerciseModal";
+import { API_URL, createRecord, syncUser } from "../services/api";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Acceuil");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dbUserId, setDbUserId] = useState<number | null>(null); // store DB user id
-  const { user } = useUser();
+
+  // Modal states
+  const [isProgramModalOpen, setIsProgramModalOpen] = useState(false);
   const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
-  const [activeProgramId, setActiveProgramId] = useState<number | null>(null); // program created
+  const [isExerciseModalOpen, setIsExerciseModalOpen] = useState(false);
 
+  const [dbUserId, setDbUserId] = useState<number | null>(null);
+  const [activeProgramId, setActiveProgramId] = useState<number | null>(null);
+  const [activeWorkoutId, setActiveWorkoutId] = useState<number | null>(null);
 
-  // Sync Clerk user to your DB
+  const { user } = useUser();
+
+  // Sync Clerk user
   useEffect(() => {
     if (!user) return;
-
     const sync = async () => {
       const data = await syncUser(user);
       if (data.id) setDbUserId(data.id);
     };
-
     sync();
   }, [user]);
 
+  // ------------------- Handlers -------------------
 
-  // Create a new program
-const handleCreateProgram = async (data: { name: string; description?: string }) => {
-  if (!dbUserId) return console.error("DB user not synced yet");
+  // 1️⃣ Create Program
+  const handleCreateProgram = async (data: { name: string; description?: string }) => {
+    if (!dbUserId) return console.error("DB user not synced yet");
+    const { name, description } = data;
 
-  const { name, description } = data;
+    try {
+      const newProgram = await createRecord("programs", {
+        userId: dbUserId,
+        name,
+        Desc: description || "",
+      });
 
-  try {
-    const newProgram = await createRecord("programs", {
-      userId: dbUserId,
-      name,
-      description: description || "",
-    });
+      console.log("Program created:", newProgram);
 
-    // Open the workout modal and pass the program id
-    setActiveProgramId(newProgram.id);
-    setIsWorkoutModalOpen(true);
+      setActiveProgramId(newProgram.id);
+      setIsProgramModalOpen(false);
+      setIsWorkoutModalOpen(true); // open workout modal next
+    } catch (err) {
+      console.error("Failed to create program:", err);
+    }
+  };
 
-    console.log("Program created:", newProgram);
-  } catch (err) {
-    console.error("Failed to create program:", err);
-  }
-};
+  // 2️⃣ Create Workout
+  const handleCreateWorkout = async (data: { name: string; programId: number }) => {
+    if (!dbUserId) return console.error("DB user not synced yet");
+    try {
+      const newWorkout = await createRecord("workouts", {
+        userId: dbUserId,
+        programId: data.programId,
+        name: data.name,
+      });
+
+      console.log("Workout created:", newWorkout);
+
+      setActiveWorkoutId(newWorkout.id);
+      setIsWorkoutModalOpen(false);
+      setIsExerciseModalOpen(true); // open exercise modal next
+    } catch (err) {
+      console.error("Failed to create workout:", err);
+    }
+  };
+
+  // 3️⃣ Create Exercise
+  const handleCreateExercise = async (data: {
+    name: string;
+    categoryId: number;
+    muscleGroupId?: number;
+    notes?: string;
+    workoutId: number;
+  }) => {
+    try {
+      const newExercise = await createRecord("exercises", {
+        name: data.name,
+        categoryId: data.categoryId,
+        muscleGroupId: data.muscleGroupId || undefined,
+        notes: data.notes || undefined,
+        programId: activeProgramId!,
+        workoutId: data.workoutId,
+      });
+
+      console.log("Exercise created:", newExercise);
+
+      // Optional: keep modal open to add multiple exercises
+      // setIsExerciseModalOpen(false); // close after single
+    } catch (err) {
+      console.error("Failed to create exercise:", err);
+    }
+  };
+
+  // ------------------- JSX -------------------
 
   return (
     <div className="dashboard-container">
@@ -80,48 +131,38 @@ const handleCreateProgram = async (data: { name: string; description?: string })
       <main className="dashboard-main">
         {activeTab === "Acceuil" && (
           <div className="acceuil-tab">
-            <button className="cta-btn" onClick={() => setIsModalOpen(true)}>
+            <button className="cta-btn" onClick={() => setIsProgramModalOpen(true)}>
               Create a New Program
             </button>
           </div>
         )}
       </main>
 
-      {/* Modals */}
-      {/* Program */}
+      {/* ------------------- Modals ------------------- */}
+
       <CreateProgramModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isProgramModalOpen}
+        onClose={() => setIsProgramModalOpen(false)}
         onCreate={handleCreateProgram}
       />
 
-      {/* Workout */}
       {activeProgramId && (
         <CreateWorkoutModal
           isOpen={isWorkoutModalOpen}
           onClose={() => setIsWorkoutModalOpen(false)}
-          programId={activeProgramId}  // pass programId to modal
-          onCreate={async (data) => {
-            try {
-              const newWorkout = await createRecord("workouts", {
-                programId: data.programId,
-                userId: dbUserId!,
-                name: data.name,
-              });
-              console.log("Workout created:", newWorkout);
-              setIsWorkoutModalOpen(false); // close modal after creating
-            } catch (err) {
-              console.error("Failed to create workout:", err);
-            }
-          }}
+          programId={activeProgramId}
+          onCreate={handleCreateWorkout}
+        />
+      )}
+
+      {activeWorkoutId && activeProgramId && (
+        <CreateExerciseModal
+          isOpen={isExerciseModalOpen}
+          onClose={() => setIsExerciseModalOpen(false)}
+          workoutId={activeWorkoutId}
+          onCreate={handleCreateExercise}
         />
       )}
     </div>
   );
 }
-
-
-
-
-
-
