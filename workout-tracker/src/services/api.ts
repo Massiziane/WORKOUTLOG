@@ -1,31 +1,25 @@
-// src/services/api.ts
 export const API_URL = "http://localhost:3000";
 
-// fetch all programs
-export async function fetchPrograms() {
-  const res = await fetch(`${API_URL}/programs`, {
-    credentials: "include",
-  });
-  return res.json();
-}
-
-// fetch all workouts
-export async function fetchWorkouts() {
-  const res = await fetch(`${API_URL}/workouts`, {
-    credentials: "include",
-  });
-  return res.json();
-}
-
-// create Program
-export async function createProgram(program: any) {
-  const res = await fetch(`${API_URL}/programs`, {
+export async function syncUser(user: any) {
+  const res = await fetch(`${API_URL}/users/sync`, {
     method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(program),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clerkId: user.id,
+      firstName: user.firstName || "",
+      lastName: user.lastName || "",
+      email: user.emailAddresses[0]?.emailAddress,
+      username: user.username || "",
+    }),
+  });
+  return res.json(); // returns DB user with numeric id
+}
+
+export async function createRecord(endpoint: string, record: any) {
+  const res = await fetch(`${API_URL}/${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(record),
   });
   return res.json();
 }

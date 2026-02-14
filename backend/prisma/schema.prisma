@@ -16,9 +16,9 @@ datasource db {
 
 model User {
   id        Int     @id @default(autoincrement())
-  clerkId String @unique
+  clerkId   String  @unique
   firstName String
-  lastName  String
+  lastName  String?
   username  String?
   email     String  @unique
   role      Role    @default(USER)
@@ -42,8 +42,18 @@ model Category {
   name     String
   Desc     String?
 
-  muscles   String[]
+  muscles   MuscleGroup[]
   exercises Exercise[]
+}
+
+model MuscleGroup {
+  id          Int        @id @default(autoincrement())
+  name        String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  exercises  Exercise[]
 }
 
 model Program {
@@ -74,6 +84,9 @@ model Exercise {
 
   setTemplates     SetTemplate[]
   workoutExercises WorkoutExercise[]
+
+  muscleGroup   MuscleGroup? @relation(fields: [muscleGroupId], references: [id])
+  muscleGroupId Int?
 }
 
 model SetTemplate {

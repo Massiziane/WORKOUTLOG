@@ -1,49 +1,65 @@
-import { use, useState } from "react";
+import { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/clerk-react";
 import "../style/dashboard.css"
 import CreateProgramModal from "../components/CreateProgramModal";
-import { createProgram } from "../services/api";
+import { API_URL, createRecord } from "../services/api";
+
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState("Acceuil"); // default tab
+  const [activeTab, setActiveTab] = useState("Acceuil");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dbUserId, setDbUserId] = useState<number | null>(null); // store DB user id
   const { user } = useUser();
 
-    const handleCreateProgram = async (data: { name: string; description?: string }) => {
+  // Sync Clerk user to your DB
+  useEffect(() => {
     if (!user) return;
 
-    try {
-        // sync the Clerk user with DB
-        const res = await fetch("http://localhost:3000/users/sync", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+    const syncUser = async () => {
+      try {
+        const res = await fetch(`${API_URL}/users/sync`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
             clerkId: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstName: user.firstName || "",
+            lastName: user.lastName || "",
             email: user.emailAddresses[0]?.emailAddress,
-            username: user.username,
-        }),
+            username: user.username || "",
+          }),
         });
 
-        if (!res.ok) throw new Error(`Failed to sync user: ${res.statusText}`);
+        const data = await res.json();
+        console.log("User synced:", data);
 
-        const dbUser = await res.json(); 
-
-        // create the program using the DB user id
-        const newProgram = await createProgram({
-        name: data.name,
-        userId: dbUser.id, 
-        createdAt: new Date(),
-        Desc: data.description || "",
-        });
-
-        console.log("Program created:", newProgram);
-
-    } catch (err) {
-        console.error("Failed to create program:", err);
-    }
+        // store the numeric DB id for future requests
+        if (data.id) setDbUserId(data.id);
+      } catch (err) {
+        console.error("Failed to sync user:", err);
+      }
     };
+
+    syncUser();
+  }, [user]);
+
+  // Create a new program
+const handleCreateProgram = async (data: { name: string; description?: string }) => {
+  if (!dbUserId) return console.error("DB user not synced yet");
+
+  const { name, description } = data;
+
+  try {
+    const newProgram = await createRecord("programs", {
+      userId: dbUserId,
+      name,
+      description: description || "",
+    });
+
+    console.log("Program created:", newProgram);
+  } catch (err) {
+    console.error("Failed to create program:", err);
+  }
+};
 
   return (
     <div className="dashboard-container">

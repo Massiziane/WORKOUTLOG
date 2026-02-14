@@ -36,8 +36,9 @@ export const createProgram = async (req: Request, res: Response) => {
             data: { name, userId: Number(userId), createdAt }
         });
         res.status(201).json(newProgram);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to create program" });
+    } catch (err) {
+    console.error("Create program error:", err);
+    res.status(500).json({ message: "Failed to create program", error: err instanceof Error ? err.message : err });
     }
 };
 

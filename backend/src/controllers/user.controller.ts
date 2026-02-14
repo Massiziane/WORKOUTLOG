@@ -11,21 +11,25 @@ export const syncUserFromClerk = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Missing clerkId or email" });
     }
 
-    // Check if user already exists
-    let user = await prisma.user.findUnique({
-      where: { clerkId },
-    });
+    // Check if user already exists by clerkId
+    let user = await prisma.user.findUnique({ where: { clerkId } });
 
     if (!user) {
-      // Create a new DB record
+      // Check if email already exists to avoid unique constraint error
+      const existingEmail = await prisma.user.findUnique({ where: { email } });
+
+      if (existingEmail) {
+        return res.status(409).json({ message: "Email already exists" });
+      }
+
+      // Create new user
       user = await prisma.user.create({
         data: {
           clerkId,
           firstName,
-          lastName,
+          lastName: lastName || "",
           email,
           username: username || "",
-          password: "", // no password, Clerk handles auth
         },
       });
       console.log(`Synced new Clerk user: ${clerkId}`);
@@ -33,11 +37,13 @@ export const syncUserFromClerk = async (req: Request, res: Response) => {
 
     res.json(user);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to sync user" });
+    console.error("Sync user error:", err);
+    res.status(500).json({
+      message: "Failed to sync user",
+      error: err instanceof Error ? err.message : err,
+    });
   }
 };
-
 
 
 // GET All USERS
@@ -72,9 +78,9 @@ export const getUserById = async (req : Request<UserParams>, res: Response) => {
 // POST (create a new user)
 export const createUser = async (req: Request, res: Response) => {
     try{
-        const { firstName, lastName, email, username, password, createdAt, updatedAt } = req.body;
+        const { firstName, clerkId, lastName, email, username, createdAt, updatedAt } = req.body;
         const newUser = await prisma.user.create({
-            data: {firstName, lastName, email, username, password, createdAt, updatedAt}
+            data: {firstName, lastName, email, username, createdAt, updatedAt, clerkId}
         });
         res.status(201).json(newUser);
         }catch(error){
