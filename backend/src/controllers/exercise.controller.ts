@@ -6,7 +6,9 @@ import type { Exercise } from '../types/exercise.type';
 // GET /exercises
 export const getAllExercises = async (req: Request<Exercise>, res: Response) => {
     try {
-        const exercises = await prisma.exercise.findMany({});
+        const exercises = await prisma.exercise.findMany({
+            include: { category: true, muscleGroup: true, setTemplates: true },
+        });
         res.status(200).json(exercises);
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
@@ -16,11 +18,13 @@ export const getAllExercises = async (req: Request<Exercise>, res: Response) => 
 
 // GET /exercises/:id   
 export const getExerciseById = async (req: Request<Exercise>, res: Response) => {
-    const { id } = req.params;
+
     try {
+        const { id } = req.params;
         const exercise = await prisma.exercise.findUnique({
-            where: { id: Number(id) },
+            where: { id: Number(id) }, include: { category: true, muscleGroup: true, setTemplates: true },
         });
+
         if (exercise) {
             res.status(200).json(exercise);
         } else {
@@ -33,10 +37,10 @@ export const getExerciseById = async (req: Request<Exercise>, res: Response) => 
 
 // POST /exercises
 export const createExercise = async (req: Request<Exercise>, res: Response) => {
-    const { name, notes, programId, categoryId } = req.body;
+    const { name, notes, categoryId, muscleGroupId } = req.body;
     try {
         const newExercise = await prisma.exercise.create({
-            data: { name, notes, programId: Number(programId), categoryId: Number(categoryId) },
+            data: { name, notes, categoryId: Number(categoryId), muscleGroupId: Number(muscleGroupId) },
         });
         res.status(201).json(newExercise);
     } catch (error) {
@@ -46,12 +50,16 @@ export const createExercise = async (req: Request<Exercise>, res: Response) => {
 
 // UPDATE /exercises/:id
 export const updateExercise = async (req: Request<Exercise>, res: Response) => {
-    const { id } = req.params;
-    const { name, notes, programId, categoryId } = req.body;
     try {
+        const { id } = req.params;
+        const { name, notes, muscleGroupId, categoryId } = req.body;
+
+        const existing = await prisma.exercise.findUnique({ where: { id: Number(id) } });
+        if (!existing) return res.status(404).json({ message: "Exercise not found" });
+
         const updatedExercise = await prisma.exercise.update({
             where: { id: Number(id) },
-            data: { name, notes, programId, categoryId },
+            data: { name, notes, muscleGroupId, categoryId },
         });
         res.status(200).json(updatedExercise);
     } catch (error) {
@@ -61,8 +69,12 @@ export const updateExercise = async (req: Request<Exercise>, res: Response) => {
 
 // DELETE /exercises/:id
 export const deleteExercise = async (req: Request<Exercise>, res: Response) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+        
+        const existing = await prisma.exercise.findUnique({ where: { id: Number(id) } });
+        if (!existing) return res.status(404).json({ message: "Exercise not found" });
+
         await prisma.exercise.delete({
             where: { id: Number(id) },
         });
