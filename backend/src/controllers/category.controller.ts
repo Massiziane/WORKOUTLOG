@@ -5,19 +5,22 @@ import type { Category } from '../types/category.type';
 // GET /categories
 export const getAllCategories = async (req: Request, res: Response) => {
     try {
-        const categories: Category[] = await prisma.category.findMany();
+        const categories = await prisma.category.findMany({
+            include: { exercises: true },
+        });
         res.status(200).json(categories);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
 
 // GET /categories/:id
 export const getCategoryById = async (req: Request<Category>, res: Response) => {
-    const { id } = req.params;
     try {
-        const category: Category | null = await prisma.category.findUnique({
-            where: { id: Number(id) },
+        const { id } = req.params;
+        const category = await prisma.category.findUnique({
+            where: { id: Number(id) }, include : { exercises: true },
         }); 
         if (category) {
             res.status(200).json(category);
@@ -31,10 +34,10 @@ export const getCategoryById = async (req: Request<Category>, res: Response) => 
 
 // POST /categories
 export const createCategory = async (req: Request<{}, {}, Category>, res: Response) => {
-    const { name, muscles } = req.body;
     try {
-        const newCategory: Category = await prisma.category.create({
-            data: { name, muscles },
+        const { name, Desc } = req.body;
+        const newCategory = await prisma.category.create({
+            data: { name, Desc : Desc ?? null },
         });
         res.status(201).json(newCategory);
     } catch (error) {
@@ -44,12 +47,16 @@ export const createCategory = async (req: Request<{}, {}, Category>, res: Respon
 
 //UPDATE /categories/:id
 export const updateCategory = async (req: Request<Category, {}, Category>, res: Response) => {
-    const { id } = req.params;
-    const { name, muscles } = req.body;
     try {
-        const updatedCategory: Category = await prisma.category.update({
+        const { id } = req.params;
+        const { name, Desc } = req.body;    
+
+        const existing = await prisma.category.findUnique({ where: { id: Number(id) } });
+        if (!existing) return res.status(404).json({ message: "Category not found" });
+
+        const updatedCategory= await prisma.category.update({
             where: { id: Number(id) },
-            data: { name, muscles },
+            data: { name, Desc : Desc ?? null },
         });
         res.status(200).json(updatedCategory);
     } catch (error) {
@@ -59,8 +66,12 @@ export const updateCategory = async (req: Request<Category, {}, Category>, res: 
 
 // DELETE /categories/:id
 export const deleteCategory = async (req: Request<Category>, res: Response) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+
+        const existing = await prisma.category.findUnique({ where: { id: Number(id) } });
+        if (!existing) return res.status(404).json({ message: "Category not found" });
+        
         await prisma.category.delete({
             where: { id: Number(id) },
         });
