@@ -123,7 +123,7 @@ enum SetType {
 model WorkoutExercise {
   id Int @id @default(autoincrement())
   order Int?
-  notes String
+  notes String?
 
   workout   Workout  @relation(fields: [workoutId], references: [id])
   workoutId Int
