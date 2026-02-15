@@ -31,9 +31,9 @@ export const getWorkoutSetById = async (req: Request<WorkoutSet>, res: Response)
 // POST (create a new WORKOUT SET)
 export const createWorkoutSet = async (req: Request, res: Response) => {
     try {
-        const { workoutExerciseId, reps, weight, tempo, performedAt } = req.body;
+        const { workoutExerciseId, reps, weight, tempo, restTime, performedAt } = req.body;
         const newWorkoutSet = await prisma.workoutSet.create({
-            data: { workoutExerciseId: Number(workoutExerciseId), reps, weight, tempo, performedAt }
+            data: { workoutExerciseId: Number(workoutExerciseId), reps, weight, tempo, restTime, performedAt }
         });
         res.status(201).json(newWorkoutSet);
     } catch (error) {
@@ -45,11 +45,19 @@ export const createWorkoutSet = async (req: Request, res: Response) => {
 export const updateWorkoutSet = async (req: Request<WorkoutSet>, res: Response) => {
     try {
         const { id } = req.params;
-        const { reps, weight, tempo, performedAt } = req.body;
+        const { reps, weight, tempo, restTime, performedAt, workoutExerciseId } = req.body;
+
+        const existingWorkoutSet = await prisma.workoutSet.findUnique({
+            where: { id: Number(id) }
+        });
+        if (!existingWorkoutSet) {
+            return res.status(404).json({ error: "Workout set not found" });
+        }
+
         const updatedWorkoutSet = await prisma.workoutSet.update({
             where: { id: Number(id) },
-            data: { reps, weight, tempo, performedAt }
-        });
+            data: { reps, weight, tempo, restTime, performedAt, workoutExerciseId}
+});
         res.json(updatedWorkoutSet);
     } catch (error) {
         res.status(500).json({ error: "Failed to update workout set" });
@@ -60,6 +68,14 @@ export const updateWorkoutSet = async (req: Request<WorkoutSet>, res: Response) 
 export const deleteWorkoutSet = async (req: Request<WorkoutSet>, res: Response) => {
     try {
         const { id } = req.params;
+
+        const existingWorkoutSet = await prisma.workoutSet.findUnique({
+            where: { id: Number(id) }
+        })
+        if (!existingWorkoutSet) {
+            return res.status(404).json({ error: "Workout set not found" });
+        }
+
         await prisma.workoutSet.delete({
             where: { id: Number(id) }
         });
