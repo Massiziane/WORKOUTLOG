@@ -14,6 +14,7 @@ export const getAllPrograms = async (req : Request, res: Response) => {
 
         const programs  = await prisma.program.findMany({
             where: { userId },
+            include: { workouts: true }
         });
         res.json(programs);
     } catch (error) {
@@ -26,7 +27,8 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
     try{
         const { id } = req.params;
         const program = await prisma.program.findUnique({
-            where: { id: Number(id) }
+            where: { id: Number(id) },
+            include: { workouts: true }
         });
         if (!program) {
             return res.status(404).json({ error: "Program not found" });
@@ -40,9 +42,9 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
 // POST (create a new PROGRAM)
 export const createProgram = async (req: Request, res: Response) => {
     try{
-        const { name, userId, createdAt, description } = req.body;
+        const { name, userId, description } = req.body;
         const newProgram = await prisma.program.create({
-            data: { name, userId: Number(userId), createdAt, Desc: description || "", }
+            data: { name, userId: Number(userId), Desc: description ?? null, }
         });
         res.status(201).json(newProgram);
     } catch (err) {
@@ -54,6 +56,12 @@ export const createProgram = async (req: Request, res: Response) => {
 // PUT update PROGRAM by Id
 export const updateProgram = async (req: Request<Program>, res: Response) => {
     try{
+        const programExists = await prisma.program.findUnique({ where: { id: Number(req.params.id) } });
+
+        if (!programExists) {
+            return res.status(404).json({ error: "Program not found" });
+        }
+
         const { id } = req.params;
         const { name } = req.body;
         const updatedProgram = await prisma.program.update({
@@ -69,6 +77,12 @@ export const updateProgram = async (req: Request<Program>, res: Response) => {
 // DELETE PROGRAM by Id
 export const deleteProgram = async (req: Request<Program>, res: Response) => {
     try{
+        const programExists = await prisma.program.findUnique({ where: { id: Number(req.params.id) } });
+
+        if (!programExists) {
+            return res.status(404).json({ error: "Program not found" });
+        }
+
         const { id } = req.params;
         await prisma.program.delete({
             where : { id: Number(id) }

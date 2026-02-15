@@ -27,9 +27,9 @@ export const syncUserFromClerk = async (req: Request, res: Response) => {
         data: {
           clerkId,
           firstName,
-          lastName: lastName || "",
+          lastName: lastName ?? null,
           email,
-          username: username || "",
+          username: username ?? null,
         },
       });
       console.log(`Synced new Clerk user: ${clerkId}`);
@@ -50,7 +50,7 @@ export const syncUserFromClerk = async (req: Request, res: Response) => {
 export const getAllUsers = async (req : Request, res: Response) => {
     try {
         const users  = await prisma.user.findMany({
-            select: { id : true, firstName: true, lastName: true, email: true, username: true, createdAt: true}
+            select: { id : true, firstName: true, lastName: true, email: true, username: true, createdAt: true, updatedAt: true, programs: true }
         });
         res.json(users);
     } catch(error) {
@@ -70,17 +70,17 @@ export const getUserById = async (req : Request<UserParams>, res: Response) => {
         }
         res.json(user);
 
-    }catch(eroor){
-        res.status(500).json({message: 'Erreur serveur'})
+    }catch(error){
+        res.status(500).json({message: 'Erreur serveur' + error})
     }
 }
 
 // POST (create a new user)
 export const createUser = async (req: Request, res: Response) => {
     try{
-        const { firstName, clerkId, lastName, email, username, createdAt, updatedAt } = req.body;
+        const { firstName, clerkId, lastName, email, username } = req.body;
         const newUser = await prisma.user.create({
-            data: {firstName, lastName, email, username, createdAt, updatedAt, clerkId}
+            data: {firstName, lastName, email, username, clerkId}
         });
         res.status(201).json(newUser);
         }catch(error){
@@ -91,6 +91,10 @@ export const createUser = async (req: Request, res: Response) => {
 // PUT update USER by Id
 export const updateUser = async (req: Request<UserParams>, res: Response) => {
     try{
+        const userExists = await prisma.user.findUnique({ where: { id: Number(req.params.id) } });
+
+        if (!userExists) return res.status(404).json({ message: "Utilisateur introuvable" });
+
         const { id } = req.params;
         const { firstName, lastName, email, username } = req.body;
 
@@ -107,6 +111,10 @@ export const updateUser = async (req: Request<UserParams>, res: Response) => {
 // DELETE delete a USER by ID
 export const deleteUser = async (req: Request<UserParams>, res: Response) => {
     try{
+        const userExists = await prisma.user.findUnique({ where: { id: Number(req.params.id) } });
+
+        if (!userExists) return res.status(404).json({ message: "Utilisateur introuvable" });
+
         const { id } = req.params;
         await prisma.user.delete({
             where : { id: Number(id) }
@@ -121,7 +129,9 @@ export const deleteUser = async (req: Request<UserParams>, res: Response) => {
 export const getUserCount = async (req: Request, res: Response) => {
     try{
         const count = await prisma.user.count();
+        
         res.json({ getUserCount : count})
+
     }catch(error){
         res.status(500).json({message: 'Erreur serveur'})
     }
@@ -135,6 +145,8 @@ export const usersPrograms = async (req: Request<UserParams>, res: Response) => 
             where: { id: Number(id) },
             include: { programs: true }
         });
+
+        res.json(usersWithPrograms);
 
         }catch(error){
         res.status(500).json({message: 'Erreur serveur'})
