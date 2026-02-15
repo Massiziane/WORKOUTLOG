@@ -69,6 +69,7 @@ model Program {
 model Workout {
   id   Int    @id @default(autoincrement())
   name String
+  order Int?
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
@@ -90,7 +91,7 @@ model Exercise {
   notes String?
 
   category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  categoryId Int?
 
   setTemplates     SetTemplate[]
   workoutExercises WorkoutExercise[]
@@ -122,7 +123,7 @@ enum SetType {
 model WorkoutExercise {
   id Int @id @default(autoincrement())
   order Int?
-  notes String?
+  notes String
 
   workout   Workout  @relation(fields: [workoutId], references: [id])
   workoutId Int
@@ -135,6 +136,7 @@ model WorkoutExercise {
 
 model WorkoutSet {
   id Int @id @default(autoincrement())
+  setNumber Int?
 
   workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
   workoutExerciseId Int
