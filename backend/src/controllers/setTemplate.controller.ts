@@ -31,9 +31,9 @@ export const getSetTemplateById = async (req: Request<SetTemplate>, res: Respons
 // POST (create a new SET TEMPLATE)
 export const createSetTemplate = async (req: Request, res: Response) => {
     try {
-        const { reps, weight, tempo, type, exerciseId } = req.body;
+        const { reps, weight, tempo, type, exerciseId, restTime } = req.body;
         const newSetTemplate = await prisma.setTemplate.create({
-            data: { reps, weight, tempo, type, exerciseId: Number(exerciseId) }
+            data: { reps, weight, tempo, type, exerciseId: Number(exerciseId), restTime }
         });
         res.status(201).json(newSetTemplate);
     } catch (error) {
@@ -45,10 +45,18 @@ export const createSetTemplate = async (req: Request, res: Response) => {
 export const updateSetTemplate = async (req: Request<SetTemplate>, res: Response) => {
     try {
         const { id } = req.params;
-        const { reps, weight, tempo, type, exerciseId } = req.body;
+
+        const existingSetTemplate = await prisma.setTemplate.findUnique({
+            where: { id: Number(id) }
+        });
+        if (!existingSetTemplate) {
+            return res.status(404).json({ error: "Set template not found" });
+        }
+
+        const { reps, weight, tempo, type, exerciseId, restTime } = req.body;
         const updatedSetTemplate = await prisma.setTemplate.update({
             where: { id: Number(id) },
-            data: { reps, weight, tempo, type, exerciseId: Number(exerciseId) }
+            data: { reps, weight, tempo, type, exerciseId: Number(exerciseId), restTime }
         });
         res.json(updatedSetTemplate);
     } catch (error) {
@@ -60,6 +68,14 @@ export const updateSetTemplate = async (req: Request<SetTemplate>, res: Response
 export const deleteSetTemplate = async (req: Request<SetTemplate>, res: Response) => {
     try {
         const { id } = req.params;
+
+        const existingSetTemplate = await prisma.setTemplate.findUnique({
+            where: { id: Number(id) }
+        });
+        if (!existingSetTemplate) {
+            return res.status(404).json({ error: "Set template not found" });
+        }
+
         await prisma.setTemplate.delete({
             where: { id: Number(id) }
         });

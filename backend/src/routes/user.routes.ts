@@ -6,11 +6,14 @@ import {
     createUser,
     updateUser,
     deleteUser,
-    getUserCount
+    getUserCount,
+    syncUserFromClerk
 } from '../controllers/user.controller';
-
+import prisma from '../utils/prisma';
 
 const router = Router();
+
+router.post("/sync", syncUserFromClerk);
 
 
 // Get - localhost:3000/users

@@ -5,7 +5,22 @@ import type { Workout} from '../types/workout.type';
 // GET all workouts
 export const getAllWorkouts = async (req: Request<Workout>, res: Response) => {
     try {
-        const workouts = await prisma.workout.findMany();
+        const { programId, userId } = req.query;
+
+        if (!programId) {
+        return res.status(400).json({ message: "programId is required" });
+        }
+
+        if (!userId) {
+        return res.status(400).json({ message: "userId is required" });
+        }
+
+        const workouts = await prisma.workout.findMany({
+        where: { programId: Number(programId), userId: Number(userId) },
+        include: { workoutExercises: true },
+        });
+        res.status(200).json(workouts);
+
         res.status(200).json(workouts);
     } catch (error) {
         res.status(500).json({ message: 'Erreur du serveur' });
@@ -17,7 +32,8 @@ export const getWorkoutById = async (req: Request<Workout>, res: Response): Prom
     try {
         const { id } = req.params;
         const workout = await prisma.workout.findUnique({
-            where: { id: Number(id) }
+            where: { id: Number(id) },
+            include: { workoutExercises: {include: { exercise: true }} },
         });
         if (!workout) {
             res.status(404).json({ message: 'Entraînement non trouvé' });
@@ -32,9 +48,9 @@ export const getWorkoutById = async (req: Request<Workout>, res: Response): Prom
 // POST create a new workout
 export const createWorkout = async (req: Request, res: Response) => {
     try {   
-        const { userId, name, createdAt } = req.body;
+        const { userId, name } = req.body;
         const newWorkout = await prisma.workout.create({
-            data: { userId: Number(userId), name, createdAt }
+            data: { userId: Number(userId), name }
         });
         res.status(201).json(newWorkout);
     } catch (error) {
@@ -45,11 +61,18 @@ export const createWorkout = async (req: Request, res: Response) => {
 // PUT update workout by ID
 export const updateWorkout = async (req: Request<Workout>, res: Response): Promise<void> => {
     try { 
+        const workoutExists = await prisma.workout.findUnique({ where: { id: Number(req.params.id) } });
+
+        if (!workoutExists) {
+            res.status(404).json({ message: 'Entraînement introuvable' });
+            return;
+        }
+        
         const { id } = req.params;
-        const { name, createdAt } = req.body;
+        const { name } = req.body;
         const updatedWorkout = await prisma.workout.update({
             where: { id: Number(id) },
-            data: { name, createdAt }
+            data: { name }
         });
         res.status(200).json(updatedWorkout);
     } catch (error) {
@@ -60,6 +83,14 @@ export const updateWorkout = async (req: Request<Workout>, res: Response): Promi
 // DELETE workout by ID
 export const deleteWorkout = async (req: Request<Workout>, res: Response): Promise<void> => {
     try {  
+
+        const workoutExists = await prisma.workout.findUnique({ where: { id: Number(req.params.id) } });
+
+        if (!workoutExists) {
+            res.status(404).json({ message: 'Entraînement introuvable' });
+            return;
+        }
+        
         const { id } = req.params;
         await prisma.workout.delete({
             where: { id: Number(id) }

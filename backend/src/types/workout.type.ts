@@ -4,5 +4,6 @@ export interface Workout {
   userId: number;
   programId?: number; // optionnel si freestyle
   createdAt: Date;
+  order?: number;
 }
 
