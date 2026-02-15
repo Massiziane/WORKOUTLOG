@@ -1,5 +1,5 @@
 // src/pages/Home.tsx
-import { SignInButton, SignUpButton, SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
+import { SignInButton, SignUpButton, SignedOut, useUser } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/home.css"
