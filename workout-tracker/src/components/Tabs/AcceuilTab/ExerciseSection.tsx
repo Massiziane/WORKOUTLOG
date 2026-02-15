@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import "../../../style/tabs/accueil/sectionsLayout.css";
+import "../../../style/tabs/accueil/ExercisesSection.css";
 
 interface Exercise {
   id: number;
@@ -19,10 +20,21 @@ export default function ExercisesSection() {
     fetchRecords<Exercise>("exercises").then(setExercises);
   }, []);
 
-  // Filter exercises by search
-  const filteredExercises = exercises.filter((ex) =>
-    ex.name.toLowerCase().includes(search.toLowerCase())
-  );
+
+    // 1. Filter & sort
+    const sortedExercises = exercises
+    .filter((ex) => ex.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+    // 2. Group by first letter
+    const groupedExercises: Record<string, Exercise[]> = {};
+    sortedExercises.forEach((ex) => {
+    const firstLetter = ex.name[0].toUpperCase();
+    if (!groupedExercises[firstLetter]) groupedExercises[firstLetter] = [];
+    groupedExercises[firstLetter].push(ex);
+    });
+
+
 
   // Handler for creating a new exercise
   const handleCreateExercise = async () => {
@@ -54,11 +66,18 @@ export default function ExercisesSection() {
         </div>
     </div>
 
-    <ul className="cards-container">
-        {filteredExercises.map((ex) => (
-        <li className="card" key={ex.id}>
-            <h3>{ex.name}</h3>
-            {ex.notes && <p>{ex.notes}</p>}
+    <ul className="cards-container scrollable-list">
+    {Object.keys(groupedExercises)
+        .sort()
+        .map((letter) => (
+        <li key={letter} className="letter-group">
+            <div className="letter-header">{letter}</div>
+            {groupedExercises[letter].map((ex) => (
+            <div className="card" key={ex.id}>
+                <h3>{ex.name}</h3>
+                {ex.notes && <p>{ex.notes}</p>}
+            </div>
+            ))}
         </li>
         ))}
     </ul>

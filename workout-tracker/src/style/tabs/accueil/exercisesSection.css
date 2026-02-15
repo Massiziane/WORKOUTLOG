@@ -1,56 +1,43 @@
-.exercises-section {
-  margin-top: 2rem;
-  padding: 1rem;
-  background-color: var(--section-bg, #f9f9f9);
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-margin: 0 auto;
-}
-
-.exercises-section h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  color: var(--primary-color, #333);
-}
-
-.exercises-section .search-bar {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.exercises-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.exercises-list li {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
+.scrollable-list {
+  overflow-y: auto;   /* vertical scroll */
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  height: 850px ;
+  gap: 12px;          /* spacing between cards */
+  padding-right: 8px; /* prevent content hiding under scrollbar */
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-.exercises-list li:last-child {
-  border-bottom: none;
+/* Optional scrollbar styling */
+.scrollable-list::-webkit-scrollbar {
+  width: 6px;
 }
 
-.exercises-list li:hover {
-  background-color: var(--hover-bg, #f0f0f0);
-  cursor: pointer;
+.scrollable-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
 }
 
-.exercises-list li .exercise-name {
-  font-weight: 500;
-  color: var(--text-color, #222);
+
+/*------------------------------ Sorting Letter -----------------------------------*/
+.letter-header {
+  position: sticky;
+  top: 0; /* sticks to the top of the scrollable container */
+  background: rgb(255, 255, 255); /* match your container bg */
+  font-weight: bold;
+  padding: 8px 12px;
+  color: #2f80ed;
+  border-bottom: 3px solid #2f80ed;
+  z-index: 10; /* so it stays above cards */
 }
 
-.exercises-list li .exercise-category {
-  font-size: 0.85rem;
-  color: #666;
+.scrollable-list {
+  max-height: 400px; 
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 8px;
 }
