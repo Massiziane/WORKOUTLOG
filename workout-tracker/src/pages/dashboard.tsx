@@ -3,6 +3,10 @@ import { UserButton, useUser } from "@clerk/clerk-react";
 import "../style/dashboard.css";
 import { syncUser } from "../services/api";
 
+// tabs imports
+import AcceuilTab from "../components/Tabs/AcceuilTab/acceuil";
+
+
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Acceuil");
@@ -53,13 +57,7 @@ export default function Dashboard() {
 
       {/* Main */}
       <main className="dashboard-main">
-        {activeTab === "Acceuil" && (
-          <div className="acceuil-tab">
-            <button className="cta-btn" >
-              Create a New Program
-            </button>
-          </div>
-        )}
+        {activeTab === "Acceuil" && <AcceuilTab />}
       </main>
 
     </div>

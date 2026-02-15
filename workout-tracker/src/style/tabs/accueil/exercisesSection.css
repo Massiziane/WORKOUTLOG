@@ -1,0 +1,56 @@
+.exercises-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--section-bg, #f9f9f9);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+margin: 0 auto;
+}
+
+.exercises-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: var(--primary-color, #333);
+}
+
+.exercises-section .search-bar {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.exercises-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.exercises-list li {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercises-list li:last-child {
+  border-bottom: none;
+}
+
+.exercises-list li:hover {
+  background-color: var(--hover-bg, #f0f0f0);
+  cursor: pointer;
+}
+
+.exercises-list li .exercise-name {
+  font-weight: 500;
+  color: var(--text-color, #222);
+}
+
+.exercises-list li .exercise-category {
+  font-size: 0.85rem;
+  color: #666;
+}

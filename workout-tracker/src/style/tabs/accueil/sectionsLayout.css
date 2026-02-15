@@ -1,0 +1,73 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: rem;
+  width: 800px; /* consistent width for all sections */
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+}
+
+/* Header row: H2 left, controls right */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Section controls: button + search aligned horizontally */
+.section-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* CTA button */
+.cta-btn {
+  padding: 0.5rem 1rem;
+  background-color: #2f80ed;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Search input */
+.search-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+/* Cards container */
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Individual card */
+.card {
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.card h3 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.card p {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
