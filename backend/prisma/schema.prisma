@@ -29,12 +29,12 @@ model User {
 
   isActive  Boolean   @default(true)
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 enum Role {
   USER
-  Admin
+  ADMIN
 }
 
 model Category {
@@ -42,16 +42,12 @@ model Category {
   name     String
   Desc     String?
 
-  muscles   MuscleGroup[]
   exercises Exercise[]
 }
 
 model MuscleGroup {
   id          Int        @id @default(autoincrement())
   name        String
-
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
 
   exercises  Exercise[]
 }
@@ -64,11 +60,28 @@ model Program {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
-  exercises Exercise[]
   workouts  Workout[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Workout {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  program   Program? @relation(fields: [programId], references: [id])
+  programId Int?
+
+  workoutExercises WorkoutExercise[]
+
+  progresses Progress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Exercise {
@@ -76,10 +89,7 @@ model Exercise {
   name  String
   notes String?
 
-  program   Program  @relation(fields: [programId], references: [id])
-  programId Int
-
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int
 
   setTemplates     SetTemplate[]
@@ -98,27 +108,21 @@ model SetTemplate {
   reps   Int?
   weight Float?
   tempo  String?
-  type   String
+  restTime  Int?
+  type   SetType
 }
 
-model Workout {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  program   Program? @relation(fields: [programId], references: [id])
-  programId Int?
-
-  createdAt DateTime @default(now())
-
-  workoutExercises WorkoutExercise[]
-  progresses      Progress[]
+enum SetType {
+  WARMUP
+  MAIN
+  DROPSET
+  FINISHER
 }
 
 model WorkoutExercise {
   id Int @id @default(autoincrement())
+  order Int?
+  notes String?
 
   workout   Workout  @relation(fields: [workoutId], references: [id])
   workoutId Int
@@ -135,10 +139,13 @@ model WorkoutSet {
   workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
   workoutExerciseId Int
 
+  progressAsBest  Progress[] @relation("BestSetForProgress")
+
   reps        Int?
   weight      Float?
   tempo       String?
-  performedAt DateTime
+  restTime Int?
+  performedAt DateTime @default(now())
 }
 
 model Progress {
@@ -151,9 +158,12 @@ model Progress {
   workoutId Int
 
   totalVolume      Float
-  bestSet          String
+
+  bestSetId Int?  
+  bestSet   WorkoutSet? @relation("BestSetForProgress", fields: [bestSetId], references: [id])
   consistencyScore Float
   createdAt        DateTime @default(now())
 }
+
 
 
