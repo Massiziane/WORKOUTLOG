@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  height: 850px ;
+  height: 600px ;
   gap: 12px;          /* spacing between cards */
   padding-right: 8px; /* prevent content hiding under scrollbar */
   border: 1px solid #ddd;
@@ -40,4 +40,33 @@
   flex-direction: column;
   gap: 8px;
   padding-right: 8px;
+}
+
+/*------------------------------- Filter selects -----------------------------------*/
+.filter-select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #5c9ded; /* subtle blue highlight */
+  box-shadow: 0 0 5px rgba(92, 157, 237, 0.5);
+}
+
+/* Optional: hover effect */
+.filter-select:hover {
+  border-color: #5c9ded;
+}
+
+/* Keep selects aligned with buttons */
+.section-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
