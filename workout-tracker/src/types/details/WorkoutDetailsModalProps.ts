@@ -3,4 +3,5 @@ export interface WorkoutDetailsModalProps {
   onClose: () => void;
   workoutId: number;
   onAddExercise: () => void;
+  onExerciseClick: (exerciseId: number) => void;
 }

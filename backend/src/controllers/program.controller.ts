@@ -5,7 +5,16 @@ import type { Program } from '../types/program.model';
 // GET All PROGRAMS
 export const getAllPrograms = async (req : Request, res: Response) => {
     try {
-        const programs  = await prisma.program.findMany({});
+
+        const userId = Number(req.query.userId); 
+
+        if (!userId) {
+            return res.status(400).json({ error: "Missing userId" });
+        }
+
+        const programs  = await prisma.program.findMany({
+            where: { userId },
+        });
         res.json(programs);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch programs" });

@@ -5,6 +5,21 @@ import type { Workout} from '../types/workout.type';
 // GET all workouts
 export const getAllWorkouts = async (req: Request<Workout>, res: Response) => {
     try {
+        const { programId, userId } = req.query;
+
+        if (!programId) {
+        return res.status(400).json({ message: "programId is required" });
+        }
+
+        const whereClause: any = {
+        programId: Number(programId),
+        };
+
+        // only fetch workouts created by the logged-in user
+        if (userId) {
+        whereClause.userId = Number(userId);
+        }
+
         const workouts = await prisma.workout.findMany();
         res.status(200).json(workouts);
     } catch (error) {

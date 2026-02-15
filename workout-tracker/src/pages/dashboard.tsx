@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/clerk-react";
 import "../style/dashboard.css";
-import CreateProgramModal from "../components/CreateProgramModal";
-import CreateWorkoutModal from "../components/CreateWorkoutModal";
-import CreateExerciseModal from "../components/CreateExerciseModal";
-import { createRecord, syncUser } from "../services/api";
-import CreateSetTemplateModal from "../components/CreateSetTemplateModal";
+import CreateProgramModal from "../components/CreateProgram";
+import CreateWorkoutModal from "../components/CreateWorkout";
+import CreateExerciseModal from "../components/CreateExercise";
+import { createRecord, fetchRecords, syncUser } from "../services/api";
+import CreateSetTemplateModal from "../components/CreateSetTemplate";
+import ProgramDetailsModal from "../components/details/ProgramDetails";
+import WorkoutDetailsModal from "../components/details/WorkoutDetails";
+import ExerciseDetailsModal from "../components/details/ExerciseDetails";
+import type { Program } from "../types/entities";
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("Acceuil");
@@ -21,9 +25,34 @@ export default function Dashboard() {
   const [activeProgramId, setActiveProgramId] = useState<number | null>(null);
   const [activeWorkoutId, setActiveWorkoutId] = useState<number | null>(null);
   const [activeExerciseId, setActiveExerciseId] = useState<number | null>(null);
+  const [activeExerciseDetailsId, setActiveExerciseDetailsId] = useState<number | null>(null);
 
+  // Details
+  const [isProgramDetailsOpen, setIsProgramDetailsOpen] = useState(false);
+  const [isWorkoutDetailsOpen, setIsWorkoutDetailsOpen] = useState(false);
+  const [isExerciseDetailsOpen, setIsExerciseDetailsOpen] = useState(false);
+
+  // tabs
+  const [myPrograms, setMyPrograms] = useState<Program[]>([]);
 
   const { user } = useUser();
+
+  // ------------------- Hooks -------------------
+  useEffect(() => {
+    if (!dbUserId) return;
+
+    const fetchMyPrograms = async () => {
+      try {
+        const data = await fetchRecords<Program>(`programs?userId=${dbUserId}`);
+        setMyPrograms(data);
+      } catch (err) {
+        console.error("Failed to fetch user's programs:", err);
+      }
+    };
+
+    fetchMyPrograms();
+  }, [dbUserId]);
+
 
   // Sync Clerk user
   useEffect(() => {
@@ -51,9 +80,9 @@ export default function Dashboard() {
 
       console.log("Program created:", newProgram);
 
-      setActiveProgramId(newProgram.id);
-      setIsProgramModalOpen(false);
-      setIsWorkoutModalOpen(true); // open workout modal next
+        setActiveProgramId(newProgram.id);
+        setIsProgramModalOpen(false);
+        setIsProgramDetailsOpen(true); 
     } catch (err) {
       console.error("Failed to create program:", err);
     }
@@ -73,7 +102,7 @@ export default function Dashboard() {
 
       setActiveWorkoutId(newWorkout.id);
       setIsWorkoutModalOpen(false);
-      setIsExerciseModalOpen(true); // open exercise modal next
+      setIsWorkoutDetailsOpen(true);
     } catch (err) {
       console.error("Failed to create workout:", err);
     }
@@ -127,6 +156,18 @@ export default function Dashboard() {
     }
   };
 
+  const handleWorkoutClick = (workoutId: number) => {
+    setActiveWorkoutId(workoutId);
+    setIsWorkoutDetailsOpen(true);
+  };
+  const handleAddExercise = () => {
+    setIsExerciseModalOpen(true);
+  };
+  const handleExerciseClick = (exerciseId: number) => {
+    setActiveExerciseDetailsId(exerciseId);
+    setIsExerciseDetailsOpen(true);
+  };
+
 
   // ------------------- JSX -------------------
 
@@ -167,11 +208,21 @@ export default function Dashboard() {
 
       {/* ------------------- Modals ------------------- */}
 
-      <CreateProgramModal
-        isOpen={isProgramModalOpen}
-        onClose={() => setIsProgramModalOpen(false)}
-        onCreate={handleCreateProgram}
-      />
+        <CreateProgramModal
+          isOpen={isProgramModalOpen}
+          onClose={() => setIsProgramModalOpen(false)}
+          onCreate={handleCreateProgram} // this should now only open ProgramDetailsModal
+        />
+
+        {activeProgramId && (
+          <ProgramDetailsModal
+            isOpen={isProgramDetailsOpen}
+            onClose={() => setIsProgramDetailsOpen(false)}
+            programId={activeProgramId}
+            onAddWorkout={() => setIsWorkoutModalOpen(true)}
+            onWorkoutClick={handleWorkoutClick}
+          />
+        )}
 
       {activeProgramId && (
         <CreateWorkoutModal
@@ -183,6 +234,17 @@ export default function Dashboard() {
       )}
 
       {activeWorkoutId && (
+      <WorkoutDetailsModal
+        isOpen={isWorkoutDetailsOpen}
+        onClose={() => setIsWorkoutDetailsOpen(false)}
+        workoutId={activeWorkoutId}
+        onAddExercise={handleAddExercise}
+        onExerciseClick={handleExerciseClick}
+      />
+    )}
+
+
+      {activeWorkoutId && (
         <CreateExerciseModal
           isOpen={isExerciseModalOpen}
           onClose={() => setIsExerciseModalOpen(false)}
@@ -190,6 +252,15 @@ export default function Dashboard() {
           onCreate={handleCreateExercise} 
         />
       )}
+      
+      {activeExerciseDetailsId && (
+          <ExerciseDetailsModal
+            isOpen={isExerciseDetailsOpen}
+            onClose={() => setIsExerciseDetailsOpen(false)}
+            exerciseId={activeExerciseDetailsId}
+          />
+        )}
+
 
       {activeExerciseId && (
         <CreateSetTemplateModal
