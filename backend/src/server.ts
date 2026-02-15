@@ -34,6 +34,7 @@ app.use('/exercises', exerciseRoutes);
 app.use("/muscle-groups", muscleGroupRouter);
 
 
+
 app.listen(3000, () => {
     console.log("Le serveur est lance sur le port 3000")
 });

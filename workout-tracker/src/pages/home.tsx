@@ -1,6 +1,6 @@
 // src/pages/Home.tsx
 import { SignInButton, SignUpButton, SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/home.css"
 
@@ -9,11 +9,12 @@ export default function Home() {
   const { isSignedIn } = useUser();
   const [darkMode, setDarkMode] = useState(false);
 
-  const handleCreateProgram = () => {
+
+  useEffect(() => {
     if (isSignedIn) {
-      navigate("/dashboard"); // if signed in, go to dashboard
+      navigate("/dashboard");
     }
-  };
+  }, [isSignedIn, navigate]);
 
   return (
     <div className={`home-container ${darkMode ? "dark" : ""}`}>
@@ -50,12 +51,6 @@ export default function Home() {
             <button className="cta-btn">Create Your Program</button>
           </SignUpButton>
         </SignedOut>
-
-        <SignedIn>
-          <button className="cta-btn" onClick={handleCreateProgram}>
-            Go to Dashboard
-          </button>
-        </SignedIn>
       </section>
 
       {/* Preview / Marketing Section */}
