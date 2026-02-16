@@ -1,12 +1,13 @@
 export interface CreateSetTemplateModalProps {
   isOpen: boolean;
   onClose: () => void;
-  exerciseId: number; 
+  workoutExerciseId: number; 
   onCreate: (data: {
-    exerciseId: number;
+    workoutExerciseId: number;
     reps?: number;
     weight?: number;
     tempo?: string;
     type: string;
+    restTime?: number
   }) => void;
 }

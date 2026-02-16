@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import "../../../style/tabs/accueil/sectionsLayout.css";
+import CreateWorkoutModal from "../../CreateWorkout"; 
 import type { WorkoutsSectionProps } from "./acceuil"
+
 interface Workout {
+  workoutExercises: any;
   id: number;
   name: string;
   order?: number;
@@ -31,28 +34,43 @@ export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
     <section className="section workouts-section">
       <div className="section-header">
         <div className="section-header-row">
-            <h2>Workouts</h2>
-            <button className="cta-btn">Create Workout</button>
+          <h2>Workouts</h2>
+          <button className="cta-btn" onClick={() => setIsModalOpen(true)}>
+            Create Workout
+          </button>
         </div>
-        <div className="section-controls">
-          <input
-            type="text"
-            placeholder="Search workouts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-input"
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Search workouts..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="search-input"
+        />
       </div>
 
-      <div className="cards-container">
-        {filteredWorkouts.map(workout => (
-          <div key={workout.id} className="card">
+      <ul className="cards-container scrollable-list">
+        {filteredWorkouts.length === 0 && (
+          <li className="no-results">No workouts found.</li>
+        )}
+
+        {filteredWorkouts.map((workout) => (
+          <li key={workout.id} className="card">
             <h3>{workout.name}</h3>
-            {workout.order && <p>Day {workout.order}</p>}
-          </div>
+            <p>{workout.workoutExercises?.length || 0} exercises</p>
+          </li>
         ))}
-      </div>
+      </ul>
+
+      <CreateWorkoutModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        programId={0} // or whatever programId you want, can be optional/null for now
+        onCreate={async (newWorkout) => {
+          const created = await createRecord("workouts", newWorkout);
+          setWorkouts((prev) => [...prev, created]);
+          setIsModalOpen(false);
+        }}
+      />
     </section>
   );
 }
