@@ -1,0 +1,7 @@
+.acceuil-tab-container {
+  display: flex;               /* sections side by side */
+  flex-direction: row;         /* horizontal layout */
+  gap: 2rem;                   /* space between sections */
+  padding: 1rem;
+  overflow-x: auto;            /* in case of small screens */
+}

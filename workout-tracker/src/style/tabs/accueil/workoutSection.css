@@ -1,0 +1,44 @@
+.section-container {
+  display: flex;
+  flex-direction: column; /* vertical stacking for whole section */
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+}
+
+/* THIS makes button + search bar horizontal */
+.section-header-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center; /* vertical alignment for button + input */
+  width: 100%;
+}
+
+.cta-btn {
+  padding: 0.5rem 1rem;
+  background-color: #2f80ed;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  flex-shrink: 0; /* keeps button from shrinking */
+}
+
+.search-input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  flex-grow: 1; /* input takes remaining space */
+  min-width: 0; /* important for flexbox input shrink */
+}
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}

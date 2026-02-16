@@ -1,0 +1,113 @@
+.scrollable-list {
+  overflow-y: auto;   /* vertical scroll */
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  height: 600px ;
+  gap: 12px;          /* spacing between cards */
+  padding-right: 8px; /* prevent content hiding under scrollbar */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Optional scrollbar styling */
+.scrollable-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+
+/*------------------------------ Sorting Letter -----------------------------------*/
+.letter-header {
+  position: sticky;
+  top: 0; /* sticks to the top of the scrollable container */
+  background: rgb(255, 255, 255); /* match your container bg */
+  font-weight: bold;
+  padding: 8px 12px;
+  color: #2f80ed;
+  border-bottom: 3px solid #2f80ed;
+  z-index: 10; /* so it stays above cards */
+}
+
+.scrollable-list {
+  max-height: 400px; 
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 8px;
+}
+
+/*------------------------------- Filter selects -----------------------------------*/
+.filter-select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #5c9ded; /* subtle blue highlight */
+  box-shadow: 0 0 5px rgba(92, 157, 237, 0.5);
+}
+
+/* Optional: hover effect */
+.filter-select:hover {
+  border-color: #5c9ded;
+}
+
+/* Keep selects aligned with buttons */
+.section-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* ---------------------------- categorie filter search ---------------------------- */
+.filter-dropdown {
+  position: relative;
+  width: 180px; /* adjust width */
+  margin-left: 0px;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.filter-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  z-index: 20;
+  margin-top: 2px;
+  padding: 0;
+  list-style: none;
+}
+
+.filter-list li {
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.filter-list li.active,
+.filter-list li:hover {
+  background-color: #5c9ded;
+  color: white;
+}

@@ -9,7 +9,6 @@ import {
     getUserCount,
     syncUserFromClerk
 } from '../controllers/user.controller';
-import prisma from '../utils/prisma';
 
 const router = Router();
 
