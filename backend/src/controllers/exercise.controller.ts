@@ -7,7 +7,7 @@ import type { Exercise } from '../types/exercise.type';
 export const getAllExercises = async (req: Request<Exercise>, res: Response) => {
     try {
         const exercises = await prisma.exercise.findMany({
-            include: { category: true, muscleGroup: true, setTemplates: true },
+            include: { category: true, muscleGroup: true },
         });
         res.status(200).json(exercises);
     } catch (error) {
@@ -22,7 +22,7 @@ export const getExerciseById = async (req: Request<Exercise>, res: Response) => 
     try {
         const { id } = req.params;
         const exercise = await prisma.exercise.findUnique({
-            where: { id: Number(id) }, include: { category: true, muscleGroup: true, setTemplates: true },
+            where: { id: Number(id) }, include: { category: true, muscleGroup: true},
         });
 
         if (exercise) {
