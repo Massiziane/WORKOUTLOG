@@ -4,8 +4,7 @@ import "../style/dashboard.css";
 import { syncUser } from "../services/api";
 
 // tabs imports
-import AcceuilTab from "../components/Tabs/AcceuilTab/acceuil";
-
+import AcceuilTab  from "../components/Tabs/AcceuilTab/acceuil";
 
 
 export default function Dashboard() {
@@ -23,11 +22,6 @@ export default function Dashboard() {
     };
     sync();
   }, [user]);
-
-  // ------------------- Handlers -------------------
-
-  // Create Program
-
 
   // ------------------- JSX -------------------
 
@@ -57,7 +51,7 @@ export default function Dashboard() {
 
       {/* Main */}
       <main className="dashboard-main">
-        {activeTab === "Acceuil" && <AcceuilTab />}
+        {activeTab === "Acceuil" && dbUserId && <AcceuilTab dbUserId={dbUserId} />}
       </main>
 
     </div>

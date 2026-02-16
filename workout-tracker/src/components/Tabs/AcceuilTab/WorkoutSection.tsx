@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import "../../../style/tabs/accueil/sectionsLayout.css";
-
+import type { WorkoutsSectionProps } from "./acceuil"
 interface Workout {
   id: number;
   name: string;
@@ -9,29 +9,23 @@ interface Workout {
   programId?: number | null;
 }
 
-export default function WorkoutsSection() {
+export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
 
   // Fetch workouts from backend
   useEffect(() => {
-    fetchRecords<Workout>("workouts").then(setWorkouts);
-  }, []);
+    if (!dbUserId) return;
+    fetchRecords<Workout>(`workouts?userId=${dbUserId}`).then(setWorkouts);
+  }, [dbUserId]);
+
 
   // Filter workouts by search input
-  const filteredWorkouts = workouts.filter((w) =>
-    w.name.toLowerCase().includes(search.toLowerCase())
-  );
-
-  // Handler for creating a new workout (placeholder)
-  const handleCreateWorkout = async () => {
-    const name = prompt("Enter workout name");
-    if (!name) return;
-
-    // Optionally, associate with a program later
-    const newWorkout = await createRecord("workouts", { name, userId: 1 }); // replace userId with real dbUserId
-    setWorkouts((prev) => [...prev, newWorkout]);
-  };
+  const filteredWorkouts = workouts
+    .filter(w => w.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <section className="section workouts-section">
@@ -51,11 +45,11 @@ export default function WorkoutsSection() {
         </div>
       </div>
 
-
       <div className="cards-container">
         {filteredWorkouts.map(workout => (
           <div key={workout.id} className="card">
             <h3>{workout.name}</h3>
+            {workout.order && <p>Day {workout.order}</p>}
           </div>
         ))}
       </div>

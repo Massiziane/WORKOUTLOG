@@ -7,10 +7,6 @@ export const getAllWorkouts = async (req: Request<Workout>, res: Response) => {
     try {
         const { programId, userId } = req.query;
 
-        if (!programId) {
-        return res.status(400).json({ message: "programId is required" });
-        }
-
         if (!userId) {
         return res.status(400).json({ message: "userId is required" });
         }
