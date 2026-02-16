@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchRecords, createRecord } from "../../../services/api";
+import { fetchRecords } from "../../../services/api";
 import "../../../style/tabs/accueil/sectionsLayout.css";
 
 export default function ProgramsSection() {

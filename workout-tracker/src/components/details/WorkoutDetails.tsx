@@ -13,7 +13,7 @@ export default function WorkoutDetailsModal({
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
-  const [dbUserId, setDbUserId] = useState<number | null>(null);
+  const [dbUserId ] = useState<number | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;

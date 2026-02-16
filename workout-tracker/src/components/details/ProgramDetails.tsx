@@ -8,7 +8,7 @@ export default function ProgramDetailsModal({ isOpen, onClose, programId, onAddW
   const [program, setProgram] = useState<Program | null>(null);
   const [workouts, setWorkouts] = useState<Workout[]>([]);
 
-  const [dbUserId, setDbUserId] = useState<number | null>(null);
+  const [dbUserId ] = useState<number | null>(null);
 
 // Fetch program details and workouts when modal opens
   useEffect(() => {
