@@ -17,9 +17,17 @@ export default function ExercisesSection() {
   const [categories, setCategories] = useState<{id: number; name: string}[]>([]);
   const [muscleGroups, setMuscleGroups] = useState<{id: number; name: string}[]>([]);
 
-  // Filters
+// Filters
   const [categoryFilter, setCategoryFilter] = useState<number | "">("");
   const [muscleGroupFilter, setMuscleGroupFilter] = useState<number | "">("");
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [muscleGroupOpen, setMuscleGroupOpen] = useState(false);
+// Search inputs for filters
+  const [categorySearch, setCategorySearch] = useState("");
+  const [muscleGroupSearch, setMuscleGroupSearch] = useState("");
+  const selectedCategory = categories.find(c => c.id === categoryFilter)?.name || "";
+  const selectedMuscleGroup = muscleGroups.find(m => m.id === muscleGroupFilter)?.name || "";
+
 
   // Fetch exercises, categories, and muscle groups
   useEffect(() => {
@@ -43,13 +51,6 @@ export default function ExercisesSection() {
     groupedExercises[firstLetter].push(ex);
   });
 
-  // Create exercise handler
-  const handleCreateExercise = async () => {
-    const name = prompt("Enter exercise name");
-    if (!name) return;
-    const newExercise = await createRecord("exercises", { name });
-    setExercises((prev) => [...prev, newExercise]);
-  };
 
   return (
     <section className="section exercises-section">
@@ -57,32 +58,98 @@ export default function ExercisesSection() {
         <div className="section-header-row">
           <h2>Exercises</h2>
           <div className="section-controls">
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value ? Number(e.target.value) : "")}
-              className="filter-select"
-            >
-              <option value="">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
+            {/* Category Dropdown */}
+            <div className="filter-dropdown">
+                <input
+                type="text"
+                placeholder="Filter category..."
+                value={categorySearch || selectedCategory}
+                onChange={(e) => setCategorySearch(e.target.value)}
+                className="filter-input"
+                onFocus={() => setCategoryOpen(true)}
+                onBlur={() => setTimeout(() => setCategoryOpen(false), 150)}
+                />
+                {categoryOpen && (
+                <ul className="filter-list">
+                    {/* "All" option */}
+                    <li
+                    onClick={() => {
+                        setCategoryFilter("");
+                        setCategorySearch("");
+                    }}
+                    className={categoryFilter === "" ? "active" : ""}
+                    >
+                    All Categories
+                    </li>
 
-            <select
-              value={muscleGroupFilter}
-              onChange={(e) => setMuscleGroupFilter(e.target.value ? Number(e.target.value) : "")}
-              className="filter-select"
-            >
-              <option value="">All Muscle Groups</option>
-              {muscleGroups.map((mg) => (
-                <option key={mg.id} value={mg.id}>{mg.name}</option>
-              ))}
-            </select>
-          </div>
+                    {categories
+                    .filter((cat) =>
+                        cat.name.toLowerCase().includes(categorySearch.toLowerCase())
+                    )
+                    .map((cat) => (
+                        <li
+                        key={cat.id}
+                        onClick={() => {
+                            setCategoryFilter(cat.id);
+                            setCategorySearch("");
+                        }}
+                        className={categoryFilter === cat.id ? "active" : ""}
+                        >
+                        {cat.name}
+                        </li>
+                    ))}
+                </ul>
+                )}
+            </div>
 
-          <button className="cta-btn" onClick={handleCreateExercise}>
-            Create Exercise
-          </button>
+            {/* Muscle Group Dropdown */}
+            <div className="filter-dropdown">
+                <input
+                type="text"
+                placeholder="Filter muscle group..."
+                value={muscleGroupSearch || selectedMuscleGroup}
+                onChange={(e) => setMuscleGroupSearch(e.target.value)}
+                className="filter-input"
+                onFocus={() => setMuscleGroupOpen(true)}
+                onBlur={() => setTimeout(() => setMuscleGroupOpen(false), 150)}
+                />
+                {muscleGroupOpen && (
+                <ul className="filter-list">
+                    {/* "All" option */}
+                    <li
+                    onClick={() => {
+                        setMuscleGroupFilter("");
+                        setMuscleGroupSearch("");
+                    }}
+                    className={muscleGroupFilter === "" ? "active" : ""}
+                    >
+                    All Muscle Groups
+                    </li>
+
+                    {muscleGroups
+                    .filter((mg) =>
+                        mg.name.toLowerCase().includes(muscleGroupSearch.toLowerCase())
+                    )
+                    .map((mg) => (
+                        <li
+                        key={mg.id}
+                        onClick={() => {
+                            setMuscleGroupFilter(mg.id);
+                            setMuscleGroupSearch("");
+                        }}
+                        className={muscleGroupFilter === mg.id ? "active" : ""}
+                        >
+                        {mg.name}
+                        </li>
+                    ))}
+                </ul>
+                )}
+            </div>
+            </div>
+
+            <button className="cta-btn" >
+                Create Exercise
+            </button>
         </div>
 
         <input
