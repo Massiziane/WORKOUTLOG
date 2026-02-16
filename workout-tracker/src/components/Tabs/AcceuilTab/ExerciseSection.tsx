@@ -184,8 +184,7 @@ export default function ExercisesSection() {
             </li>
           ))}
       </ul>
-
-
+      
       {/* Create Exercise Modal */}
       <CreateExerciseModal
         isOpen={isModalOpen}

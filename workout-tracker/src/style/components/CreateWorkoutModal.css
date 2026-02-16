@@ -1,92 +1,253 @@
 /* Overlay */
-.modal-overlay {
+.modal-overlay-workout {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1000;
+  padding-top: 40px;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
 }
 
-/* Modal container */
-.modal-container {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 24px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+/* Modal Container */
+.modal-container-workout {
+  background: #ffffff;
+  width: 95%;
+  max-width: 1000px;
+  border-radius: 16px;
+  padding: 30px 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  animation: fadeIn 0.2s ease-in-out;
+  gap: 25px;
+  font-family: "Inter", sans-serif;
+  animation: fadeIn 0.3s ease-out;
 }
 
-/* Fade-in animation */
+
+/* Modal Animation */
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Form elements */
-.modal-form label {
+/* Modal Title */
+.modal-container-workout h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+/* Two-column layout for lists */
+.modal-lists-workout {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* allows wrapping on small screens */
+}
+
+/* Form Labels */
+.modal-form-workout label {
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
   font-weight: 500;
-  margin-bottom: 12px;
-  font-size: 14px;
+  color: #444;
 }
 
-.modal-form input,
-.modal-form textarea {
-  margin-top: 4px;
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 6px;
+.modal-form-workout input[type="text"],
+.modal-form-workout input[type="number"] {
+  padding: 10px 14px;
   border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-top: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+.modal-form-workout input[type="text"]:focus,
+.modal-form-workout input[type="number"]:focus {
+  border-color: #007bff;
   outline: none;
-  transition: border-color 0.2s;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
 }
 
-.modal-form input:focus,
-.modal-form textarea:focus {
-  border-color: #4f46e5; /* Indigo focus */
-}
-
-/* Actions buttons */
-.modal-actions {
+/* Filters Row */
+.exercise-filters-workout {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
-.btn-cancel,
-.btn-submit {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 500;
+/* Filter Dropdowns */
+.filter-dropdown-workout {
+  position: relative;
+  flex: 1 1 200px;
+}
+
+.filter-dropdown-workout input {
   cursor: pointer;
-  border: none;
+  border-radius: 10px;
 }
 
-.btn-cancel {
-  background-color: #f0f0f0;
-  color: #333;
+.filter-list-workout {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-top: 4px;
+  z-index: 20;
+  list-style: none;
+  padding: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-.btn-cancel:hover {
-  background-color: #e0e0e0;
+.filter-list-workout li {
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
-.btn-submit {
-  background-color: #4f46e5;
+.filter-list-workout li:hover,
+.filter-list-workout li.active-workout {
+  background: #007bff;
   color: #fff;
 }
 
-.btn-submit:hover {
-  background-color: #4338ca;
+/* Exercise Search List */
+.exercise-list-workout.scrollable-exercise-list-workout {
+  flex: 1; /* bigger column */
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fdfdfd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
+.exercise-item-workout, .selected-exercise-item-workout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  max-width: 100%;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.exercise-item-workout:hover {
+  background: #f0f8ff;
+}
+
+.selected-exercise-item-workout:hover {
+  background: #e0f0ff;
+}
+
+.exercise-item-workout button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.exercise-item-workout button:hover {
+  background: #218838;
+}
+
+/* Selected Exercises */
+.selected-exercises-workout {
+  flex: 1; 
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  background: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.selected-exercise-item-workout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 100%;
+  background: #f1f5f9;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.selected-exercise-item-workout input[type="number"] {
+  width: 60px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+/* Modal Actions */
+.modal-actions-workout {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-cancel-workout, .btn-submit-workout {
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-cancel-workout {
+  background: #e0e0e0;
+  color: #444;
+}
+
+.btn-cancel-workout:hover {
+  background: #cfcfcf;
+}
+
+.btn-submit-workout {
+  background: #007bff;
+  color: white;
+}
+
+.btn-submit-workout:hover {
+  background: #0069d9;
+}
+.trash-icon-workout {
+  color: red;
+  cursor: pointer;
+}
+.trash-icon-workout:hover { 
+  color: darkred;
+  border-radius: 20%;
+}
+

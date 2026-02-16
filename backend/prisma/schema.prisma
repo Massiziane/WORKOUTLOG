@@ -93,7 +93,6 @@ model Exercise {
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId Int?
 
-  setTemplates     SetTemplate[]
   workoutExercises WorkoutExercise[]
 
   muscleGroup   MuscleGroup? @relation(fields: [muscleGroupId], references: [id])
@@ -103,8 +102,8 @@ model Exercise {
 model SetTemplate {
   id   Int  @id @default(autoincrement())
 
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  exerciseId Int
+  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
+  workoutExerciseId Int
 
   reps   Int?
   weight Float?
@@ -132,6 +131,7 @@ model WorkoutExercise {
   exerciseId Int
 
   workoutSets WorkoutSet[]
+  setTemplates   SetTemplate[]
 }
 
 model WorkoutSet {
