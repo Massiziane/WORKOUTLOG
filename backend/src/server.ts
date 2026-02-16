@@ -7,7 +7,6 @@ import setTemplateRoutes from './routes/setTemplate.routes';
 import workoutRoutes from './routes/workout.routes';
 import workoutExerciseRoutes from './routes/workoutExercise.routes';
 import workoutSetRoutes from './routes/workoutSet.routes';
-import progressRoutes from './routes/progress.routes';
 import exerciseRoutes from './routes/exercise.route';
 import muscleGroupRouter from './routes/muscleGroup.routes';  
 
@@ -29,7 +28,6 @@ app.use('/setTemplates', setTemplateRoutes);
 app.use('/workouts', workoutRoutes);
 app.use('/workoutExercises', workoutExerciseRoutes);
 app.use('/workoutSet', workoutSetRoutes);
-app.use('/progress', progressRoutes);
 app.use('/exercises', exerciseRoutes);
 app.use("/muscle-groups", muscleGroupRouter);
 

@@ -44,9 +44,9 @@ export const getWorkoutById = async (req: Request<Workout>, res: Response): Prom
 // POST create a new workout
 export const createWorkout = async (req: Request, res: Response) => {
     try {   
-        const { userId, name } = req.body;
+        const { userId, name, order, frequency } = req.body;
         const newWorkout = await prisma.workout.create({
-            data: { userId: Number(userId), name }
+            data: { userId: Number(userId), name, order, frequency },
         });
         res.status(201).json(newWorkout);
     } catch (error) {
@@ -65,10 +65,10 @@ export const updateWorkout = async (req: Request<Workout>, res: Response): Promi
         }
         
         const { id } = req.params;
-        const { name } = req.body;
+        const { name, frequency, order } = req.body;
         const updatedWorkout = await prisma.workout.update({
             where: { id: Number(id) },
-            data: { name }
+            data: { name, frequency, order },
         });
         res.status(200).json(updatedWorkout);
     } catch (error) {

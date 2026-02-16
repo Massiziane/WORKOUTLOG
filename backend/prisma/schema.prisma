@@ -25,7 +25,6 @@ model User {
 
   programs   Program[]
   workouts   Workout[]
-  progresses Progress[]
 
   isActive  Boolean   @default(true)
   createdAt DateTime  @default(now())
@@ -70,6 +69,7 @@ model Workout {
   id   Int    @id @default(autoincrement())
   name String
   order Int?
+  frequency Int? 
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
@@ -78,8 +78,6 @@ model Workout {
   programId Int?
 
   workoutExercises WorkoutExercise[]
-
-  progresses Progress[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,8 +100,7 @@ model Exercise {
 model SetTemplate {
   id   Int  @id @default(autoincrement())
 
-  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
-  workoutExerciseId Int
+  workoutSets WorkoutSet[]
 
   reps   Int?
   weight Float?
@@ -131,41 +128,25 @@ model WorkoutExercise {
   exerciseId Int
 
   workoutSets WorkoutSet[]
-  setTemplates   SetTemplate[]
 }
 
 model WorkoutSet {
-  id Int @id @default(autoincrement())
-  setNumber Int?
-
-  workoutExercise   WorkoutExercise @relation(fields: [workoutExerciseId], references: [id])
+  id               Int              @id @default(autoincrement())
+  order            Int?            
+  setNumber        Int?            
+  workoutExercise  WorkoutExercise  @relation(fields: [workoutExerciseId], references: [id])
   workoutExerciseId Int
 
-  progressAsBest  Progress[] @relation("BestSetForProgress")
+  setTemplate    SetTemplate?   @relation(fields: [setTemplateId], references: [id])
+  setTemplateId  Int?
 
-  reps        Int?
-  weight      Float?
-  tempo       String?
-  restTime Int?
+  reps      Int?
+  weight    Float?
+  tempo     String?
+  restTime  Int?
   performedAt DateTime @default(now())
 }
 
-model Progress {
-  id Int @id @default(autoincrement())
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
-
-  workout   Workout @relation(fields: [workoutId], references: [id])
-  workoutId Int
-
-  totalVolume      Float
-
-  bestSetId Int?  
-  bestSet   WorkoutSet? @relation("BestSetForProgress", fields: [bestSetId], references: [id])
-  consistencyScore Float
-  createdAt        DateTime @default(now())
-}
 
 
 

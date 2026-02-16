@@ -31,9 +31,9 @@ export const getWorkoutSetById = async (req: Request<WorkoutSet>, res: Response)
 // POST (create a new WORKOUT SET)
 export const createWorkoutSet = async (req: Request, res: Response) => {
     try {
-        const { workoutExerciseId, reps, weight, tempo, restTime, performedAt } = req.body;
+        const { workoutExerciseId, reps, weight, tempo, restTime, setNumber, order } = req.body;
         const newWorkoutSet = await prisma.workoutSet.create({
-            data: { workoutExerciseId: Number(workoutExerciseId), reps, weight, tempo, restTime, performedAt }
+            data: { workoutExerciseId: Number(workoutExerciseId), reps, weight, tempo, restTime, setNumber, order }
         });
         res.status(201).json(newWorkoutSet);
     } catch (error) {
@@ -45,7 +45,7 @@ export const createWorkoutSet = async (req: Request, res: Response) => {
 export const updateWorkoutSet = async (req: Request<WorkoutSet>, res: Response) => {
     try {
         const { id } = req.params;
-        const { reps, weight, tempo, restTime, performedAt, workoutExerciseId } = req.body;
+        const { reps, weight, tempo, restTime, workoutExerciseId, setNumber, order } = req.body;
 
         const existingWorkoutSet = await prisma.workoutSet.findUnique({
             where: { id: Number(id) }
@@ -56,7 +56,7 @@ export const updateWorkoutSet = async (req: Request<WorkoutSet>, res: Response) 
 
         const updatedWorkoutSet = await prisma.workoutSet.update({
             where: { id: Number(id) },
-            data: { reps, weight, tempo, restTime, performedAt, workoutExerciseId}
+            data: { reps, weight, tempo, restTime, workoutExerciseId, setNumber, order }
 });
         res.json(updatedWorkoutSet);
     } catch (error) {
