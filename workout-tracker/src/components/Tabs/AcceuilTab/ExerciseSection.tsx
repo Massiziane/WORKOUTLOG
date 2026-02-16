@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
+import CreateExerciseModal from "../../../components/CreateExercise";
 import "../../../style/tabs/accueil/sectionsLayout.css";
 import "../../../style/tabs/accueil/ExercisesSection.css";
 
@@ -16,6 +17,10 @@ export default function ExercisesSection() {
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<{id: number; name: string}[]>([]);
   const [muscleGroups, setMuscleGroups] = useState<{id: number; name: string}[]>([]);
+
+  // MODALS
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
 // Filters
   const [categoryFilter, setCategoryFilter] = useState<number | "">("");
@@ -146,9 +151,8 @@ export default function ExercisesSection() {
                 )}
             </div>
             </div>
-
-            <button className="cta-btn" >
-                Create Exercise
+            <button className="cta-btn" onClick={() => setIsModalOpen(true)}>
+            Create Exercise
             </button>
         </div>
 
@@ -180,6 +184,17 @@ export default function ExercisesSection() {
             </li>
           ))}
       </ul>
+
+
+      {/* Create Exercise Modal */}
+      <CreateExerciseModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreate={async (newExerciseData) => {
+        const created = await createRecord("exercises", newExerciseData); // backend returns exerciseId
+        setExercises(prev => [...prev, created]);
+        }}
+        />
     </section>
   );
 }
