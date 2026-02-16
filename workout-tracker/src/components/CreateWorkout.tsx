@@ -3,17 +3,21 @@ import { fetchRecords } from "../services/api";
 import type { CreateWorkoutModalProps } from "../types/CreateWorkoutModalProps";
 import "../style/components/CreateWorkoutModal.css";
 import { Trash } from "lucide-react";
+import type { SetTemplate } from "../types/entities";
+import CreateSetTemplateModal from "./CreateSetTemplate";
 
 interface Exercise {
   id: number;
   name: string;
   categoryId?: number | null;
   muscleGroupId?: number | null;
+  setTemplate: SetTemplate[];
 }
 
 interface SelectedExercise {
   exercise: Exercise;
   sets: number;
+  setTemplate: SetTemplate[];
 }
 
 export default function CreateWorkoutModal({ isOpen, onClose, onCreate, programId }: CreateWorkoutModalProps) {
@@ -34,6 +38,9 @@ export default function CreateWorkoutModal({ isOpen, onClose, onCreate, programI
 
   const selectedCategory = categories.find(c => c.id === categoryFilter)?.name || "";
   const selectedMuscleGroup = muscleGroups.find(m => m.id === muscleGroupFilter)?.name || "";
+  // SetTemplates modal
+  const [isSetModalOpen, setIsSetModalOpen] = useState(false);
+  const [currentExerciseId, setCurrentExerciseId] = useState<number | null>(null);
 
   // Fetch exercises + filters on open
   useEffect(() => {
@@ -54,7 +61,7 @@ export default function CreateWorkoutModal({ isOpen, onClose, onCreate, programI
 
   const handleAddExercise = (exercise: Exercise) => {
     if (!selectedExercises.find(e => e.exercise.id === exercise.id)) {
-      setSelectedExercises(prev => [...prev, { exercise, sets: 1 }]);
+      setSelectedExercises(prev => [...prev, { exercise, sets: 1, setTemplate: exercise.setTemplate }]);
     }
   };
 
@@ -188,16 +195,25 @@ export default function CreateWorkoutModal({ isOpen, onClose, onCreate, programI
           <div className="selected-exercises-workout">
             <h3>Selected Exercises</h3>
             {selectedExercises.map(e => (
-              <div key={e.exercise.id} className="selected-exercise-item-workout">
-                <span>{e.exercise.name}</span>
+              <div className="selected-exercise-item-workout" key={e.exercise.id}>
+              <span>{e.exercise.name}</span>
                 <input
                   type="number"
                   min={1}
                   value={e.sets}
                   onChange={ev => handleSetsChange(e.exercise.id, Number(ev.target.value))}
                 />
-                <Trash onClick={() => handleRemoveExercise(e.exercise.id)} className="trash-icon-workout"></Trash>
-              </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCurrentExerciseId(e.exercise.id);
+                    setIsSetModalOpen(true);
+                  }}
+                >
+                  Configure Sets
+                </button>
+                <Trash onClick={() => handleRemoveExercise(e.exercise.id)} className="trash-icon-workout" />
+            </div>
             ))}
           </div>
         )}
@@ -209,6 +225,24 @@ export default function CreateWorkoutModal({ isOpen, onClose, onCreate, programI
       </div>
     </form>
   </div>
+      <CreateSetTemplateModal
+      isOpen={isSetModalOpen}
+      onClose={() => setIsSetModalOpen(false)}
+      workoutExerciseId={currentExerciseId!}
+      onCreate={(newTemplate) => {
+        setSelectedExercises(prev =>
+          prev.map(e =>
+            e.exercise.id === currentExerciseId
+              ? { 
+                  ...e, 
+                  setTemplates: [...(e.setTemplate || []), newTemplate] 
+                }
+              : e
+          )
+        );
+        setIsSetModalOpen(false);
+      }}
+    />
 </div>
   );
 }
