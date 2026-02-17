@@ -22,7 +22,6 @@ export default function Home() {
       {/* Header */}
       <header className="home-header">
         <div className="logo">WorkoutLog</div>
-
         <div className="header-actions">
           {/* Dark mode toggle placeholder */}
           <button onClick={() => setDarkMode(!darkMode)}>
