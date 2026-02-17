@@ -7,7 +7,7 @@ export interface CreateSetTemplateModalProps {
     reps?: number;
     weight?: number;
     tempo?: string;
-    type: string;
+    type: "WARMUP" | "MAIN" | "DROPSET" | "FINISHER";
     restTime?: number
   }) => void;
 }

@@ -1,0 +1,123 @@
+/* Overlay for modal */
+.modal-overlay-workoutset {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Container */
+.modal-container-workoutset {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeIn-workoutset 0.2s ease-out;
+}
+
+/* Heading */
+.modal-container-workoutset h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Form layout */
+.modal-form-workoutset {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Labels and inputs */
+.modal-form-workoutset label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.modal-form-workoutset input,
+.modal-form-workoutset select {
+  margin-top: 4px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.modal-form-workoutset input:focus,
+.modal-form-workoutset select:focus {
+  outline: none;
+  border-color: #3b82f6; /* Blue highlight */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+/* Button inside label for template modal */
+.modal-form-workoutset label button {
+  margin-top: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-form-workoutset label button:hover {
+  background-color: #2563eb;
+}
+
+/* Modal actions */
+.modal-actions-workoutset {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Cancel button */
+.btn-cancel-workoutset {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f3f4f6;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-cancel-workoutset:hover {
+  background-color: #e5e7eb;
+}
+
+/* Submit button */
+.btn-submit-workoutset {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #10b981; /* green */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-workoutset:hover {
+  background-color: #059669;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn-workoutset {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

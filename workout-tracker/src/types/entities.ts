@@ -16,11 +16,11 @@ export interface Exercise {
 }
 
 export interface SetTemplate {
-  id: number;
+  id?: number;
   reps?: number;
   weight?: number;
   tempo?: string;
-  type: string;
+  type: "WARMUP" | "MAIN" | "DROPSET" | "FINISHER";
   exerciseId: number;
 }
 

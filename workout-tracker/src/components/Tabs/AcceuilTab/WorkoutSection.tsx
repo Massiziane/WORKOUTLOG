@@ -64,7 +64,8 @@ export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
       <CreateWorkoutModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        programId={0} // or whatever programId you want, can be optional/null for now
+        programId={0} 
+        userId={dbUserId}
         onCreate={async (newWorkout) => {
           const created = await createRecord("workouts", newWorkout);
           setWorkouts((prev) => [...prev, created]);

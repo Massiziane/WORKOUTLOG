@@ -7,4 +7,5 @@ export interface CreateWorkoutModalProps {
     programId: number; 
     exercises?: { exerciseId: number; setTemplate?: string }[]
   }) => void;
+  userId?: number;
 }
