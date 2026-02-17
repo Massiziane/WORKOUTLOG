@@ -16,7 +16,7 @@ export interface Exercise {
 }
 
 export interface SetTemplate {
-  id?: number;
+  id: number;
   reps?: number;
   weight?: number;
   tempo?: string;

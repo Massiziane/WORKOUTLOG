@@ -43,16 +43,34 @@ export const getWorkoutById = async (req: Request<Workout>, res: Response): Prom
 
 // POST create a new workout
 export const createWorkout = async (req: Request, res: Response) => {
-    try {   
-        const { userId, name, order, frequency } = req.body;
+    try {
+        const { userId, name, order, frequency, exercises } = req.body;
+
         const newWorkout = await prisma.workout.create({
-            data: { userId: Number(userId), name, order, frequency }, include: { workoutExercises: true },
+            data: {
+                userId: Number(userId),
+                name,
+                order,
+                frequency,
+                workoutExercises: {
+                    create: exercises?.map((e: any) => ({
+                        exerciseId: e.exerciseId,
+                        notes: e.notes || "",
+                    })) || []
+                }
+            },
+            include: {
+                workoutExercises: true, // includes the exercises in the response
+            },
         });
+
         res.status(201).json(newWorkout);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Erreur du serveur' });
     }
 };
+
 
 // PUT update workout by ID
 export const updateWorkout = async (req: Request<Workout>, res: Response): Promise<void> => {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import "../../../style/tabs/accueil/sectionsLayout.css";
-import CreateWorkoutModal from "../../CreateWorkout"; 
+import CreateWorkoutModal from "../..//CreateWorkoutModal/index"; 
 import type { WorkoutsSectionProps } from "./acceuil"
 
 interface Workout {
@@ -66,7 +66,7 @@ export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
         onClose={() => setIsModalOpen(false)}
         programId={0} 
         userId={dbUserId}
-        onCreate={async (newWorkout) => {
+        onCreate={async (newWorkout: any) => {
           const created = await createRecord("workouts", newWorkout);
           setWorkouts((prev) => [...prev, created]);
           setIsModalOpen(false);
