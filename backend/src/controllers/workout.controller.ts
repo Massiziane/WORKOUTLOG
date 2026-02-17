@@ -46,7 +46,7 @@ export const createWorkout = async (req: Request, res: Response) => {
     try {   
         const { userId, name, order, frequency } = req.body;
         const newWorkout = await prisma.workout.create({
-            data: { userId: Number(userId), name, order, frequency },
+            data: { userId: Number(userId), name, order, frequency }, include: { workoutExercises: true },
         });
         res.status(201).json(newWorkout);
     } catch (error) {
