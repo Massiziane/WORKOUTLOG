@@ -31,6 +31,8 @@ export default function CreateWorkoutModal({
   const [isSetModalOpen, setIsSetModalOpen] = useState(false);
   const [currentExerciseId, setCurrentExerciseId] = useState<number | null>(null);
 
+  const [editingSetIndex, setEditingSetIndex] = useState<number | null>(null);
+
   // ------------------ EFFECTS ------------------
   useEffect(() => {
     if (!isOpen) return;
@@ -74,11 +76,6 @@ if (!isOpen) return null;
       )
     );
   };
-  const handleSetsChange = (exerciseId: number, sets: number) => {
-    setSelectedExercises(prev =>
-      prev.map(e => e.exercise.id === exerciseId ? { ...e, sets } : e)
-    );
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,6 +97,29 @@ if (!isOpen) return null;
     setSelectedExercises([]);
     onClose();
   };
+    const handleRemoveWorkoutSet = (exerciseId: number, setIndex: number) => {
+    setSelectedExercises(prev =>
+        prev.map(e =>
+        e.exercise.id === exerciseId
+            ? { ...e, workoutSets: e.workoutSets.filter((_, i) => i !== setIndex) }
+            : e
+        )
+    );
+    };
+    const handleEditWorkoutSet = (exerciseId: number, setIndex: number) => {
+    const exercise = selectedExercises.find(e => e.exercise.id === exerciseId);
+    if (!exercise) return;
+
+    const setToEdit = exercise.workoutSets[setIndex];
+    if (!setToEdit) return;
+
+    // Save editing info in state
+    setEditingSetIndex(setIndex);
+
+    // Open the modal to edit
+    setIsSetModalOpen(true);
+    };
+
 
   // ------------------ JSX ------------------
   return (
@@ -145,7 +165,10 @@ if (!isOpen) return null;
               onRemoveExercise={handleRemoveExercise}
               onOpenSetModal={() => setIsSetModalOpen(true)}
             />
-            <WorkoutSetsPanel workoutSets={currentExercise?.workoutSets || []} />
+            <WorkoutSetsPanel
+            workoutSets={currentExercise?.workoutSets || []}
+            onDeleteSet={(index) => handleRemoveWorkoutSet(currentExerciseId!, index)}
+            />
           </div>
 
           {/* Actions */}

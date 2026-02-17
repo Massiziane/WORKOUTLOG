@@ -1,0 +1,106 @@
+/* Table container makes it scrollable if needed */
+.table-container {
+  overflow-x: auto;
+  flex: 1;
+  margin-top: 10px;
+}
+
+/* Workout sets table */
+.workout-sets-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+/* Header */
+.workout-sets-table thead tr {
+  background-color: #007bff;
+  color: #fff;
+  text-align: left;
+}
+
+.workout-sets-table th,
+.workout-sets-table td {
+  padding: 10px 12px;
+}
+
+/* Body rows */
+.workout-sets-table tbody tr {
+  background-color: #f9fafb;
+  transition: background 0.2s;
+}
+
+.workout-sets-table tbody tr:nth-child(even) {
+  background-color: #f1f3f6;
+}
+
+.workout-sets-table tbody tr:hover {
+  background-color: #e6f0ff;
+}
+
+/* Rounded corners on header */
+.workout-sets-table thead tr:first-child th:first-child {
+  border-top-left-radius: 12px;
+}
+.workout-sets-table thead tr:first-child th:last-child {
+  border-top-right-radius: 12px;
+}
+.workout-sets-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.workout-sets-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+/* Optional: small font for empty cells */
+.workout-sets-table td {
+  font-weight: 500;
+  color: #222;
+}
+
+/* Action buttons */
+.set-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.edit-set-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #3498db;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.edit-set-btn:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: #1d6fa5;
+}
+
+/* Delete button already exists */
+.delete-set-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #e74c3c;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.delete-set-btn:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+}
+

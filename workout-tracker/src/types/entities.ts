@@ -23,4 +23,31 @@ export interface SetTemplate {
   type: "WARMUP" | "MAIN" | "DROPSET" | "FINISHER";
   exerciseId: number;
 }
+// components/CreateWorkoutModal/types.ts
+
+export interface WorkoutSet {
+  reps?: number;
+  weight?: number;
+  tempo?: string;
+  restTime?: number;
+}
+
+export interface SelectedExercise {
+  exercise: {
+    id: number;
+    name: string;
+    setTemplate?: WorkoutSet[];
+    // add other exercise fields if needed
+  };
+  sets: number;
+  workoutSets: WorkoutSet[];
+}
+
+export interface Exercise {
+  id: number;
+  name: string;
+  categoryId: number;
+  muscleGroupId: number;
+  setTemplate?: WorkoutSet[];
+}
 
