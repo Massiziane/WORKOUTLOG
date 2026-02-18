@@ -45,18 +45,25 @@ export default function CreateProgramModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!name.trim()) return alert("Program name is required!");
     if (selectedWorkouts.length === 0) return alert("Add at least one workout!");
 
-    onCreate({
+    const payload = {
       name: name.trim(),
       Desc: description.trim() || undefined,
       workouts: selectedWorkouts,
       userId: dbUserId
-    });
+    };
+
+    console.log("Selected workouts state:", selectedWorkouts);
+    console.log("Submitting payload to onCreate:", payload);
+
+    onCreate(payload);
 
     onClose();
   };
+
 
 
   return (

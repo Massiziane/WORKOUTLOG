@@ -35,22 +35,34 @@ export default function ProgramsSection( { dbUserId, onSelectProgram}: ProgramsS
   }, [dbUserId]);
 
   // Create program handler
-  const handleCreateProgram = async (data: { name: string; Desc?: string }) => {
+  const handleCreateProgram = async (data: {
+    name: string;
+    Desc?: string;
+    workouts: number[];
+    userId: number;
+  }) => {
     if (!dbUserId) return alert("User ID missing!");
 
     try {
       const payload = {
         name: data.name,
-        description: data.Desc ?? null, 
-        userId: dbUserId,           
+        Desc: data.Desc ?? null,     
+        workouts: data.workouts,    
+        userId: dbUserId
       };
+
+      console.log("Sending payload to backend:", payload);
+
       const newProgram = await createRecord("programs", payload);
-      setPrograms(prev => [...prev, newProgram]); // instant UI update
+
+      // update UI
+      setPrograms(prev => [...prev, newProgram]);
     } catch (err) {
       console.error("Error creating program:", err);
       alert("Failed to create program");
     }
-    }
+  };
+
 
   const filteredPrograms = programs.filter(p =>
     p.name.toLowerCase().includes(search.toLowerCase())

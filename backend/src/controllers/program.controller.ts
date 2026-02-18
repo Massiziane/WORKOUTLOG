@@ -54,23 +54,35 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
 // POST (create a new PROGRAM)
 export const createProgram = async (req: Request, res: Response) => {
   try {
+
     const { name, Desc, userId, workouts } = req.body;
 
     if (!userId) return res.status(400).json({ error: "Missing userId" });
     if (!name) return res.status(400).json({ error: "Missing program name" });
 
+    console.log("BODY:", req.body);
+    console.log("WORKOUTS:", workouts);
     const newProgram = await prisma.program.create({
-      data: {
-        name,
-        Desc: Desc ?? null,
-        userId: Number(userId),
-        programWorkouts: workouts?.length
-          ? workouts.map((w: number, i: number) => ({ workoutId: w, order: i }))
-          : undefined
-      },
-      include: { programWorkouts: { include: { workout: true } } }
-    });
+          data: {
+            name,
+            Desc: Desc ?? null,
+            userId: Number(userId),
 
+            ...(workouts?.length && {
+              programWorkouts: {
+                create: workouts.map((w: number, i: number) => ({
+                  workoutId: w,
+                  order: i
+                }))
+              }
+            })
+          },
+          include: {
+            programWorkouts: {
+              include: { workout: true }
+            }
+          }
+        });
     res.status(201).json(newProgram);
   } catch (err) {
     console.error("Create program error:", err);
