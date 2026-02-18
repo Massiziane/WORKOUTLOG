@@ -1,5 +1,3 @@
-// ProgramInfoSection.tsx
-import React from "react";
 import type { Program } from "../../../types/entities";
 import "../../../style/tabs/program/programInfo.css";
 

@@ -1,97 +1,123 @@
-/* Container */
+/* Container for the entire tab */
 .program-detail-tab-container {
   display: flex;
-  height: calc(100vh - 100px); /* Adjust based on your header/nav height */
-  gap: 20px;
+  gap: 20px; /* space between left and right panels */
+  height: calc(100vh - 100px); /* adjust based on your header height */
   padding: 20px;
   box-sizing: border-box;
 }
 
-/* Left Panel: Programs list */
+/* Left panel: Programs list */
 .programs-panel {
-  flex: 1; /* take 1 part of the width */
-  max-width:500px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  padding: 10px;
+  flex: 1; /* take proportional width */
+  max-width: 400px; /* optional fixed width */
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* scroll if content too tall */
   height: 100%;
+  overflow-y: auto; /* scroll if programs exceed height */
+  border-right: 1px solid #ddd;
+  padding-right: 10px;
+  box-sizing: border-box;
 }
 
-/* Right Panel: Selected Program Details */
-.program-details-panel {
-  flex: 3; /* bigger than left panel */
-  background-color: #ffffff;
-  border-radius: 10px;
+/* Keep ProgramsSection cards style as in Acceuil */
+.programs-panel .cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Optional: highlight selected program */
+.program-card.selected {
+  border: 2px solid #4a90e2;
+  background-color: #f0f8ff;
+}
+
+/* Right panel: Program info */
+.program-details-panel,
+.ProgramInfoSection { /* or the wrapper class of ProgramInfoSection */
+  flex: 2; /* takes more horizontal space */
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  box-sizing: border-box;
+  max-height: 100%;
+  overflow-y: auto; /* scroll if content is too tall */
+}
+
+/* Program info top section (name + description) */
+.program-details-panel .program-details-top,
+.ProgramInfoSection .program-info-top {
+  flex-shrink: 0; /* stay at top */
+  margin-bottom: 20px;
+}
+
+/* Program info content */
+.program-details-panel .program-details-content,
+.ProgramInfoSection .program-details-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  gap: 10px;
 }
 
-/* Program top info */
-.program-details-top {
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.program-details-top h2 {
-  margin: 0 0 10px;
-  font-size: 1.8rem;
-}
-
-.program-details-top p {
-  margin: 0;
-  color: #555;
-}
-
-/* Bottom: nested content inside right panel */
-.program-details-panel > .programs-panel {
-  flex: 1;
-  overflow-y: auto;
-}
-
-/* Scrollable workout/program lists */
-.programs-panel .card,
-.program-details-panel .card {
-  background-color: #fff;
+/* General card styling inside info panel */
+.program-details-panel .card,
+.ProgramInfoSection .card {
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 10px;
+  background-color: #fff;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: 0.2s all;
 }
 
-.programs-panel .card:hover,
-.program-details-panel .card:hover {
-  background-color: #e9ecef;
-  transform: translateY(-1px);
+.program-details-panel .card:hover,
+.ProgramInfoSection .card:hover {
+  background-color: #f5f5f5;
 }
 
-/* Selected card highlight */
-.programs-panel .card.selected {
-  border: 2px solid #007bff;
-  background-color: #d0e7ff;
-}
-
-/* Scrollbars */
+/* Scrollbar styling (optional) */
 .programs-panel::-webkit-scrollbar,
 .program-details-panel::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 .programs-panel::-webkit-scrollbar-thumb,
 .program-details-panel::-webkit-scrollbar-thumb {
   background-color: rgba(0,0,0,0.2);
-  border-radius: 3px;
+  border-radius: 4px;
+}
+/* program.css */
+
+.program-detail-tab-container {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  height: 100%;
 }
 
-.programs-panel::-webkit-scrollbar-track,
-.program-details-panel::-webkit-scrollbar-track {
-  background: transparent;
+/* Left programs panel */
+.programs-panel {
+  width: 300px; /* fixed width like in Acceuil */
+}
+
+/* Right panel: program info + workouts */
+.program-right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+/* Optional: make ProgramInfoSection stay at top */
+.program-right-panel > .program-info-section {
+  flex: none;
+}
+
+/* Workouts panel grows */
+.program-right-panel > .workouts-panel-container {
+  flex: 1;
+  overflow-y: auto;
 }

@@ -1,0 +1,37 @@
+.workouts-panel-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  max-height: 500px; /* keeps it limited */
+  overflow-y: auto;
+}
+
+.workouts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.workout-card {
+  padding: 0.8rem 1rem;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.workout-card:hover {
+  background-color: #e0e0e0;
+}
+
+.workout-card.empty {
+  text-align: center;
+  color: #999;
+}
+
+.workouts-panel-empty {
+  padding: 1rem;
+  font-style: italic;
+  color: #666;
+}

@@ -2,15 +2,20 @@ import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import CreateProgramModal from "../../CreateProgram";
 import "../../../style/tabs/accueil/sectionsLayout.css";
-import type { Workout } from "../../../types/entities";
-import type { ProgramsSectionProps } from "./acceuil"
+import type { Program, Workout } from "../../../types/entities";
 
-export default function ProgramsSection( { dbUserId }: ProgramsSectionProps) {
+export interface ProgramsSectionProps {
+  dbUserId: number;
+  onSelectProgram?: (program: Program) => void; // <-- new
+}
+
+
+export default function ProgramsSection( { dbUserId, onSelectProgram}: ProgramsSectionProps ) {
   const [programs, setPrograms] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [isProgramModalOpen, setIsProgramModalOpen] = useState(false);
+
   
   // Fetch programs
   useEffect(() => {
@@ -78,7 +83,7 @@ export default function ProgramsSection( { dbUserId }: ProgramsSectionProps) {
 
       <div className="cards-container">
         {filteredPrograms.map((program) => (
-          <div className="card program-card" key={program.id}>
+          <div className="card program-card" key={program.id} onClick={() => onSelectProgram?.(program)}>
             <h3>{program.name}</h3>
             <p>{program.Desc || "No description"}</p>
           </div>

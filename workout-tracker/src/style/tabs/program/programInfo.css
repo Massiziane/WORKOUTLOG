@@ -1,0 +1,27 @@
+.program-info-container {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+  min-height: 120px;
+}
+
+.program-info-container h2 {
+  margin: 0 0 10px;
+  font-size: 1.6rem;
+}
+
+.program-info-container p {
+  margin: 0;
+  color: #555;
+  line-height: 1.4;
+}
+
+.program-info-container.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+  font-style: italic;
+}
