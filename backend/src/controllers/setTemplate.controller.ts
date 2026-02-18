@@ -31,9 +31,9 @@ export const getSetTemplateById = async (req: Request<SetTemplate>, res: Respons
 // POST (create a new SET TEMPLATE)
 export const createSetTemplate = async (req: Request, res: Response) => {
     try {
-        const { reps, weight, tempo, type, workoutExerciseId, restTime } = req.body;
+        const { reps, weight, tempo, type,  restTime } = req.body;
         const newSetTemplate = await prisma.setTemplate.create({
-            data: { reps, weight, tempo, type, workoutExerciseId: Number(workoutExerciseId), restTime }
+            data: { reps, weight, tempo, type,  restTime }
         });
         res.status(201).json(newSetTemplate);
     } catch (error) {
@@ -53,10 +53,10 @@ export const updateSetTemplate = async (req: Request<SetTemplate>, res: Response
             return res.status(404).json({ error: "Set template not found" });
         }
 
-        const { reps, weight, tempo, type, workoutExerciseId, restTime } = req.body;
+        const { reps, weight, tempo, type , restTime } = req.body;
         const updatedSetTemplate = await prisma.setTemplate.update({
             where: { id: Number(id) },
-            data: { reps, weight, tempo, type, workoutExerciseId: Number(workoutExerciseId), restTime }
+            data: { reps, weight, tempo, type,  restTime }
         });
         res.json(updatedSetTemplate);
     } catch (error) {

@@ -3,24 +3,31 @@ import prisma from '../utils/prisma';
 import type { Program } from '../types/program.model';
 
 // GET All PROGRAMS
-export const getAllPrograms = async (req : Request, res: Response) => {
-    try {
+export const getAllPrograms = async (req: Request, res: Response) => {
+  try {
+    const userId = Number(req.query.userId);
 
-        const userId = Number(req.query.userId); 
-
-        if (!userId) {
-            return res.status(400).json({ error: "Missing userId" });
-        }
-
-        const programs  = await prisma.program.findMany({
-            where: { userId },
-            include: { workouts: true }
-        });
-        res.json(programs);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch programs" });
+    if (!userId) {
+      return res.status(400).json({ error: "Missing userId" });
     }
+
+    const programs = await prisma.program.findMany({
+      where: { userId },
+      include: {
+        programWorkouts: {
+          include: { workout: true },
+          orderBy: { order: "asc" }   
+        }
+      }
+    });
+
+    res.json(programs);
+  } catch (error) {
+    console.error("Failed to fetch programs:", error);
+    res.status(500).json({ error: "Failed to fetch programs" });
+  }
 };
+
 
 // Get A PROGRAM BY ID
 export const getProgramById = async (req : Request<Program>, res: Response) => {
@@ -28,7 +35,12 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
         const { id } = req.params;
         const program = await prisma.program.findUnique({
             where: { id: Number(id) },
-            include: { workouts: true }
+            include: {
+                programWorkouts: {
+                    include: { workout: true },
+                    orderBy: { order: "asc" }   
+                }
+            }
         });
         if (!program) {
             return res.status(404).json({ error: "Program not found" });
@@ -41,16 +53,33 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
 
 // POST (create a new PROGRAM)
 export const createProgram = async (req: Request, res: Response) => {
-    try{
-        const { name, userId, description } = req.body;
-        const newProgram = await prisma.program.create({
-            data: { name, userId: Number(userId), Desc: description ?? null, }
-        });
-        res.status(201).json(newProgram);
-    } catch (err) {
-    console.error("Create program error:", err);
-    res.status(500).json({ message: "Failed to create program", error: err instanceof Error ? err.message : err });
+  try {
+    const { name, userId, description, workouts } = req.body;
+
+
+    const newProgram = await prisma.program.create({
+      data: { name, userId: Number(userId), Desc: description ?? null }
+    });
+
+    // add selected workouts to ProgramWorkout table
+    if (workouts && Array.isArray(workouts) && workouts.length > 0) {
+      const programWorkoutsData = workouts.map((workoutId: number, idx: number) => ({
+        programId: newProgram.id,
+        workoutId,
+        order: idx + 1
+      }));
+
+      await prisma.programWorkout.createMany({ data: programWorkoutsData });
     }
+
+    res.status(201).json(newProgram);
+  } catch (err) {
+    console.error("Create program error:", err);
+    res.status(500).json({
+      message: "Failed to create program",
+      error: err instanceof Error ? err.message : err
+    });
+  }
 };
 
 // PUT update PROGRAM by Id

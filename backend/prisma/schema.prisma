@@ -59,29 +59,45 @@ model Program {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
-  workouts  Workout[]
+  programWorkouts ProgramWorkout[]  
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Workout {
-  id   Int    @id @default(autoincrement())
-  name String
-  order Int?
-  frequency Int? 
+  id               Int             @id @default(autoincrement())
+  name             String
+  order            Int?
+  frequency        Int?
 
-  user   User @relation(fields: [userId], references: [id])
-  userId Int
+  user             User            @relation(fields: [userId], references: [id])
+  userId           Int
 
-  program   Program? @relation(fields: [programId], references: [id])
-  programId Int?
-
+  programWorkouts  ProgramWorkout[] 
   workoutExercises WorkoutExercise[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model ProgramWorkout {
+  id        Int     @id @default(autoincrement())  // optional but recommended
+  program   Program @relation(fields: [programId], references: [id])
+  programId Int
+
+  workout   Workout @relation(fields: [workoutId], references: [id])
+  workoutId Int
+
+  order     Int     
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([programId, workoutId]) 
+}
+
+
 
 model Exercise {
   id    Int     @id @default(autoincrement())
