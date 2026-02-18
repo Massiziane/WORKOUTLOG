@@ -4,12 +4,12 @@ export interface CreateWorkoutModalProps {
   programId: number;
   userId?: number;
   onCreate: (data: { 
-    userId?: number;       // ✅ add this
+    userId?: number;       
     name: string; 
     programId: number; 
     exercises?: {
       exerciseId: number;
-      sets?: number;        // optional if needed
+      sets?: number;       
       workoutSets?: {
         reps?: number;
         weight?: number;

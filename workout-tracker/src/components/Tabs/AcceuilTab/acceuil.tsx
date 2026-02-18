@@ -6,11 +6,15 @@ import "../../../style/tabs/accueil/acceuil.css";
 export interface WorkoutsSectionProps {
   dbUserId: number; 
 }
+export interface ProgramsSectionProps {
+  dbUserId: number;
+}
+
 
 export default function AcceuilTab( { dbUserId }: WorkoutsSectionProps) {
   return (
     <div className="acceuil-tab-container">
-      <ProgramsSection />
+      <ProgramsSection dbUserId={dbUserId as number} />
       <WorkoutsSection dbUserId={dbUserId as number} />
       <ExercisesSection />
     </div>

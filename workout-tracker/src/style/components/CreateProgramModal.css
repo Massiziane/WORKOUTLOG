@@ -1,104 +1,174 @@
-/* Overlay covers the entire screen */
-.modal-overlay {
+/* Overlay */
+.program-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* on top of everything */
+  z-index: 999;
 }
 
-/* Modal box */
-.modal-container {
-  background-color: #ffffff; /* white box */
-  border-radius: 12px;
-  padding: 2rem;
+/* Modal Container */
+.program-modal-container {
+  background: #fff;
   width: 90%;
-  max-width: 450px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.2s ease-out;
+  max-width: 1000px;
+  max-height: 90vh;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Modal heading */
-.modal-container h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  color: #111827;
+/* Modal Title */
+.program-modal-title {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
   text-align: center;
 }
 
-/* Form styling */
-.modal-form label {
+/* Top Form: Name + Description */
+.form-top {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  color: #374151;
+  flex: 1;
 }
 
-.modal-form input,
-.modal-form textarea {
-  margin-top: 0.25rem;
-  padding: 0.5rem 0.75rem;
+.form-group input,
+.form-group textarea {
+  padding: 8px 10px;
   font-size: 1rem;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  outline: none;
-  transition: border 0.2s, box-shadow 0.2s;
 }
 
-.modal-form input:focus,
-.modal-form textarea:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+/* Horizontal Panels */
+.workouts-panels {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  max-height: 400px;
 }
 
-/* Modal buttons */
-.modal-actions {
+/* Panels */
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: 50%;
+}
+
+.panel h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* Search Input in Panel */
+.search-input-workout {
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Workout Lists */
+.workout-list-container,
+.selected-workouts-container {
+  flex: 1;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  overflow-y: auto; /* makes it scrollable */
+  min-height: 200px; /* so it's visible even if empty */
+
+}
+
+/* Workout Items */
+.workout-item {
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  background: #fff;
+  border: 1px solid #ddd;
+  transition: all 0.2s;
+}
+
+.workout-item:hover {
+  background: #e6f7ff;
+  border-color: #91d5ff;
+}
+
+.workout-item.selected {
+  background: #bae7ff;
+  border-color: #40a9ff;
+}
+
+.workout-item.empty {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Selected Workouts */
+.selected-workouts-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.selected-workouts-container li {
+  padding: 6px 8px;
+  margin-bottom: 5px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Form Actions */
+.program-modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.btn-cancel {
-  background-color: #e5e7eb;
-  color: #374151;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-.btn-cancel:hover {
-  background-color: #d1d5db;
-}
-
-.btn-submit {
-  background-color: #3b82f6;
+.btn-primary {
+  padding: 8px 16px;
+  background: #1890ff;
   color: #fff;
-  padding: 0.5rem 1rem;
+  border: none;
   border-radius: 6px;
-  font-weight: 600;
-  transition: background 0.2s;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.btn-submit:hover {
-  background-color: #2563eb;
+.btn-primary:hover {
+  background: #40a9ff;
 }
 
-/* Fade in animation for modal */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.btn-secondary {
+  padding: 8px 16px;
+  background: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: #d9d9d9;
 }

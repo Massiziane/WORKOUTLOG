@@ -5,6 +5,7 @@ import { syncUser } from "../services/api";
 
 // tabs imports
 import AcceuilTab  from "../components/Tabs/AcceuilTab/acceuil";
+import ProgramDetailTab from "../components/Tabs/ProgramTab/Program";
 
 
 export default function Dashboard() {
@@ -52,6 +53,8 @@ export default function Dashboard() {
       {/* Main */}
       <main className="dashboard-main">
         {activeTab === "Acceuil" && dbUserId && <AcceuilTab dbUserId={dbUserId} />}
+        {activeTab === "My Programs" && dbUserId && <ProgramDetailTab dbUserId={dbUserId} />}
+        {activeTab === "My Progress" && <div>Coming Soon ...</div>}
       </main>
 
     </div>
