@@ -54,33 +54,31 @@ export const getProgramById = async (req : Request<Program>, res: Response) => {
 // POST (create a new PROGRAM)
 export const createProgram = async (req: Request, res: Response) => {
   try {
-    const { name, userId, description, workouts } = req.body;
+    const { name, Desc, userId, workouts } = req.body;
 
+    if (!userId) return res.status(400).json({ error: "Missing userId" });
+    if (!name) return res.status(400).json({ error: "Missing program name" });
 
     const newProgram = await prisma.program.create({
-      data: { name, userId: Number(userId), Desc: description ?? null }
+      data: {
+        name,
+        Desc: Desc ?? null,
+        userId: Number(userId),
+        programWorkouts: workouts?.length
+          ? workouts.map((w: number, i: number) => ({ workoutId: w, order: i }))
+          : undefined
+      },
+      include: { programWorkouts: { include: { workout: true } } }
     });
-
-    // add selected workouts to ProgramWorkout table
-    if (workouts && Array.isArray(workouts) && workouts.length > 0) {
-      const programWorkoutsData = workouts.map((workoutId: number, idx: number) => ({
-        programId: newProgram.id,
-        workoutId,
-        order: idx + 1
-      }));
-
-      await prisma.programWorkout.createMany({ data: programWorkoutsData });
-    }
 
     res.status(201).json(newProgram);
   } catch (err) {
     console.error("Create program error:", err);
-    res.status(500).json({
-      message: "Failed to create program",
-      error: err instanceof Error ? err.message : err
-    });
+    res.status(500).json({ message: "Failed to create program", error: err instanceof Error ? err.message : err });
   }
 };
+
+
 
 // PUT update PROGRAM by Id
 export const updateProgram = async (req: Request<Program>, res: Response) => {

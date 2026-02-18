@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import type { Workout, Program } from "../../../types/entities";
+import type { Workout, ProgramWithWorkouts } from "../../../types/entities";
 import { fetchRecords } from "../../../services/api";
 import "../../../style/tabs/program/workoutsPanel.css";
 
 interface WorkoutsPanelProps {
-  program: Program | null;
+  program: ProgramWithWorkouts | null;
   onSelectWorkout?: (workout: Workout) => void;
-  dbUserId: number
+  dbUserId: number;
 }
 
 export default function WorkoutsPanel({ program, onSelectWorkout, dbUserId }: WorkoutsPanelProps) {
@@ -19,10 +19,18 @@ export default function WorkoutsPanel({ program, onSelectWorkout, dbUserId }: Wo
       return;
     }
 
-    fetchRecords<Workout>(`workouts?programId=${program.id}&userId=${dbUserId}`)
-      .then(setWorkouts)
-      .catch(err => console.error("Failed to fetch workouts:", err));
-  }, [program]);
+    fetchRecords<ProgramWithWorkouts>(`programs/${program.id}?userId=${dbUserId}`)
+      .then((data) => {
+        const prog = Array.isArray(data) ? data[0] : data;
+        if (!prog.programWorkouts) {
+          setWorkouts([]);
+          return;
+        }
+        const ws = prog.programWorkouts.map(pw => pw.workout);
+        setWorkouts(ws);
+      })
+      .catch((err) => console.error("Failed to fetch workouts:", err));
+  }, [program, dbUserId]);
 
   if (!program) return <div className="workouts-panel-empty">Select a program to see its workouts</div>;
 

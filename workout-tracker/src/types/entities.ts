@@ -1,13 +1,26 @@
+export interface Workout {
+  id: number;
+  name: string;
+  order?: number;
+  frequency?: number;
+}
+
+export interface ProgramWorkout {
+  workout: Workout;
+  order: number;
+}
+
 export interface Program {
   id: number;
   name: string;
   Desc?: string;
-}
-export interface Workout {
-  id: number;
-  name: string;
+  programWorkouts: ProgramWorkout[];
+  userId: number;
 }
 
+export interface ProgramWithWorkouts extends Program {
+  programWorkouts: ProgramWorkout[];
+}
 
 export interface Exercise {
   notes: string;

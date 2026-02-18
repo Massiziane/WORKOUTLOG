@@ -3,6 +3,7 @@ import type { CreateProgramModalProps } from "../types/CreateProgramModalProps";
 import "../style/components/CreateProgramModal.css";
 
 export default function CreateProgramModal({
+  userId,
   isOpen,
   onClose,
   onCreate,
@@ -13,6 +14,8 @@ export default function CreateProgramModal({
   const [description, setDescription] = useState("");
   const [selectedWorkouts, setSelectedWorkouts] = useState<number[]>([]);
   const [search, setSearch] = useState("");
+  const [dbUserId] = useState(userId);
+
 
   // Reset modal fields when opened
   useEffect(() => {
@@ -48,11 +51,13 @@ export default function CreateProgramModal({
     onCreate({
       name: name.trim(),
       Desc: description.trim() || undefined,
-      workouts: selectedWorkouts
+      workouts: selectedWorkouts,
+      userId: dbUserId
     });
 
     onClose();
   };
+
 
   return (
     <div className="program-modal-overlay">
