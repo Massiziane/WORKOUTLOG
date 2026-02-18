@@ -1,5 +1,6 @@
 export interface Workout {
   id: number;
+  
   name: string;
   order?: number;
   frequency?: number;
@@ -64,3 +65,12 @@ export interface Exercise {
   setTemplate?: WorkoutSet[];
 }
 
+
+export interface WorkoutExercise {
+  id: number;               // the DB id of this workout-exercise relation
+  workoutId: number;        // the workout this exercise belongs to
+  exerciseId: number;       // the exercise id
+  notes?: string | null;    // optional notes
+  exercise: Exercise;       // the full Exercise object for display
+  // optionally you can add workoutSets?: WorkoutSet[] if needed later
+}

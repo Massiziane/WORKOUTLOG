@@ -20,21 +20,26 @@ export default function Home() {
     <div className={`home-container ${darkMode ? "dark" : ""}`}>
       
       {/* Header */}
-      <header className="home-header">
-        <div className="logo">WorkoutLog</div>
-        <div className="header-actions">
-          {/* Dark mode toggle placeholder */}
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </button>
+     <header className="home-header">
+      <div className="logo">
+        <img 
+          src="/workoutlog.png" 
+          alt="WorkoutLog Logo" 
+          className="logo-image"
+        />
+        <span>WorkoutLog</span>
+      </div>
+      <div className="header-actions">
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? "Light Mode" : "Dark Mode"}
+        </button>
+        <SignedOut>
+          <SignInButton />
+          <SignUpButton />
+        </SignedOut>
+      </div>
+    </header>
 
-          {/* Sign in / Sign up buttons */}
-          <SignedOut>
-            <SignInButton />
-            <SignUpButton />
-          </SignedOut>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="hero">
@@ -55,15 +60,10 @@ export default function Home() {
       {/* Preview / Marketing Section */}
       <section className="preview">
         <div className="preview-content">
-          <img
-            src="/program-preview.png"
-            alt="Program Preview"
-            className="preview-image"
-          />
           <div className="preview-text">
             <h2>Design Your Own Programs</h2>
             <p>
-              Create structured workouts, define set templates, 
+              Create structured workouts, add exeercises and sets,
               and prepare your training with precision.
             </p>
           </div>

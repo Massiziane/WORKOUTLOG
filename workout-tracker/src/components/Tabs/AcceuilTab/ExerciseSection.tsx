@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import CreateExerciseModal from "../../../components/CreateExercise";
-import "../../../style/tabs/accueil/sectionsLayout.css";
-import "../../../style/tabs/accueil/ExercisesSection.css";
+import "../../../style/tabs/accueil/section.css";
 
 interface Exercise {
   id: number;
@@ -58,125 +57,122 @@ export default function ExercisesSection() {
 
 
   return (
-    <section className="section exercises-section">
-      <div className="section-header">
-        <div className="section-header-row">
+    <section className="exercises-section-unique">
+      <div className="exercises-header-unique">
+        <div className="exercises-header-row-unique">
           <h2>Exercises</h2>
-          <div className="section-controls">
+          <div className="exercises-controls-unique">
             {/* Category Dropdown */}
-            <div className="filter-dropdown">
-                <input
+            <div className="filter-dropdown-unique">
+              <input
                 type="text"
                 placeholder="Filter category..."
                 value={categorySearch || selectedCategory}
                 onChange={(e) => setCategorySearch(e.target.value)}
-                className="filter-input"
+                className="filter-input-unique"
                 onFocus={() => setCategoryOpen(true)}
                 onBlur={() => setTimeout(() => setCategoryOpen(false), 150)}
-                />
-                {categoryOpen && (
-                <ul className="filter-list">
-                    {/* "All" option */}
-                    <li
+              />
+              {categoryOpen && (
+                <ul className="filter-list-unique">
+                  <li
                     onClick={() => {
-                        setCategoryFilter("");
-                        setCategorySearch("");
+                      setCategoryFilter("");
+                      setCategorySearch("");
                     }}
-                    className={categoryFilter === "" ? "active" : ""}
-                    >
+                    className={categoryFilter === "" ? "active-unique" : ""}
+                  >
                     All Categories
-                    </li>
-
-                    {categories
+                  </li>
+                  {categories
                     .filter((cat) =>
-                        cat.name.toLowerCase().includes(categorySearch.toLowerCase())
+                      cat.name.toLowerCase().includes(categorySearch.toLowerCase())
                     )
                     .map((cat) => (
-                        <li
+                      <li
                         key={cat.id}
                         onClick={() => {
-                            setCategoryFilter(cat.id);
-                            setCategorySearch("");
+                          setCategoryFilter(cat.id);
+                          setCategorySearch("");
                         }}
-                        className={categoryFilter === cat.id ? "active" : ""}
-                        >
+                        className={categoryFilter === cat.id ? "active-unique" : ""}
+                      >
                         {cat.name}
-                        </li>
+                      </li>
                     ))}
                 </ul>
-                )}
+              )}
             </div>
 
             {/* Muscle Group Dropdown */}
-            <div className="filter-dropdown">
-                <input
+            <div className="filter-dropdown-unique">
+              <input
                 type="text"
                 placeholder="Filter muscle group..."
                 value={muscleGroupSearch || selectedMuscleGroup}
                 onChange={(e) => setMuscleGroupSearch(e.target.value)}
-                className="filter-input"
+                className="filter-input-unique"
                 onFocus={() => setMuscleGroupOpen(true)}
                 onBlur={() => setTimeout(() => setMuscleGroupOpen(false), 150)}
-                />
-                {muscleGroupOpen && (
-                <ul className="filter-list">
-                    {/* "All" option */}
-                    <li
+              />
+              {muscleGroupOpen && (
+                <ul className="filter-list-unique">
+                  <li
                     onClick={() => {
-                        setMuscleGroupFilter("");
-                        setMuscleGroupSearch("");
+                      setMuscleGroupFilter("");
+                      setMuscleGroupSearch("");
                     }}
-                    className={muscleGroupFilter === "" ? "active" : ""}
-                    >
+                    className={muscleGroupFilter === "" ? "active-unique" : ""}
+                  >
                     All Muscle Groups
-                    </li>
-
-                    {muscleGroups
+                  </li>
+                  {muscleGroups
                     .filter((mg) =>
-                        mg.name.toLowerCase().includes(muscleGroupSearch.toLowerCase())
+                      mg.name.toLowerCase().includes(muscleGroupSearch.toLowerCase())
                     )
                     .map((mg) => (
-                        <li
+                      <li
                         key={mg.id}
                         onClick={() => {
-                            setMuscleGroupFilter(mg.id);
-                            setMuscleGroupSearch("");
+                          setMuscleGroupFilter(mg.id);
+                          setMuscleGroupSearch("");
                         }}
-                        className={muscleGroupFilter === mg.id ? "active" : ""}
-                        >
+                        className={muscleGroupFilter === mg.id ? "active-unique" : ""}
+                      >
                         {mg.name}
-                        </li>
+                      </li>
                     ))}
                 </ul>
-                )}
+              )}
             </div>
-            </div>
-            <button className="cta-btn" onClick={() => setIsModalOpen(true)}>
-            Create Exercise
-            </button>
-        </div>
+          </div>
 
-        <input
-          type="text"
-          placeholder="Search exercises..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
-        />
+          <button className="cta-btn-unique" onClick={() => setIsModalOpen(true)}>
+            Create Exercise
+          </button>
+
+          <input
+            type="text"
+            placeholder="Search exercises..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="search-input-unique"
+          />
+        </div>
       </div>
 
-      <ul className="cards-container scrollable-list">
+      <ul className="cards-container-unique scrollable-list-unique">
         {Object.keys(groupedExercises).length === 0 && (
-          <li className="no-results">No exercises found.</li>
+          <li className="no-results-unique">No exercises found.</li>
         )}
 
         {Object.keys(groupedExercises)
           .sort()
           .map((letter) => (
-            <li key={letter} className="letter-group">
-              <div className="letter-header">{letter}</div>
+            <li key={letter} className="letter-group-unique">
+              <div className="letter-header-unique">{letter}</div>
               {groupedExercises[letter].map((ex) => (
-                <div className="card" key={ex.id}>
+                <div className="card-unique" key={ex.id}>
                   <h3>{ex.name}</h3>
                   {ex.notes && <p>{ex.notes}</p>}
                 </div>
@@ -184,16 +180,15 @@ export default function ExercisesSection() {
             </li>
           ))}
       </ul>
-      
-      {/* Create Exercise Modal */}
+
       <CreateExerciseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreate={async (newExerciseData) => {
-        const created = await createRecord("exercises", newExerciseData); // backend returns exerciseId
-        setExercises(prev => [...prev, created]);
+          const created = await createRecord("exercises", newExerciseData);
+          setExercises((prev) => [...prev, created]);
         }}
-        />
+      />
     </section>
   );
 }

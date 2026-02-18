@@ -1,7 +1,47 @@
+/* Container for the whole tab */
 .acceuil-tab-container {
-  display: flex;               /* sections side by side */
-  flex-direction: row;         /* horizontal layout */
-  gap: 2rem;                   /* space between sections */
+  display: flex;
+  gap: 2rem;             /* space between sections */
+  flex-wrap: wrap;        /* wrap on smaller screens */
+  justify-content: space-between;
+  align-items: stretch;   /* stretch sections to same height */
   padding: 1rem;
-  overflow-x: auto;            /* in case of small screens */
+}
+
+/* Each section inside the tab */
+.acceuil-tab-container > section {
+  flex: 1 1 300px;        /* grow, shrink, basis 300px */
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Make the scrollable lists fill remaining space inside each section */
+.acceuil-tab-container > section .cards-container,
+.acceuil-tab-container > section .cards-container-unique,
+.acceuil-tab-container > section .scrollable-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+/* Section headers */
+.acceuil-tab-container h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive tweak: stack sections vertically on small screens */
+@media (max-width: 900px) {
+  .acceuil-tab-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .acceuil-tab-container > section {
+    flex: 1 1 auto;
+  }
 }

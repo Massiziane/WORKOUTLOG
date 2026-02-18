@@ -1,92 +1,61 @@
-/* ==========================
-   Reset / base styles
-   ========================== */
-* {
+/* Base Styles */
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html {
   font-family: 'Inter', sans-serif;
-  background-color: #f5f5f5;
-  color: #111;
-}
-.home-container {
-  min-height: 100vh; 
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-button {
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  color: #1a1a1a;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* ==========================
-   Dark mode
-   ========================== */
+/* Dark Mode */
 .home-container.dark {
-  background-color: #111;
-  color: #f5f5f5;
+  background-color: #121212;
+  color: #e5e5e5;
 }
 
-.home-container.dark .home-header {
-  background-color: #1a1a1a;
-}
-
-.home-container.dark .cta-btn {
-  background-color: #3b82f6;
-  color: #fff;
-}
-
-/* ==========================
-   Header
-   ========================== */
+/* Header */
 .home-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  padding: 1.5rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s;
 }
 
-.home-header .logo {
+.home-container.dark .home-header {
+  background-color: #1f1f1f;
+}
+
+.logo {
   font-size: 1.8rem;
-  font-weight: bold;
-  color: #3b82f6;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  font-weight: 700;
+  color: #0070f3;
 }
 
 .header-actions button {
+  margin-left: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #3b82f6;
-  color: #fff;
-  border-radius: 6px;
+  border: none;
+  background-color: #0070f3;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .header-actions button:hover {
-  background-color: #2563eb;
+  background-color: #005bb5;
+  transform: translateY(-2px);
 }
 
-/* ==========================
-   Hero section
-   ========================== */
+/* Hero Section */
 .hero {
   text-align: center;
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  padding: 6rem 2rem 4rem;
+  background: linear-gradient(135deg, #0070f3, #00c6ff);
   color: #fff;
 }
 
@@ -96,79 +65,102 @@ button {
 }
 
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 2rem;
 }
 
 .cta-btn {
+  background-color: #ff5e5e;
+  border: none;
   padding: 0.75rem 2rem;
-  background-color: #fff;
-  color: #3b82f6;
-  font-weight: bold;
-  border-radius: 8px;
-  margin-top: 1rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 .cta-btn:hover {
-  background-color: #e0e7ff;
+  background-color: #e04848;
+  transform: scale(1.05);
 }
 
-/* ==========================
-   Preview / Marketing section
-   ========================== */
+/* Preview Section */
 .preview {
+  padding: 6rem 2rem;
   display: flex;
   justify-content: center;
-  padding: 4rem 2rem;
-  background-color: #f0f4f8;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
 }
 
 .preview-content {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 3rem;
-  max-width: 1100px;
-  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1000px;
+  width: 100%;
 }
 
 .preview-image {
   width: 400px;
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
 
 .preview-text h2 {
   font-size: 2rem;
-  color: #111827;
   margin-bottom: 1rem;
 }
 
 .preview-text p {
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   line-height: 1.6;
-  color: #374151;
 }
 
-/* ==========================
-   Responsive
-   ========================== */
+/* Dark Mode Preview */
+.home-container.dark .preview-text h2,
+.home-container.dark .preview-text p {
+  color: #e5e5e5;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.25rem;
+  }
   .preview-content {
     flex-direction: column;
     text-align: center;
   }
-
-  .preview-text h2 {
-    font-size: 1.5rem;
+  .preview-image {
+    width: 100%;
+    max-width: 300px;
   }
+}
+.logo-image {
+  height: 50px;      /* adjust as needed */
+  width: auto;       /* keep aspect ratio */
+  cursor: pointer;   /* optional, if you want it clickable */
+  transition: transform 0.2s;
+}
 
-  .hero h1 {
-    font-size: 2.2rem;
-  }
+.logo-image:hover {
+  transform: scale(1.05);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-  .hero p {
-    font-size: 1rem;
-  }
+.logo span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0070f3;
 }

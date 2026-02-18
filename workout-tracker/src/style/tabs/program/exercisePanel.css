@@ -1,0 +1,73 @@
+/* Container */
+.exercises-panel-container {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fefefe;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  max-height: 500px; /* optional, can scroll if content is long */
+  overflow-y: auto;
+}
+
+/* Header */
+.exercises-panel-container h4 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Exercises list */
+.exercises-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual exercise */
+.exercise-item {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Last item has no border */
+.exercise-item:last-child {
+  border-bottom: none;
+}
+
+/* Exercise name */
+.exercise-item strong {
+  font-size: 1rem;
+  color: #222;
+}
+
+/* Notes for exercise */
+.exercise-notes {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Sets list inside an exercise */
+.exercise-sets {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-top: 0.3rem;
+  padding-left: 0.5rem;
+}
+
+/* Individual set */
+.exercise-sets li {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 0.25rem;
+}
+
+/* Empty state */
+.exercise-item.empty {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0;
+}

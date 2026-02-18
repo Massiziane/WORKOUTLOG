@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
-import "../../../style/tabs/accueil/sectionsLayout.css";
+import "../../../style/tabs/accueil/section.css";
 import CreateWorkoutModal from "../..//CreateWorkoutModal/index"; 
 import type { WorkoutsSectionProps } from "./acceuil"
 
@@ -39,6 +39,7 @@ export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
             Create Workout
           </button>
         </div>
+        <div>
         <input
           type="text"
           placeholder="Search workouts..."
@@ -46,6 +47,7 @@ export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
           onChange={(e) => setSearch(e.target.value)}
           className="search-input"
         />
+        </div>
       </div>
 
       <ul className="cards-container scrollable-list">

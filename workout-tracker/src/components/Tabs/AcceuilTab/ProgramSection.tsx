@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import CreateProgramModal from "../../CreateProgram";
-import "../../../style/tabs/accueil/sectionsLayout.css";
+import "../../../style/tabs/accueil/section.css";
 import type { Program, Workout } from "../../../types/entities";
 
 export interface ProgramsSectionProps {
@@ -78,7 +78,7 @@ export default function ProgramsSection( { dbUserId, onSelectProgram}: ProgramsS
             className="cta-btn"
             onClick={() => setIsModalOpen(true)}
           >
-            + Create Program
+           Create Program
           </button>
         </div>
 
@@ -93,14 +93,23 @@ export default function ProgramsSection( { dbUserId, onSelectProgram}: ProgramsS
         </div>
       </div>
 
-      <div className="cards-container">
+      <ul className="cards-container scrollable-list">
+        {filteredPrograms.length === 0 && (
+          <li className="no-results">No programs found.</li>
+        )}
+
         {filteredPrograms.map((program) => (
-          <div className="card program-card" key={program.id} onClick={() => onSelectProgram?.(program)}>
+          <li
+            key={program.id}
+            className="card program-card"
+            onClick={() => onSelectProgram?.(program)}
+          >
             <h3>{program.name}</h3>
             <p>{program.Desc || "No description"}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
+
 
       {/* Modal */}
       <CreateProgramModal
