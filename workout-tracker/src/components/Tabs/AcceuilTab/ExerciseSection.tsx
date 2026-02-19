@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, createRecord } from "../../../services/api";
 import CreateExerciseModal from "../../../components/CreateExercise";
+
 import "../../../style/tabs/accueil/section.css";
+
+
 
 interface Exercise {
   id: number;

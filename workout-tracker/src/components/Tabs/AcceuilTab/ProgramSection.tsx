@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+
 import { fetchRecords, createRecord } from "../../../services/api";
 import CreateProgramModal from "../../CreateProgram";
 import "../../../style/tabs/accueil/section.css";
 import type { Program, Workout } from "../../../types/entities";
+
 
 export interface ProgramsSectionProps {
   dbUserId: number;

@@ -13,7 +13,7 @@ import muscleGroupRouter from './routes/muscleGroup.routes';
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://workoutlog-isdy.vercel.app/", 
   credentials: true,           
 }));
 
