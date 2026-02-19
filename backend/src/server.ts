@@ -12,14 +12,20 @@ import muscleGroupRouter from './routes/muscleGroup.routes';
 
 const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5173", 
-  credentials: true,           
-}));
+const allowedOrigins = [
+  'http://localhost:4173',
+  'http://localhost:5173',
+"https://rouge-frontend-end.onrender.com"
+];
 
 
-app.use(express.json());
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true
+};
 
+// Enable CORS
+app.use(cors(corsOptions));
 
 app.use('/users', userRoutes);
 app.use('/programs', programRoutes);
