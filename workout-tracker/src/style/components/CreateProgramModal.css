@@ -148,7 +148,7 @@
 
 .btn-primary {
   padding: 8px 16px;
-  background: #1890ff;
+  background: #007bff;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -157,7 +157,7 @@
 }
 
 .btn-primary:hover {
-  background: #40a9ff;
+  background: #0069d9;
 }
 
 .btn-secondary {
@@ -171,4 +171,78 @@
 
 .btn-secondary:hover {
   background: #d9d9d9;
+}
+
+/* -------------------------- Dark Mode -------------------------- */
+/* Dark mode overrides for Program Modal */
+[data-theme="dark"] .program-modal-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .program-modal-container {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .program-modal-title {
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea,
+[data-theme="dark"] .search-input-workout {
+  background: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+[data-theme="dark"] .workout-list-container,
+[data-theme="dark"] .selected-workouts-container {
+  background: #2a2a2a;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .workout-item {
+  background: #2c2c2c;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .workout-item:hover {
+  background: #1a73ff33; /* subtle hover tint */
+  border-color: #3399ff;
+}
+
+[data-theme="dark"] .workout-item.selected {
+  background: #3399ff33; /* selected item highlight */
+  border-color: #3399ff;
+}
+
+[data-theme="dark"] .workout-item.empty {
+  color: #888;
+}
+
+[data-theme="dark"] .selected-workouts-container li {
+  background: #2c2c2c;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .btn-primary {
+  background: #3399ff;
+  color: #fff;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background: #2673cc;
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: #555;
+  color: #ddd;
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background: #666;
 }

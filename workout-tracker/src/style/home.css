@@ -45,6 +45,19 @@ body {
   font-weight: 500;
   transition: background-color 0.3s, transform 0.2s;
 }
+.darkmode{
+  margin-left: 1rem;
+  font-size: 5px;
+  padding: 0.5rem;
+  border: none;
+  background-color: #0070f3;
+  color: white;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 100;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-left: 1000px
+}
 
 .header-actions button:hover {
   background-color: #005bb5;
@@ -127,6 +140,18 @@ body {
 .home-container.dark .preview-text h2,
 .home-container.dark .preview-text p {
   color: #e5e5e5;
+}
+
+/* Right side wrapper */
+.header-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Optional spacing between buttons */
+.header-actions-wrapper button {
+  margin-left: 0.5rem;
 }
 
 /* Responsive */

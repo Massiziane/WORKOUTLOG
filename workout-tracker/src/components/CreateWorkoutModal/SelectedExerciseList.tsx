@@ -30,15 +30,13 @@ export default function SelectedExerciseList({
             onClick={() => onSelectExercise(e.exercise.id)}
           >
             <span>{e.exercise.name}</span>
-            <div>
-              <button type="button" onClick={onOpenSetModal}>
-                <Plus size={14} /> Add Set
+              <button type="button" onClick={onOpenSetModal} className="add-icon-workout">
+                +  
               </button>
               <Trash
                 onClick={(event) => { event.stopPropagation(); onRemoveExercise(e.exercise.id); }}
                 className="trash-icon-workout"
               />
-            </div>
           </div>
         ))
       )}

@@ -75,3 +75,63 @@
   text-align: center;
   padding: 1rem 0;
 }
+
+/*----------------------------------darkmode---------------------------*/
+/* ===============================
+   Exercises Panel - Dark Mode
+=============================== */
+
+/* Container */
+[data-theme="dark"] .exercises-panel-container {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  color: #e0e0e0;
+}
+
+/* Header */
+[data-theme="dark"] .exercises-panel-container h4 {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+/* Exercises list */
+[data-theme="dark"] .exercises-list {
+  background-color: transparent; /* inherit container bg */
+  color: #e0e0e0;
+}
+
+/* Individual exercise */
+[data-theme="dark"] .exercise-item {
+  border-bottom: 1px solid #555;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .exercise-item:last-child {
+  border-bottom: none;
+}
+
+/* Exercise name */
+[data-theme="dark"] .exercise-item strong {
+  color: #fff;
+}
+
+/* Notes for exercise */
+[data-theme="dark"] .exercise-notes {
+  color: #aaa;
+}
+
+/* Sets list inside an exercise */
+[data-theme="dark"] .exercise-sets {
+  color: #ccc;
+}
+
+/* Individual set */
+[data-theme="dark"] .exercise-sets li {
+  color: #ddd;
+}
+
+/* Empty state */
+[data-theme="dark"] .exercise-item.empty {
+  color: #888;
+}

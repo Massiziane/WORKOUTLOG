@@ -18,7 +18,7 @@ export default function ExercisesPanel({ workoutId, dbUserId, onSelectExercise }
       return;
     }
      
-    fetchRecords(`workoutExercises?workoutId=${workoutId}&userId=${dbUserId}`)
+    fetchRecords(`workoutExercises?workoutId=${workoutId}&dbUserId=${dbUserId}`)
       .then((data) => setWorkoutExercises(data as WorkoutExercise[]))
       .catch((err) => console.error("Failed to fetch workout exercises:", err));
   }, [workoutId, dbUserId]);

@@ -68,3 +68,66 @@
   font-style: italic;
   cursor: default;
 }
+
+
+/* ------------------ dark mode ---------------------*/
+/* ===============================
+   Program Detail Tab - Dark Mode
+=============================== */
+
+/* Main container */
+[data-theme="dark"] .program-detail-tab-container {
+  background-color: #1e1e1e;
+}
+
+/* Left panel */
+[data-theme="dark"] .program-left-panel {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+}
+
+/* Right panel */
+[data-theme="dark"] .right-panel {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+/* Program info container */
+[data-theme="dark"] .program-top > .program-info-container {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  color: #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+/* Panels below program info */
+[data-theme="dark"] .program-top > .workouts-panel-container,
+[data-theme="dark"] .exteeme {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+}
+
+/* Scrollable lists */
+[data-theme="dark"] .workouts-list,
+[data-theme="dark"] .exercises-list {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+/* Individual cards/items */
+[data-theme="dark"] .workout-card,
+[data-theme="dark"] .exercise-item {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+[data-theme="dark"] .workout-card:hover,
+[data-theme="dark"] .exercise-item:hover {
+  background-color: #3399ff33; /* subtle hover tint */
+}
+
+/* Empty state */
+[data-theme="dark"] .empty {
+  color: #888;
+}
