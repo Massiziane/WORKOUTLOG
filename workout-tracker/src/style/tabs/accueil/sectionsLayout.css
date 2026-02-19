@@ -86,14 +86,6 @@
   color: #e0e0e0;
 }
 
-[data-theme="dark"] .section-header {
-  /* text inherits from .section, no extra needed */
-}
-
-[data-theme="dark"] .section-controls {
-  /* layout unchanged, colors inherit */
-}
-
 [data-theme="dark"] .cta-btn {
   background-color: #3399ff;
   color: #fff;
@@ -109,9 +101,6 @@
   border: 1px solid #555;
 }
 
-[data-theme="dark"] .cards-container {
-  /* layout stays same */
-}
 
 [data-theme="dark"] .card {
   background-color: #2a2a2a;
