@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { WorkoutExercise } from "../../../types/entities";
 import { fetchRecords } from "../../../services/api";
-import "../../../style/tabs/program/exercisepanel.css";
+import "../../../style/tabs/program/exercisePanel.css";
 
 interface ExercisesPanelProps {
   workoutId: number | null;
