@@ -1,4 +1,4 @@
-import { Trash, Edit3 } from "lucide-react";
+import { Trash } from "lucide-react";
 import type { SelectedExercise } from "./types";
 import "../../style/components/WorkoutSetsPanel.css"
 

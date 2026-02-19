@@ -31,8 +31,6 @@ export default function CreateWorkoutModal({
   const [isSetModalOpen, setIsSetModalOpen] = useState(false);
   const [currentExerciseId, setCurrentExerciseId] = useState<number | null>(null);
 
-  const [editingSetIndex, setEditingSetIndex] = useState<number | null>(null);
-
   // ------------------ EFFECTS ------------------
   useEffect(() => {
     if (!isOpen) return;
@@ -106,20 +104,6 @@ if (!isOpen) return null;
         )
     );
     };
-    const handleEditWorkoutSet = (exerciseId: number, setIndex: number) => {
-    const exercise = selectedExercises.find(e => e.exercise.id === exerciseId);
-    if (!exercise) return;
-
-    const setToEdit = exercise.workoutSets[setIndex];
-    if (!setToEdit) return;
-
-    // Save editing info in state
-    setEditingSetIndex(setIndex);
-
-    // Open the modal to edit
-    setIsSetModalOpen(true);
-    };
-
 
   // ------------------ JSX ------------------
   return (
