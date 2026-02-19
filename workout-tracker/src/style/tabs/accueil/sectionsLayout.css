@@ -6,7 +6,6 @@
   background-color: #fff;
   border-radius: 8px;
   padding: 1rem;
-  height: 600px;
   max-width: 525px;
   margin: 0 auto;
   border: 1px solid #ddd;
@@ -75,4 +74,55 @@
   font-size: 0.85rem;
   color: #666;
   margin-top: 0.25rem;
+}
+
+/* --------------------------- dark mode --------------------------- */
+/* ===============================
+   Sections - Dark Mode
+=============================== */
+[data-theme="dark"] .section {
+  background-color: #1e1e1e;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .section-header {
+  /* text inherits from .section, no extra needed */
+}
+
+[data-theme="dark"] .section-controls {
+  /* layout unchanged, colors inherit */
+}
+
+[data-theme="dark"] .cta-btn {
+  background-color: #3399ff;
+  color: #fff;
+}
+
+[data-theme="dark"] .cta-btn:hover {
+  background-color: #2673cc;
+}
+
+[data-theme="dark"] .search-input {
+  background-color: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+[data-theme="dark"] .cards-container {
+  /* layout stays same */
+}
+
+[data-theme="dark"] .card {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .card h3 {
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .card p {
+  color: #aaa;
 }

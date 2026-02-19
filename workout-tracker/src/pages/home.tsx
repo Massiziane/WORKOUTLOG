@@ -2,6 +2,7 @@
 import { SignInButton, SignUpButton, SignedOut, useUser } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Moon, Sun } from "lucide-react";
 import "../style/home.css"
 
 export default function Home() {
@@ -9,6 +10,17 @@ export default function Home() {
   const { isSignedIn } = useUser();
   const [darkMode, setDarkMode] = useState(false);
 
+
+  const toggleDarkMode = () => {
+  const html = document.documentElement;
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    setDarkMode(false);
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    setDarkMode(true);
+  }
+  };
 
   useEffect(() => {
     if (isSignedIn) {
@@ -21,23 +33,22 @@ export default function Home() {
       
       {/* Header */}
      <header className="home-header">
-      <div className="logo">
-        <img 
-          src="/workoutlog.png" 
-          alt="WorkoutLog Logo" 
-          className="logo-image"
-        />
-        <span>WorkoutLog</span>
-      </div>
-      <div className="header-actions">
-        <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "Light Mode" : "Dark Mode"}
-        </button>
-        <SignedOut>
-          <SignInButton />
-          <SignUpButton />
-        </SignedOut>
-      </div>
+        <div className="logo">
+          <img src="/workoutlog.png" alt="WorkoutLog Logo" className="logo-image" />
+          <span>WorkoutLog</span>
+        </div>
+
+        <div className="header-actions-wrapper">
+          <button onClick={toggleDarkMode} className="darkmode">
+            {darkMode ? <Sun /> : <Moon />}
+          </button>
+          <div className="header-actions">
+          <SignedOut>
+            <SignInButton />
+            <SignUpButton />
+          </SignedOut>
+          </div>
+        </div>
     </header>
 
 

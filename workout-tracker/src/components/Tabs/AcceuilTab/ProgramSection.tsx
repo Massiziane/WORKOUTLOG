@@ -72,10 +72,10 @@ export default function ProgramsSection( { dbUserId, onSelectProgram}: ProgramsS
   return (
     <section className="section programs-section">
       <div className="section-header">
+        <h2>Programs</h2>
         <div className="section-header-row">
-          <h2>Programs</h2>
           <button
-            className="cta-btn"
+            className="btn"
             onClick={() => setIsModalOpen(true)}
           >
            Create Program

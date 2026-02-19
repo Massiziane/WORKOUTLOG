@@ -13,9 +13,8 @@ export const getAllWorkouts = async (req: Request<Workout>, res: Response) => {
 
         const workouts = await prisma.workout.findMany({
         where: {  userId: Number(userId) },
-        include: { workoutExercises: true },
+        include: { workoutExercises: {include: { exercise: true }} },
         });
-        res.status(200).json(workouts);
 
         res.status(200).json(workouts);
     } catch (error) {

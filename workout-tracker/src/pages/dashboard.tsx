@@ -16,6 +16,18 @@ export default function Dashboard() {
   const [dbUserId, setDbUserId] = useState<number | null>(null);
   const { user } = useUser();
 
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+  const html = document.documentElement;
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.removeAttribute('data-theme');
+    setDarkMode(false);
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    setDarkMode(true);
+  }
+  };
+
   // Sync Clerk user
   useEffect(() => {
     if (!user) return;
@@ -34,13 +46,7 @@ export default function Dashboard() {
           <img src="/workoutlog.png" alt="WorkoutLog Logo" className="logo-image" />
         </div>
         <div className="header-actions">
-          <button
-            className="dark-toggle-btn"
-            onClick={() => setDarkMode(!darkMode)}
-            title="Toggle dark mode"
-          >
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+           <button onClick={toggleDarkMode} className="">{darkMode ? <Sun /> : <Moon />}</button>
           <UserButton />
         </div>
       </header>

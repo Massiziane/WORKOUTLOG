@@ -205,9 +205,7 @@ export default function CreateExerciseModal({
             </button>
             <button
               type="submit"
-              className="btn-submit"
-              disabled={!name.trim() || !selectedCategory}
-            >
+              className="btn-submit">
               Add Exercise
             </button>
           </div>

@@ -1,4 +1,6 @@
-/* Overlay */
+/* ===============================
+   Overlay & Container
+=============================== */
 .modal-overlay-workout {
   position: fixed;
   top: 0;
@@ -9,44 +11,55 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  z-index: 1000;
   padding-top: 40px;
   overflow-y: auto;
   backdrop-filter: blur(4px);
+  z-index: 1000;
 }
 
-/* Modal Container */
 .modal-container-workout {
-  background: #ffffff;
+  background: #fff;
   width: 95%;
   max-width: 1500px;
-  height: 700px; /* fixed height */
+  max-height: 90vh; /* modal height limited */
   border-radius: 16px;
-  padding: 30px 40px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  padding: 30px 40px;
+  box-sizing: border-box;
+  overflow: hidden; /* prevents content overflow */
   font-family: "Inter", sans-serif;
   animation: fadeIn 0.3s ease-out;
-  box-sizing: border-box;
 }
 
-/* Modal Animation */
+/* Fade-in animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Modal Title */
+/* ===============================
+   Form Structure
+=============================== */
+.modal-form-workout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 20px;
+  overflow: hidden;
+}
+
 .modal-container-workout h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #222;
   margin-bottom: 10px;
 }
 
-/* Form Labels */
+/* ===============================
+   Labels & Inputs
+=============================== */
 .modal-form-workout label {
   display: flex;
   flex-direction: column;
@@ -58,28 +71,27 @@
 .modal-form-workout input[type="text"],
 .modal-form-workout input[type="number"] {
   padding: 10px 14px;
-  border: 1px solid #ccc;
   border-radius: 10px;
+  border: 1px solid #ccc;
   font-size: 14px;
   margin-top: 6px;
   width: 100%;
-  box-sizing: border-box;
   transition: all 0.2s;
 }
 
-.modal-form-workout input[type="text"]:focus,
-.modal-form-workout input[type="number"]:focus {
-  border-color: #007bff;
+.modal-form-workout input:focus {
   outline: none;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0,123,255,0.25);
 }
 
-/* Filters Row */
+/* ===============================
+   Filters Row
+=============================== */
 .exercise-filters-workout {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 12px;
 }
 
 /* Filter Dropdowns */
@@ -103,11 +115,11 @@
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin-top: 4px;
   z-index: 20;
+  margin-top: 4px;
   list-style: none;
   padding: 0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
 .filter-list-workout li {
@@ -122,19 +134,14 @@
   color: #fff;
 }
 
-/* Modal Lists - Three Panels */
-.modal-form-workout {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: 20px;
-}
-
+/* ===============================
+   Three Panels
+=============================== */
 .modal-lists-workout {
-  flex: 1;          /* takes all available space */
   display: flex;
+  flex: 1;
   gap: 16px;
-  overflow: hidden; /* prevents panels from pushing buttons */
+  overflow: hidden; /* prevent panels from pushing buttons */
 }
 
 .three-panel-container {
@@ -148,15 +155,15 @@
   flex: 1 1 0;
   border: 1px solid #ccc;
   padding: 8px;
-  overflow-y: auto;
   border-radius: 6px;
   background-color: #f9f9f9;
-  min-width: 0; /* prevents extra space */
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow-y: auto;
 }
 
-/* Scrollable Lists */
+/* Scrollable lists inside panels */
 .scrollable-exercise-list-workout,
 .scrollable-selected-exercises,
 .scrollable-workout-sets {
@@ -165,18 +172,27 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 300px;
 }
 
-/* Exercise Items */
+/* ===============================
+   Exercise Items
+=============================== */
 .exercise-item-workout, .selected-exercise-item-workout {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
   border-radius: 10px;
-  transition: background 0.2s;
   background: #fdfdfd;
+  transition: background 0.2s;
+  min-height: 40px;
+}
+.selected-exercise-item-workout span {
+  flex: 1;            /* takes available space */
+  overflow: hidden;   /* prevents long names from breaking layout */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 12px;
 }
 
 .exercise-item-workout:hover {
@@ -207,7 +223,9 @@
   background: #218838;
 }
 
-/* Selected Exercises Panel */
+/* ===============================
+   Selected Exercises Panel
+=============================== */
 .selected-exercises-workout {
   flex: 1;
   border: 1px solid #ddd;
@@ -227,7 +245,9 @@
   text-align: center;
 }
 
-/* Workout Sets Panel */
+/* ===============================
+   Workout Sets Panel
+=============================== */
 .scrollable-workout-sets ul {
   padding-left: 16px;
 }
@@ -236,14 +256,38 @@
   margin-bottom: 6px;
 }
 
-/* Modal Actions */
+/* ===============================
+   Modal Actions - Sticky at Bottom
+=============================== */
 .modal-actions-workout {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  margin-top: 10px;
+  padding: 15px 0;
+  border-top: 1px solid #ddd;
+  background-color: #fff;
+  flex-shrink: 0; /* ensures it never shrinks */
 }
 
+/* Sticky behavior */
+.modal-container-workout {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-lists-workout {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+.three-panel-container {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===============================
+   Buttons
+=============================== */
 .btn-cancel-workout, .btn-submit-workout {
   padding: 10px 18px;
   border-radius: 10px;
@@ -264,28 +308,194 @@
 
 .btn-submit-workout {
   background: #007bff;
-  color: white;
+  color: #fff;
 }
 
 .btn-submit-workout:hover {
   background: #0069d9;
 }
 
-/* Trash Icon */
-.trash-icon-workout {
-  color: red;
+/* ===============================
+   Icons
+=============================== */
+.trash-icon-workout { 
+  color: red; 
+  cursor: pointer;    flex-shrink: 0;     
+  margin-left: 8px;  
+  cursor: pointer;}
+.trash-icon-workout:hover { color: darkred; border-radius: 20%; }
+
+
+
+.add-icon-workout {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
   cursor: pointer;
-}
-.trash-icon-workout:hover { 
-  color: darkred;
-  border-radius: 20%;
+  font-size: 13px;
+  transition: all 0.2s;
+  flex-shrink: 0;     
+  margin-left: 8px;  
+  cursor: pointer;
 }
 
-.plus-icon-workout {
-  font-size: 20px;
-  color: green;
-  cursor: pointer;
+.add-icon-workout:hover {
+  background: #218838;
 }
-.plus-icon-workout:hover {
-  color: darkgreen;
+
+
+
+
+/* ----------------------Dark mode --------------------------*/
+/* ===============================
+   Overlay & Container - Dark Mode
+=============================== */
+[data-theme="dark"] .modal-overlay-workout {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .modal-container-workout {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* ===============================
+   Labels & Inputs
+=============================== */
+[data-theme="dark"] .modal-form-workout label {
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .modal-form-workout input[type="text"],
+[data-theme="dark"] .modal-form-workout input[type="number"] {
+  background: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+[data-theme="dark"] .modal-form-workout input:focus {
+  border-color: #3399ff;
+  box-shadow: 0 0 6px rgba(51,153,255,0.25);
+}
+
+/* ===============================
+   Filter Dropdowns
+=============================== */
+[data-theme="dark"] .filter-list-workout {
+  background: #2c2c2c;
+  border: 1px solid #555;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] .filter-list-workout li {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .filter-list-workout li:hover,
+[data-theme="dark"] .filter-list-workout li.active-workout {
+  background: #3399ff;
+  color: #fff;
+}
+
+/* ===============================
+   Panels
+=============================== */
+[data-theme="dark"] .panel {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+}
+
+[data-theme="dark"] .exercise-item-workout,
+[data-theme="dark"] .selected-exercise-item-workout {
+  background: #2c2c2c;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .exercise-item-workout:hover {
+  background: #1a73ff33; /* subtle hover tint */
+}
+
+[data-theme="dark"] .selected-exercise-item-workout:hover {
+  background: #3399ff33; /* subtle hover tint */
+}
+
+[data-theme="dark"] .selected-exercise-item-workout.active {
+  background-color: #3399ff33;
+}
+
+/* ===============================
+   Buttons
+=============================== */
+[data-theme="dark"] .exercise-item-workout button,
+[data-theme="dark"] .add-icon-workout {
+  background: #28a745;
+  color: #fff;
+}
+
+[data-theme="dark"] .exercise-item-workout button:hover,
+[data-theme="dark"] .add-icon-workout:hover {
+  background: #218838;
+}
+
+[data-theme="dark"] .btn-cancel-workout {
+  background: #555;
+  color: #ddd;
+}
+
+[data-theme="dark"] .btn-cancel-workout:hover {
+  background: #666;
+}
+
+[data-theme="dark"] .btn-submit-workout {
+  background: #3399ff;
+  color: #fff;
+}
+
+[data-theme="dark"] .btn-submit-workout:hover {
+  background: #2673cc;
+}
+
+/* ===============================
+   Selected Exercises Panel
+=============================== */
+[data-theme="dark"] .selected-exercises-workout {
+  background: #2a2a2a;
+  border: 1px solid #555;
+}
+
+[data-theme="dark"] .selected-exercise-item-workout input[type="number"] {
+  background: #2c2c2c;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+/* ===============================
+   Modal Actions
+=============================== */
+[data-theme="dark"] .modal-actions-workout {
+  background-color: #1e1e1e;
+  border-top: 1px solid #555;
+}
+
+/* ===============================
+   Icons
+=============================== */
+[data-theme="dark"] .trash-icon-workout {
+  color: #ff6b6b;
+}
+
+[data-theme="dark"] .trash-icon-workout:hover {
+  color: #cc3b3b;
+}
+
+[data-theme="dark"] .add-icon-workout {
+  background: #28a745;
+  color: #fff;
+}
+
+[data-theme="dark"] .add-icon-workout:hover {
+  background: #218838;
 }

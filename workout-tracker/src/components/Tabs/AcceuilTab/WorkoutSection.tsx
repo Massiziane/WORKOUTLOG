@@ -33,9 +33,9 @@ export default function WorkoutsSection({ dbUserId }: WorkoutsSectionProps) {
   return (
     <section className="section workouts-section">
       <div className="section-header">
+        <h2>Workouts</h2>
         <div className="section-header-row">
-          <h2>Workouts</h2>
-          <button className="cta-btn" onClick={() => setIsModalOpen(true)}>
+          <button className="btn" onClick={() => setIsModalOpen(true)}>
             Create Workout
           </button>
         </div>
