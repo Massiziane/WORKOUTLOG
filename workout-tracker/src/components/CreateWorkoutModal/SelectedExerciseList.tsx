@@ -1,5 +1,5 @@
 // components/CreateWorkoutModal/SelectedExerciseList.tsx
-import { Plus, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import type { SelectedExercise } from "./types";
 
 interface SelectedExerciseListProps {
