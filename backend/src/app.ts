@@ -15,7 +15,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://workoutlog-git-main-massis-projects-e1fe0f08.vercel.app"
+    "https://workoutlog-c5r8.onrender.com"
   ],
   credentials: true
 }));
