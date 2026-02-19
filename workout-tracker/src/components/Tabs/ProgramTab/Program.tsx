@@ -30,7 +30,7 @@ export default function ProgramDetailTab({ dbUserId }: { dbUserId: number }) {
       dbUserId={dbUserId}
     />
     </div>
-    <div className="exteeme right-panel">
+    <div className="exteme right-panel">
     <ExercisesPanel
       workoutId={selectedWorkoutId?.id ?? null}   
       dbUserId={dbUserId}            

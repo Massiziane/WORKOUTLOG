@@ -31,7 +31,7 @@ h2 {
 /* ===============================
    Buttons
 =============================== */
-.cta-btn,
+.btn,
 .cta-btn-unique {
   background-color: #007bff;
   color: #fff;
@@ -42,7 +42,7 @@ h2 {
   transition: background-color 0.2s ease;
 }
 
-.cta-btn:hover,
+.btn:hover,
 .cta-btn-unique:hover {
   background-color: #0056b3;
 }
@@ -228,7 +228,7 @@ input::placeholder {
   color: #2f80ed;
   padding: 8px 12px;
   border-bottom: 2px solid #2f80ed;
-  z-index: 10; /* stays above cards */
+  z-index: 1; /* stays above cards */
 }
 
 /* Cards inside each letter group */

@@ -1,7 +1,7 @@
 /* Main container: left + right */
 .program-detail-tab-container {
   display: flex;
-  height: 100vh; /* full viewport height */
+  height: 80vh; /* full viewport height */
   gap: 16px; /* space between left and right */
 }
 

@@ -1,19 +1,23 @@
 /* Container */
 .exercises-panel-container {
+  position: relative;
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fefefe;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  max-height: 500px; /* optional, can scroll if content is long */
+  max-height: 600px;
   overflow-y: auto;
 }
 
 /* Header */
 .exercises-panel-container h4 {
-  margin-bottom: 0.75rem;
-  font-size: 1.2rem;
-  color: #333;
+  position: sticky;
+  top: 0;
+  margin-top: 0px;
+  background-color: #f8f9fa;   
+  padding: 1rem;
+  z-index: 2;                    
 }
 
 /* Exercises list */
