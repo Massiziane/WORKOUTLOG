@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.PROD   ? 'https://workoutlog-k79l.vercel.app' : 'http://localhost:3000'
+export const API_URL = import.meta.env.PROD   ? 'https://wlbackend.onrender.com' : 'http://localhost:3000'
 
 // sync function
 export async function syncUser(user: any) {
