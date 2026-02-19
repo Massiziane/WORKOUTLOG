@@ -15,7 +15,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:4173',
   'http://localhost:5173',
-"https://rouge-frontend-end.onrender.com"
+"https://workoutlog-chi.vercel.app/"
 ];
 
 
