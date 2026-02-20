@@ -3,14 +3,17 @@ import { UserButton, useUser } from "@clerk/clerk-react";
 import { Sun, Moon } from "lucide-react"; // Lucide icons
 import "../style/dashboard.css";
 import { syncUser } from "../services/api";
+import { useSearchParams } from "react-router-dom";
 
 // tabs imports
 import AcceuilTab from "../components/Tabs/AcceuilTab/acceuil";
 import ProgramDetailTab from "../components/Tabs/ProgramTab/Program";
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState("Acceuil");
   const [darkMode, setDarkMode] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab") || "Acceuil";
+  const [activeTab, setActiveTab] = useState(tabFromUrl);
 
   // User states
   const [dbUserId, setDbUserId] = useState<number | null>(null);
@@ -38,6 +41,11 @@ export default function Dashboard() {
     sync();
   }, [user]);
 
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    setSearchParams({ tab });
+  };
+
   return (
     <div className={`dashboard-container ${darkMode ? "dark" : ""}`}>
       {/* Header */}
@@ -57,7 +65,7 @@ export default function Dashboard() {
           <button
             key={tab}
             className={`tab-btn ${activeTab === tab ? "active" : ""}`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => handleTabClick(tab)}
           >
             {tab}
           </button>
