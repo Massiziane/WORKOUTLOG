@@ -5,6 +5,12 @@
   max-height: 380px; 
   overflow-y: auto;
 }
+.workouts-panel-container h3 {
+  margin-top : 10px;
+
+  padding: 0.5rem 1rem;
+  border-radius: 6px 6px 0 0;
+}
 
 .workouts-list {
   display: flex;

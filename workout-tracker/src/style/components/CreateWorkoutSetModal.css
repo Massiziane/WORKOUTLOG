@@ -121,3 +121,52 @@
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* --------------------------------------dark mode -------------------------------------*/
+/* Dark mode colors for WorkoutSet Modal */
+[data-theme="dark"] .modal-container-workoutset {
+  background-color: #1f2937; /* dark background */
+  border: 1px solid #374151; /* subtle border */
+  color: #f9fafb; /* default text color */
+}
+
+[data-theme="dark"] .modal-form-workoutset input,
+[data-theme="dark"] .modal-form-workoutset select {
+  background-color: #374151; /* input background */
+  border: 1px solid #4b5563; /* input border */
+  color: #f9fafb; /* input text */
+}
+
+[data-theme="dark"] .modal-form-workoutset input:focus,
+[data-theme="dark"] .modal-form-workoutset select:focus {
+  border-color: #3b82f6; /* keep focus blue */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+[data-theme="dark"] .modal-form-workoutset label button {
+  background-color: #3b82f6;
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .modal-form-workoutset label button:hover {
+  background-color: #2563eb;
+}
+
+[data-theme="dark"] .btn-cancel-workoutset {
+  background-color: #374151;
+  border: 1px solid #4b5563;
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .btn-cancel-workoutset:hover {
+  background-color: #4b5563;
+}
+
+[data-theme="dark"] .btn-submit-workoutset {
+  background-color: #10b981; /* green */
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .btn-submit-workoutset:hover {
+  background-color: #059669;
+}
