@@ -5,7 +5,13 @@ interface ProgramInfoSectionProps {
   program: Program | null;
 }
 
+/**
+ * ProgramInfoSection
+ * - Shows basic information about the selected program.
+ * - Displays empty state when no program is selected.
+ */
 export default function ProgramInfoSection({ program }: ProgramInfoSectionProps) {
+  // Empty state - no program selected
   if (!program) {
     return (
       <div className="program-info-container empty">
@@ -14,6 +20,7 @@ export default function ProgramInfoSection({ program }: ProgramInfoSectionProps)
     );
   }
 
+  // Selected program details
   return (
     <div className="program-info-container">
       <h2>{program.name}</h2>

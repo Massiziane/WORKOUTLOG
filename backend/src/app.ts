@@ -35,4 +35,3 @@ app.use('/exercises', exerciseRoutes);
 app.use("/muscle-groups", muscleGroupRouter);
 
 export default app
-

@@ -1,13 +1,21 @@
-import type { SetTemplate as EntitySetTemplate } from "../../types/entities";
+export interface FilterDropdownItem {
+  id: number;
+  name: string;
+}
 
-export type SetTemplate = EntitySetTemplate;
+export interface FilterDropdownProps {
+  items: FilterDropdownItem[];
+  selected: number | "";
+  placeholder: string;
+  onSelect: (id: number | "") => void;
+}
+
 
 export interface Exercise {
   id: number;
   name: string;
   categoryId?: number | null;
   muscleGroupId?: number | null;
-  setTemplate: SetTemplate[];
 }
 
 export interface SelectedExercise {

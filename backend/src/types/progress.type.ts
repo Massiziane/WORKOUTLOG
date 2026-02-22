@@ -1,9 +1,9 @@
 export interface Progress {
   id: number;
   userId: number;        // FK → User.id
-  workoutId: number;     // FK → Workout.id
-  totalVolume: number;   // somme poids * reps ou autre métrique
-  bestSetId: number;       // description du set le plus performant
-  consistencyScore: number; // score sur la régularité
+  workoutId: number; 
+  totalVolume: number;  
+  bestSetId: number;    
+  consistencyScore: number; 
   createdAt: Date;
 }

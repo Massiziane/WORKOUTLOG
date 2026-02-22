@@ -12,7 +12,7 @@ export async function syncUser(user: any) {
       email: user.emailAddresses[0]?.emailAddress,
       username: user.username || "",
     }),
-  });
+   });
   return res.json(); // returns DB user with numeric id
 }
 

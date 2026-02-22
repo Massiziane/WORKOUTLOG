@@ -1,28 +1,26 @@
 import { useState, useRef, useEffect } from "react";
+import type { FilterDropdownProps } from "./types";
 
-interface FilterDropdownItem {
-  id: number;
-  name: string;
-}
 
-interface FilterDropdownProps {
-  items: FilterDropdownItem[];
-  selected: number | "";
-  placeholder: string;
-  onSelect: (id: number | "") => void;
-}
-
+/**
+ * FilterDropdown
+ * - Searchable dropdown used to filter lists (e.g. by category or muscle group).
+ * - Shows a text input and a dropdown list of items.
+ * - Calls `onSelect` with either an item id or "" for "All".
+ */
 export default function FilterDropdown({
   items,
   selected,
   placeholder,
-  onSelect
+  onSelect,
 }: FilterDropdownProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const ref = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
+  /**
+   * Close dropdown when clicking outside the component.
+   */
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -30,16 +28,24 @@ export default function FilterDropdown({
         setSearch("");
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selectedName = selected ? items.find(i => i.id === selected)?.name || "" : "";
+  // Resolve selected item name (for input display)
+  const selectedName = selected
+    ? items.find(i => i.id === selected)?.name || ""
+    : "";
 
-  const filteredItems = items.filter(i => i.name.toLowerCase().includes(search.toLowerCase()));
+  // Apply text filter to items
+  const filteredItems = items.filter(i =>
+    i.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="filter-dropdown-workout" ref={ref}>
+      {/* Input acts as both search box and display for selected item */}
       <input
         type="text"
         placeholder={placeholder}
@@ -47,6 +53,8 @@ export default function FilterDropdown({
         onChange={e => setSearch(e.target.value)}
         onFocus={() => setOpen(true)}
       />
+
+      {/* Dropdown list */}
       {open && (
         <ul className="filter-list-workout">
           <li
