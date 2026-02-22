@@ -104,3 +104,53 @@
   color: #c0392b;
 }
 
+/* ------------------------------- dark mode ----------------------------------- */
+/* Dark mode for workout sets table */
+[data-theme="dark"] .workout-sets-table thead tr {
+  background-color: #1f2937; /* dark header */
+  color: #f9fafb; /* light text */
+}
+
+[data-theme="dark"] .workout-sets-table tbody tr {
+  background-color: #111827; /* dark rows */
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .workout-sets-table tbody tr:nth-child(even) {
+  background-color: #1e293b; /* slightly lighter for even rows */
+}
+
+[data-theme="dark"] .workout-sets-table tbody tr:hover {
+  background-color: #2563eb33; /* subtle hover */
+}
+
+/* Table cell text */
+[data-theme="dark"] .workout-sets-table td {
+  color: #f9fafb;
+}
+
+/* Edit button */
+[data-theme="dark"] .edit-set-btn {
+  color: #3b82f6; /* blue */
+}
+
+[data-theme="dark"] .edit-set-btn:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+}
+
+/* Delete button */
+[data-theme="dark"] .delete-set-btn {
+  color: #f87171; /* light red */
+}
+
+[data-theme="dark"] .delete-set-btn:hover {
+  background-color: rgba(248, 113, 113, 0.1);
+  color: #ef4444;
+}
+
+/* Table borders (optional) */
+[data-theme="dark"] .workout-sets-table th,
+[data-theme="dark"] .workout-sets-table td {
+  border-color: #374151; /* subtle divider */
+}

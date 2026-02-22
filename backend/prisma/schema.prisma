@@ -22,6 +22,7 @@ model User {
   username  String?
   email     String  @unique
   role      Role    @default(USER)
+  password  String?
 
   programs   Program[]
   workouts   Workout[]

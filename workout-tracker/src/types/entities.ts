@@ -1,9 +1,9 @@
 export interface Workout {
+  workoutExercises: any;
   id: number;
-  
   name: string;
   order?: number;
-  frequency?: number;
+  programId?: number | null;
 }
 
 export interface ProgramWorkout {

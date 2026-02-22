@@ -1,19 +1,31 @@
 import { Trash } from "lucide-react";
 import type { SelectedExercise } from "./types";
-import "../../style/components/WorkoutSetsPanel.css"
+import "../../style/components/WorkoutSetsPanel.css";
 
 interface WorkoutSetsPanelProps {
   workoutSets: SelectedExercise["workoutSets"];
   onDeleteSet?: (index: number) => void;
 }
 
-export default function WorkoutSetsPanel({ workoutSets, onDeleteSet }: WorkoutSetsPanelProps) {
+/**
+ * WorkoutSetsPanel
+ * - Displays workout sets for the currently selected exercise in a table.
+ * - Shows reps, weight, tempo, and rest time for each set.
+ * - Optional delete button per row (if `onDeleteSet` provided).
+ */
+export default function WorkoutSetsPanel({ 
+  workoutSets, 
+  onDeleteSet 
+}: WorkoutSetsPanelProps) {
   return (
     <div className="panel workout-sets-panel">
       <h3>Workout Sets</h3>
+
+      {/* Empty state */}
       {workoutSets.length === 0 ? (
         <p>No sets added yet for this exercise.</p>
       ) : (
+        /* Sets table */
         <div className="table-container">
           <table className="workout-sets-table">
             <thead>

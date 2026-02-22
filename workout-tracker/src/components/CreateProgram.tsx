@@ -2,22 +2,30 @@ import { useState, useEffect, useMemo } from "react";
 import type { CreateProgramModalProps } from "../types/CreateProgramModalProps";
 import "../style/components/CreateProgramModal.css";
 
+/**
+ * CreateProgramModal
+ * - Modal for creating a new training program.
+ * - Allows naming, optional description, and selecting workouts.
+ * - Passes a payload to `onCreate` when confirmed.
+ */
 export default function CreateProgramModal({
   userId,
   isOpen,
   onClose,
   onCreate,
-  workouts
+  workouts,
 }: CreateProgramModalProps) {
-
+  
+  // ===== State Variables =====
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [selectedWorkouts, setSelectedWorkouts] = useState<number[]>([]);
   const [search, setSearch] = useState("");
   const [dbUserId] = useState(userId);
 
-
-  // Reset modal fields when opened
+  /**
+   * Reset all form fields when modal is opened.
+   */
   useEffect(() => {
     if (isOpen) {
       setName("");
@@ -27,22 +35,32 @@ export default function CreateProgramModal({
     }
   }, [isOpen]);
 
-  // Filter workouts based on search
-  const filteredWorkouts = useMemo(() => 
-    workouts
-      .filter(w => w.name.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => a.name.localeCompare(b.name)),
+  /**
+   * Filter workouts based on the search term (case-insensitive).
+   * Memoized to avoid recalculating on every render.
+   */
+  const filteredWorkouts = useMemo(
+    () =>
+      workouts
+        .filter(w => w.name.toLowerCase().includes(search.toLowerCase()))
+        .sort((a, b) => a.name.localeCompare(b.name)),
     [workouts, search]
   );
 
-  if (!isOpen) return null;
+  if (!isOpen) return null; // Do not render when closed
 
+  /**
+   * Toggle a workout selection.
+   */
   const handleToggleWorkout = (id: number) => {
-    setSelectedWorkouts(prev => 
+    setSelectedWorkouts(prev =>
       prev.includes(id) ? prev.filter(w => w !== id) : [...prev, id]
     );
   };
 
+  /**
+   * Handles form submission and calls `onCreate`.
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -53,18 +71,15 @@ export default function CreateProgramModal({
       name: name.trim(),
       Desc: description.trim() || undefined,
       workouts: selectedWorkouts,
-      userId: dbUserId
+      userId: dbUserId,
     };
 
     console.log("Selected workouts state:", selectedWorkouts);
     console.log("Submitting payload to onCreate:", payload);
 
     onCreate(payload);
-
     onClose();
   };
-
-
 
   return (
     <div className="program-modal-overlay">
@@ -72,8 +87,7 @@ export default function CreateProgramModal({
         <h2 className="program-modal-title">Create New Program</h2>
 
         <form onSubmit={handleSubmit} className="program-modal-form">
-
-          {/* Program Name & Description */}
+          {/* ===== Basic Info Section ===== */}
           <div className="form-top">
             <div className="form-group">
               <label htmlFor="program-name">Program Name*</label>
@@ -81,27 +95,27 @@ export default function CreateProgramModal({
                 id="program-name"
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={e => setName(e.target.value)}
                 placeholder="e.g. Push Pull Legs"
                 required
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="program-desc">Description</label>
               <textarea
                 id="program-desc"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={e => setDescription(e.target.value)}
                 placeholder="Optional description..."
                 rows={3}
               />
             </div>
           </div>
 
-          {/* Horizontal Panels */}
+          {/* ===== Workouts Selection Panels ===== */}
           <div className="workouts-panels">
-
-            {/* Left Panel: Available Workouts */}
+            {/* Left Panel — Available Workouts */}
             <div className="panel available-workouts">
               <h3>Available Workouts</h3>
               <input
@@ -116,7 +130,9 @@ export default function CreateProgramModal({
                   filteredWorkouts.map(w => (
                     <div
                       key={w.id}
-                      className={`workout-item ${selectedWorkouts.includes(w.id) ? "selected" : ""}`}
+                      className={`workout-item ${
+                        selectedWorkouts.includes(w.id) ? "selected" : ""
+                      }`}
                       onClick={() => handleToggleWorkout(w.id)}
                     >
                       {w.name}
@@ -128,7 +144,7 @@ export default function CreateProgramModal({
               </div>
             </div>
 
-            {/* Right Panel: Selected Workouts */}
+            {/* Right Panel — Selected Workouts */}
             <div className="panel selected-workouts-panel">
               <h3>Selected Workouts</h3>
               <div className="selected-workouts-container">
@@ -144,10 +160,9 @@ export default function CreateProgramModal({
                 )}
               </div>
             </div>
-
           </div>
 
-          {/* Form Actions */}
+          {/* ===== Actions ===== */}
           <div className="program-modal-actions">
             <button type="button" className="btn-secondary" onClick={onClose}>
               Cancel
@@ -156,7 +171,6 @@ export default function CreateProgramModal({
               Create Program
             </button>
           </div>
-
         </form>
       </div>
     </div>

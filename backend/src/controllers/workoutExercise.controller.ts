@@ -2,6 +2,26 @@ import type { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 import type { WorkoutExercise } from '../types/workoutExercise.type';
 
+
+// GET exercises for a specific workout
+export const getWorkoutExercisesByWorkoutId = async (req: Request, res: Response) => {
+  try {
+    const workoutId = Number(req.params.workoutId); // get from query string
+    if (!workoutId) return res.status(400).json({ error: "workoutId is required" });
+
+    const workoutExercises = await prisma.workoutExercise.findMany({
+      where: { workoutId },
+      include: { exercise: true, workout: true, workoutSets: true }
+    });
+
+    res.json(workoutExercises);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch workout exercises" });
+  }
+};
+
+
 // GET All WORKOUT EXERCISES
 export const getAllWorkoutExercises = async (req: Request, res: Response) => {
     try {
