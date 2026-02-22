@@ -4,11 +4,16 @@ import {
     getWorkoutExerciseById,
     createWorkoutExercise,
     updateWorkoutExercise,
-    deleteWorkoutExercise
+    deleteWorkoutExercise,
+    getWorkoutExercisesByWorkoutId
 } from '../controllers/workoutExercise.controller';
 
 
 const router = Router();
+
+
+// GET all workout exercises by workout ID
+router.get('/workout/:workoutId', getWorkoutExercisesByWorkoutId);
 
 // GET all workout exercises
 router.get('/', getAllWorkoutExercises);

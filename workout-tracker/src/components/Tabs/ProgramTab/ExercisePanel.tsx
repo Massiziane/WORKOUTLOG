@@ -17,11 +17,11 @@ export default function ExercisesPanel({ workoutId, dbUserId, onSelectExercise }
       setWorkoutExercises([]);
       return;
     }
-     
-    fetchRecords(`workoutExercises?workoutId=${workoutId}&dbUserId=${dbUserId}`)
+
+    fetchRecords(`workoutExercises/workout/${workoutId}`)
       .then((data) => setWorkoutExercises(data as WorkoutExercise[]))
       .catch((err) => console.error("Failed to fetch workout exercises:", err));
-  }, [workoutId, dbUserId]);
+  }, [workoutId]);
 
   if (!workoutId) return <div className="exercises-panel-empty">Select a workout to see its exercises</div>;
 
