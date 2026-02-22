@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/clerk-react";
-import { Sun, Moon } from "lucide-react"; // Lucide icons for light/dark mode
+import { Sun, Moon } from "lucide-react"; 
 import "../style/dashboard.css";
 import { syncUser } from "../services/api";
 import { useSearchParams } from "react-router-dom";
